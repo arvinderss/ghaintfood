@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ghaint Food — Ludhiana's Ghaint Tadka | Burgers, Pizzas, Tiffins &amp; More</title>
-<meta name="description" content="Ghaint Food, Ludhiana — bold burgers, cheesy pizzas, loaded fries and home-style tiffins. Order direct on WhatsApp for the best price, or via Zomato / Swiggy.">
+<meta name="description" content="Ghaint Food, Ludhiana — bold burgers, cheesy pizzas, loaded fries and home-style tiffins. Order takeaway direct on WhatsApp.">
 <meta name="theme-color" content="#0E4B4E">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
 <meta property="og:type" content="restaurant">
 <meta property="og:title" content="Ghaint Food — Ludhiana's Ghaint Tadka">
-<meta property="og:description" content="Bold burgers, cheesy pizzas, loaded fries &amp; home-style tiffins. Order direct on WhatsApp, Zomato or Swiggy.">
+<meta property="og:description" content="Bold burgers, cheesy pizzas, loaded fries &amp; home-style tiffins. Order takeaway direct on WhatsApp.">
 <meta property="og:image" content="assets/logo.png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -72,7 +72,7 @@
       </div>
       <h1>GHAINT <span>FOOD</span></h1>
       <p class="tagline">Ludhiana's Ghaint Tadka — Bold Burgers, Cheesy Pizzas &amp; Home-Style Tiffins</p>
-      <p class="hero-sub">Fresh, fast and full of josh. Order direct for the best price, or find us on your favourite app.</p>
+      <p class="hero-sub">Fresh, fast and full of josh. Order takeaway direct on WhatsApp — build your cart, get an instant invoice, and pay by UPI.</p>
 
       <div class="hero-ctas">
         <a class="btn btn-whatsapp" data-order="whatsapp" href="#">
@@ -80,11 +80,6 @@
           Order on WhatsApp
         </a>
         <a class="btn btn-outline" href="#menu">View Full Menu</a>
-      </div>
-
-      <div class="platform-ctas">
-        <a class="btn btn-platform" data-order="zomato" href="#">Order on Zomato</a>
-        <a class="btn btn-platform" data-order="swiggy" href="#">Order on Swiggy</a>
       </div>
     </div>
   </section>
@@ -96,7 +91,7 @@
   <section class="menu-section" id="menu">
     <div class="container">
       <h2 class="section-title">Our Menu</h2>
-      <p class="section-sub">Prices shown as <strong>direct order</strong> / <span>Zomato &amp; Swiggy</span>. Order direct on WhatsApp for the better price.</p>
+      <p class="section-sub">All prices shown are <strong>takeaway prices</strong>. Add items to your cart and order straight to our WhatsApp.</p>
       <div id="menuCategories"></div>
     </div>
   </section>
@@ -108,19 +103,20 @@
         <p>A complete, home-cooked thali — made fresh, packed hot, ready whenever you are. No fixed slot, no fuss.</p>
         <ul class="tiffin-list" id="tiffinList"></ul>
         <div class="tiffin-meta">
-          <div class="tiffin-price"><span id="tiffinPrice"></span> <small>flat</small></div>
+          <div class="tiffin-price"><span id="tiffinPrice"></span> <small>flat, takeaway</small></div>
           <div class="tiffin-availability" id="tiffinAvailability"></div>
         </div>
-        <a class="btn btn-whatsapp" data-order="whatsapp-tiffin" href="#">Order Tiffin on WhatsApp</a>
-      </div>
-      <div class="tiffin-visual" aria-hidden="true">
-        <div class="thali">
-          <div class="thali-bowl b1"></div>
-          <div class="thali-bowl b2"></div>
-          <div class="thali-bowl b3"></div>
-          <div class="thali-bowl b4"></div>
-          <div class="thali-center"></div>
+        <div class="cart-controls" data-id="tiffin-thali">
+          <button class="cart-add-btn" data-id="tiffin-thali">Add to Cart +</button>
+          <div class="cart-stepper" hidden>
+            <button class="stepper-btn" data-action="dec" data-id="tiffin-thali" aria-label="Decrease quantity">−</button>
+            <span class="stepper-qty" data-qty-for="tiffin-thali">0</span>
+            <button class="stepper-btn" data-action="inc" data-id="tiffin-thali" aria-label="Increase quantity">+</button>
+          </div>
         </div>
+      </div>
+      <div class="tiffin-visual">
+        <img src="" alt="Home-style tiffin thali" id="tiffinImage">
       </div>
     </div>
   </section>
@@ -130,7 +126,7 @@
       <h2 class="section-title">Our Story</h2>
       <p><strong>Ghaint</strong> — Punjabi slang for something outstanding, bold, straight-up superb. That's the standard we hold every plate to.</p>
       <p>Ghaint Food started in Ludhiana with a simple idea: street-style fast food doesn't have to cut corners, and home-style food doesn't have to be boring. So we do both — cheesy, loaded, made-to-order burgers, pizzas and fries for when you want indulgence, and honest, home-cooked tiffins for when you just want a proper meal.</p>
-      <p>Everything's cooked fresh to order, packed to travel well, and priced fairly — order direct and you pay what we actually charge, no platform markup.</p>
+      <p>Everything's cooked fresh to order, packed to travel well, and priced fairly for takeaway — order direct on WhatsApp and pay what we actually charge, no platform markup.</p>
     </div>
   </section>
 
@@ -141,10 +137,8 @@
       <div class="order-buttons">
         <a class="btn btn-whatsapp btn-lg" data-order="whatsapp" href="#">
           <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.06h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.14.82.84-3.06-.2-.32a8.15 8.15 0 0 1-1.26-4.36c0-4.52 3.68-8.2 8.21-8.2 2.19 0 4.25.86 5.8 2.4a8.14 8.14 0 0 1 2.4 5.8c0 4.52-3.68 8.24-8.16 8.24zm4.5-6.14c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.04-.38-1.99-1.22-.73-.65-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.83-.2-.48-.4-.42-.56-.42-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08 0 1.22.89 2.4 1.02 2.57.12.17 1.75 2.67 4.24 3.75.59.25 1.05.4 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
-          WhatsApp — Best Price
+          Order on WhatsApp
         </a>
-        <a class="btn btn-platform btn-lg" data-order="zomato" href="#">Zomato</a>
-        <a class="btn btn-platform btn-lg" data-order="swiggy" href="#">Swiggy</a>
       </div>
     </div>
   </section>
@@ -171,6 +165,28 @@
 <a class="fab-whatsapp" data-order="whatsapp" href="#" aria-label="Order on WhatsApp">
   <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.06h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.14.82.84-3.06-.2-.32a8.15 8.15 0 0 1-1.26-4.36c0-4.52 3.68-8.2 8.21-8.2 2.19 0 4.25.86 5.8 2.4a8.14 8.14 0 0 1 2.4 5.8c0 4.52-3.68 8.24-8.16 8.24zm4.5-6.14c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.04-.38-1.99-1.22-.73-.65-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.83-.2-.48-.4-.42-.56-.42-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08 0 1.22.89 2.4 1.02 2.57.12.17 1.75 2.67 4.24 3.75.59.25 1.05.4 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
 </a>
+
+<button class="cart-fab" id="cartFab" hidden aria-label="View your cart">
+  <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path fill="currentColor" d="M7 4h-2a1 1 0 0 0 0 2h1.2l2.24 9.6A2 2 0 0 0 10.4 17h7.2a2 2 0 0 0 1.96-1.6l1.36-6.8a1 1 0 0 0-.98-1.2H7.44l-.34-1.44A1 1 0 0 0 6.13 5H5m5 15a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm7 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+  <span class="cart-fab-badge" id="cartFabBadge">0</span>
+</button>
+
+<div class="cart-overlay" id="cartOverlay" hidden></div>
+<aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-label="Your order">
+  <div class="cart-drawer-header">
+    <h3>Your Order</h3>
+    <button class="cart-close" id="cartClose" aria-label="Close cart">&times;</button>
+  </div>
+  <div class="cart-drawer-body" id="cartItems">
+    <p class="cart-empty" id="cartEmpty">Your cart is empty. Add items from the menu to get started.</p>
+  </div>
+  <div class="cart-drawer-footer">
+    <div class="cart-total-row"><span>Total Payable</span><strong id="cartTotal">₹0</strong></div>
+    <a class="btn btn-whatsapp btn-lg" id="cartWhatsappBtn" href="#" target="_blank" rel="noopener">Send Order on WhatsApp</a>
+    <a class="btn btn-upi btn-lg" id="cartUpiBtn" href="#">Pay via UPI</a>
+    <p class="cart-note">After sending your order on WhatsApp, tap "Pay via UPI" to complete payment for the exact amount, then send us a screenshot of the payment confirmation in the same chat.</p>
+  </div>
+</aside>
 
 <script src="js/menu-data.js"></script>
 <script src="js/main.js"></script>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghaint Food — Ludhiana's Ghaint Tadka | Burgers, Pizzas, Tiffins &amp; More</title>
+<meta name="description" content="Ghaint Food, Ludhiana — bold burgers, cheesy pizzas, loaded fries and home-style tiffins. Order direct on WhatsApp for the best price, or via Zomato / Swiggy.">
+<meta name="theme-color" content="#0E4B4E">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+<meta property="og:type" content="restaurant">
+<meta property="og:title" content="Ghaint Food — Ludhiana's Ghaint Tadka">
+<meta property="og:description" content="Bold burgers, cheesy pizzas, loaded fries &amp; home-style tiffins. Order direct on WhatsApp, Zomato or Swiggy.">
+<meta property="og:image" content="assets/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FastFoodRestaurant",
+  "name": "Ghaint Food",
+  "servesCuisine": ["Fast Food", "Indian", "Punjabi"],
+  "priceRange": "₹₹",
+  "telephone": "+919914829511",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Ludhiana",
+    "addressRegion": "Punjab",
+    "addressCountry": "IN"
+  }
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="container nav-inner">
+    <a href="#top" class="brand js-logo">
+      <img src="assets/logo.png" alt="Ghaint Food" class="brand-logo js-logo-img">
+      <span class="brand-fallback">G</span>
+      <span class="brand-name">Ghaint <em>Food</em></span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="siteNav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="site-nav" id="siteNav">
+      <a href="#menu">Menu</a>
+      <a href="#tiffin">Tiffin</a>
+      <a href="#about">Our Story</a>
+      <a href="#order" class="nav-cta">Order Now</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero" id="top">
+    <div class="hero-decor" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <div class="hero-logo js-logo">
+        <img src="assets/logo.png" alt="Ghaint Food" class="js-logo-img">
+        <span class="brand-fallback">G</span>
+      </div>
+      <h1>GHAINT <span>FOOD</span></h1>
+      <p class="tagline">Ludhiana's Ghaint Tadka — Bold Burgers, Cheesy Pizzas &amp; Home-Style Tiffins</p>
+      <p class="hero-sub">Fresh, fast and full of josh. Order direct for the best price, or find us on your favourite app.</p>
+
+      <div class="hero-ctas">
+        <a class="btn btn-whatsapp" data-order="whatsapp" href="#">
+          <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.06h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.14.82.84-3.06-.2-.32a8.15 8.15 0 0 1-1.26-4.36c0-4.52 3.68-8.2 8.21-8.2 2.19 0 4.25.86 5.8 2.4a8.14 8.14 0 0 1 2.4 5.8c0 4.52-3.68 8.24-8.16 8.24zm4.5-6.14c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.04-.38-1.99-1.22-.73-.65-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.83-.2-.48-.4-.42-.56-.42-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08 0 1.22.89 2.4 1.02 2.57.12.17 1.75 2.67 4.24 3.75.59.25 1.05.4 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+          Order on WhatsApp
+        </a>
+        <a class="btn btn-outline" href="#menu">View Full Menu</a>
+      </div>
+
+      <div class="platform-ctas">
+        <a class="btn btn-platform" data-order="zomato" href="#">Order on Zomato</a>
+        <a class="btn btn-platform" data-order="swiggy" href="#">Order on Swiggy</a>
+      </div>
+    </div>
+  </section>
+
+  <nav class="category-nav" aria-label="Menu categories">
+    <div class="container category-nav-inner" id="categoryChips"></div>
+  </nav>
+
+  <section class="menu-section" id="menu">
+    <div class="container">
+      <h2 class="section-title">Our Menu</h2>
+      <p class="section-sub">Prices shown as <strong>direct order</strong> / <span>Zomato &amp; Swiggy</span>. Order direct on WhatsApp for the better price.</p>
+      <div id="menuCategories"></div>
+    </div>
+  </section>
+
+  <section class="tiffin-section" id="tiffin">
+    <div class="container tiffin-inner">
+      <div class="tiffin-copy">
+        <h2 class="section-title">Home-Style Tiffin</h2>
+        <p>A complete, home-cooked thali — made fresh, packed hot, ready whenever you are. No fixed slot, no fuss.</p>
+        <ul class="tiffin-list" id="tiffinList"></ul>
+        <div class="tiffin-meta">
+          <div class="tiffin-price"><span id="tiffinPrice"></span> <small>flat</small></div>
+          <div class="tiffin-availability" id="tiffinAvailability"></div>
+        </div>
+        <a class="btn btn-whatsapp" data-order="whatsapp-tiffin" href="#">Order Tiffin on WhatsApp</a>
+      </div>
+      <div class="tiffin-visual" aria-hidden="true">
+        <div class="thali">
+          <div class="thali-bowl b1"></div>
+          <div class="thali-bowl b2"></div>
+          <div class="thali-bowl b3"></div>
+          <div class="thali-bowl b4"></div>
+          <div class="thali-center"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section" id="about">
+    <div class="container about-inner">
+      <h2 class="section-title">Our Story</h2>
+      <p><strong>Ghaint</strong> — Punjabi slang for something outstanding, bold, straight-up superb. That's the standard we hold every plate to.</p>
+      <p>Ghaint Food started in Ludhiana with a simple idea: street-style fast food doesn't have to cut corners, and home-style food doesn't have to be boring. So we do both — cheesy, loaded, made-to-order burgers, pizzas and fries for when you want indulgence, and honest, home-cooked tiffins for when you just want a proper meal.</p>
+      <p>Everything's cooked fresh to order, packed to travel well, and priced fairly — order direct and you pay what we actually charge, no platform markup.</p>
+    </div>
+  </section>
+
+  <section class="order-banner" id="order">
+    <div class="container order-banner-inner">
+      <h2 class="section-title light">Hungry? Let's Go.</h2>
+      <p>Pick whichever's easiest for you.</p>
+      <div class="order-buttons">
+        <a class="btn btn-whatsapp btn-lg" data-order="whatsapp" href="#">
+          <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.06h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.14.82.84-3.06-.2-.32a8.15 8.15 0 0 1-1.26-4.36c0-4.52 3.68-8.2 8.21-8.2 2.19 0 4.25.86 5.8 2.4a8.14 8.14 0 0 1 2.4 5.8c0 4.52-3.68 8.24-8.16 8.24zm4.5-6.14c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.04-.38-1.99-1.22-.73-.65-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.83-.2-.48-.4-.42-.56-.42-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08 0 1.22.89 2.4 1.02 2.57.12.17 1.75 2.67 4.24 3.75.59.25 1.05.4 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+          WhatsApp — Best Price
+        </a>
+        <a class="btn btn-platform btn-lg" data-order="zomato" href="#">Zomato</a>
+        <a class="btn btn-platform btn-lg" data-order="swiggy" href="#">Swiggy</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="brand-name">Ghaint <em>Food</em></span>
+      <p>Ludhiana, Punjab <!-- TODO: add exact address --></p>
+      <p>Open daily, 12:00 PM – 11:00 PM <!-- TODO: confirm hours --></p>
+    </div>
+    <div class="footer-links">
+      <a href="#menu">Menu</a>
+      <a href="#tiffin">Tiffin</a>
+      <a href="#about">Our Story</a>
+      <a data-order="whatsapp" href="#">WhatsApp</a>
+    </div>
+  </div>
+  <p class="footer-copy">© <span id="year"></span> Ghaint Food. All rights reserved.</p>
+</footer>
+
+<a class="fab-whatsapp" data-order="whatsapp" href="#" aria-label="Order on WhatsApp">
+  <svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 0 0 4.75 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.06h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.14.82.84-3.06-.2-.32a8.15 8.15 0 0 1-1.26-4.36c0-4.52 3.68-8.2 8.21-8.2 2.19 0 4.25.86 5.8 2.4a8.14 8.14 0 0 1 2.4 5.8c0 4.52-3.68 8.24-8.16 8.24zm4.5-6.14c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.04-.38-1.99-1.22-.73-.65-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.34-.76-1.83-.2-.48-.4-.42-.56-.42-.14-.01-.31-.01-.48-.01a.92.92 0 0 0-.67.31c-.23.25-.87.85-.87 2.08 0 1.22.89 2.4 1.02 2.57.12.17 1.75 2.67 4.24 3.75.59.25 1.05.4 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+</a>
+
+<script src="js/menu-data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

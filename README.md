@@ -22,17 +22,27 @@ ghaintfood/
 ## Before you go live
 
 1. **Add the logo.** Save your logo image as `assets/logo.png` (square image, at least 200×200px works best). Until it's there, the site shows a fallback teal/orange "G" monogram automatically — nothing breaks.
-2. **Add your Zomato & Swiggy URLs.** Open [js/main.js](js/main.js) and fill in:
+2. **Confirm your WhatsApp number and UPI ID.** Open [js/main.js](js/main.js) and check:
    ```js
    const CONFIG = {
      whatsappNumber: "919914829511",
-     zomatoUrl: "",  // paste your Zomato listing URL here
-     swiggyUrl: ""   // paste your Swiggy listing URL here
+     upiId: "kaurrajinder2618-1@okicici", // UPI VPA that receives payment
+     upiPayeeName: "Ghaint Food"
    };
    ```
-   Until these are filled in, the Zomato/Swiggy buttons show as "coming soon" (disabled) so there are no dead links live.
+   The cart's "Pay via UPI" button and the WhatsApp order message are both built from this UPI ID and amount, so keep it accurate.
 3. **Update the address & hours** in the footer of [index.html](index.html) (search for `TODO`).
-4. **Edit the menu.** All items, categories and prices live in [js/menu-data.js](js/menu-data.js) — the page renders itself from that file, so you never need to touch the HTML to update prices.
+4. **Edit the menu.** All items, categories, prices and images live in [js/menu-data.js](js/menu-data.js) — the page renders itself from that file, so you never need to touch the HTML to update prices.
+5. **Swap the placeholder images.** Every item currently uses a generic stock photo (Wikimedia Commons, shared per category) so the menu doesn't look empty. Replace the `IMG.*` URLs at the top of [js/menu-data.js](js/menu-data.js) with your own photos (or per-item `image` URLs) whenever you're ready — nothing else needs to change.
+
+### How ordering works
+
+- Customers add items to a cart from the menu (quantity stepper on each card), then open the cart via the floating cart button.
+- The cart drawer shows an itemized invoice with a running total.
+- **Send Order on WhatsApp** opens WhatsApp with the itemized order and total pre-filled.
+- **Pay via UPI** opens a `upi://pay` deep link pre-filled with your UPI ID and the exact total, acting as a payment request. On a phone this launches the customer's UPI app directly; it only works from the same device that's completing the order (there's no way to make an arbitrary payment link work from a desktop browser without a payment gateway).
+- The customer is asked to send a payment confirmation screenshot in the same WhatsApp chat as the next message — there's no automatic payment verification since this is a static site with no backend.
+- The cart persists in the browser's `localStorage` so it survives a page refresh, but it is entirely client-side (no order history, no admin view).
 
 ## Local preview
 
@@ -79,6 +89,16 @@ This repo already includes a `CNAME` file containing `ghaintfood.com`, so GitHub
    - **CNAME record** for `www` pointing to `<your-username>.github.io`.
 2. In **Settings → Pages → Custom domain**, confirm it shows `ghaintfood.com` and click **Save**.
 3. Once DNS propagates (can take up to 24 hours), check **Enforce HTTPS** in the same settings panel.
+
+### Fixing "Your connection is not private" / `ERR_CERT_COMMON_NAME_INVALID` on `www.ghaintfood.com`
+
+This is a DNS/GitHub Pages configuration issue, not something in this repo's code — no file change here can fix it. Diagnosis: `www.ghaintfood.com` currently resolves via **A records** straight to GitHub Pages' IPs, but GitHub only issues a TLS certificate for the exact domain(s) it recognizes as configured for this site (the one in the `CNAME` file, `ghaintfood.com`, plus its `www.` counterpart *if* DNS is set up the way GitHub expects). Because of that mismatch, browsers hitting `www.ghaintfood.com` get served GitHub's generic `*.github.io` certificate, which doesn't cover that hostname — hence the warning.
+
+To fix it:
+1. At your DNS registrar, change the `www` record from an A record to a **CNAME** pointing at `<your-username>.github.io` (not at the raw Pages IPs).
+2. In the repo's **Settings → Pages**, remove the custom domain, save, then re-add `ghaintfood.com` and save again — this forces GitHub to re-check DNS and re-issue the certificate for both the apex domain and `www`.
+3. Wait for the "DNS check successful" message (can take anywhere from a few minutes to a few hours after the DNS change propagates), then re-enable **Enforce HTTPS**.
+4. Avoid linking to `www.ghaintfood.com` anywhere until the cert is confirmed working — prefer the apex `ghaintfood.com`, which already has a valid certificate.
 
 ## Editing content later
 

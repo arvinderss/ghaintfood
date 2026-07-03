@@ -11,7 +11,8 @@ ghaintfood/
 │   └── styles.css      # all styling (mobile-first)
 ├── js/
 │   ├── menu-data.js    # menu items + tiffin data — edit this when prices/items change
-│   └── main.js         # site config (WhatsApp/Zomato/Swiggy) + rendering + interactions
+│   ├── i18n.js         # English/Hindi/Punjabi translations for all UI copy and menu names
+│   └── main.js         # site config (WhatsApp/UPI) + theme/language switching + rendering + interactions
 ├── assets/
 │   ├── logo.png         # ← add your logo here (see below)
 │   └── favicon.svg
@@ -43,6 +44,14 @@ ghaintfood/
 - **Pay via UPI** opens a `upi://pay` deep link pre-filled with your UPI ID and the exact total, acting as a payment request. On a phone this launches the customer's UPI app directly; it only works from the same device that's completing the order (there's no way to make an arbitrary payment link work from a desktop browser without a payment gateway).
 - The customer is asked to send a payment confirmation screenshot in the same WhatsApp chat as the next message — there's no automatic payment verification since this is a static site with no backend.
 - The cart persists in the browser's `localStorage` so it survives a page refresh, but it is entirely client-side (no order history, no admin view).
+
+### Theme (light/dark) and language (English/Hindi/Punjabi)
+
+- The sun/moon button in the header toggles between light and dark themes. With no explicit choice, the site follows the visitor's OS-level `prefers-color-scheme`; the toggle overrides that and is remembered in a `theme` cookie (1 year).
+- The EN/हि/ਪੰ buttons switch the whole site — nav, hero, menu, tiffin, about, cart, and the WhatsApp order message itself — between English, Hindi and Punjabi. The choice is saved in a `lang` cookie (1 year).
+- All static copy lives in `js/i18n.js` under `UI_TEXT` (marked in `index.html` with `data-i18n` / `data-i18n-html` / `data-i18n-aria` attributes). Menu category/item names, the pizza note, tiffin items and availability live in the same file under `MENU_I18N`, keyed by the English strings used in `js/menu-data.js`.
+- To add a language: add its code to `SUPPORTED_LANGS` in `js/i18n.js`, add a translation for every key in `UI_TEXT` and `MENU_I18N`, and add a matching button to `#langSwitch` in `index.html`.
+- To add a menu item: just add it to `js/menu-data.js` as before — if there's no matching entry in `MENU_I18N.items`, the site falls back to showing the English name in every language rather than breaking.
 
 ## Local preview
 
@@ -102,7 +111,7 @@ To fix it:
 
 ## Editing content later
 
-- **Menu/prices** → [js/menu-data.js](js/menu-data.js)
-- **WhatsApp number, Zomato/Swiggy links** → [js/main.js](js/main.js) (`CONFIG` object at the top)
-- **Copy (hero, about, tiffin description)** → [index.html](index.html)
-- **Colors/fonts/spacing** → [css/styles.css](css/styles.css) (`:root` CSS variables at the top control the whole palette)
+- **Menu/prices/images** → [js/menu-data.js](js/menu-data.js)
+- **WhatsApp number, UPI ID** → [js/main.js](js/main.js) (`CONFIG` object at the top)
+- **Copy (hero, about, tiffin description)** → [index.html](index.html) (English source text) + [js/i18n.js](js/i18n.js) (all three languages)
+- **Colors/fonts/spacing** → [css/styles.css](css/styles.css) (`:root` CSS variables control the whole palette; dark-theme overrides sit right below in the `prefers-color-scheme`/`[data-theme="dark"]` blocks)

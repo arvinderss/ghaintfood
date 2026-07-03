@@ -10,7 +10,151 @@ const CONFIG = {
 };
 
 const CART_STORAGE_KEY = "ghaintfood-cart";
+const THEME_COOKIE = "theme";
+const LANG_COOKIE = "lang";
+
 let cart = loadCart();
+let currentLang = DEFAULT_LANG;
+let categoryObserver = null;
+
+/* ---------- cookies ---------- */
+
+function getCookie(name) {
+  const escaped = name.replace(/([.$?*|{}()[\]\\/+^])/g, "\\$1");
+  const match = document.cookie.match(new RegExp("(?:^|; )" + escaped + "=([^;]*)"));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function setCookie(name, value, days) {
+  const maxAge = days * 24 * 60 * 60;
+  document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${maxAge}; path=/; SameSite=Lax`;
+}
+
+/* ---------- theme (light/dark) ---------- */
+
+function systemPrefersDark() {
+  return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
+function isDarkActive() {
+  const explicit = document.documentElement.getAttribute("data-theme");
+  if (explicit === "dark") return true;
+  if (explicit === "light") return false;
+  return systemPrefersDark();
+}
+
+function applyTheme(theme) {
+  if (theme === "dark" || theme === "light") {
+    document.documentElement.setAttribute("data-theme", theme);
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+  }
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", isDarkActive() ? "#14100B" : "#0E4B4E");
+  updateThemeToggleUI();
+}
+
+function updateThemeToggleUI() {
+  const btn = document.getElementById("themeToggle");
+  if (!btn) return;
+  const dark = isDarkActive();
+  btn.setAttribute("aria-pressed", String(dark));
+  btn.setAttribute("aria-label", t(dark ? "theme_toggle_to_light" : "theme_toggle_to_dark"));
+}
+
+function initTheme() {
+  const saved = getCookie(THEME_COOKIE);
+  applyTheme(saved === "dark" || saved === "light" ? saved : null);
+}
+
+function toggleTheme() {
+  const next = isDarkActive() ? "light" : "dark";
+  applyTheme(next);
+  setCookie(THEME_COOKIE, next, 365);
+}
+
+function wireThemeToggle() {
+  document.getElementById("themeToggle")?.addEventListener("click", toggleTheme);
+}
+
+/* ---------- language ---------- */
+
+function t(key) {
+  const entry = UI_TEXT[key];
+  if (!entry) return key;
+  return entry[currentLang] || entry.en || key;
+}
+
+function localize(map, key) {
+  if (currentLang === "en") return key;
+  return (map[key] && map[key][currentLang]) || key;
+}
+
+function translateCategory(name) { return localize(MENU_I18N.categories, name); }
+function translateItem(name) { return localize(MENU_I18N.items, name); }
+function translateNote(note) { return localize(MENU_I18N.notes, note); }
+function translateTiffinItem(name) { return localize(MENU_I18N.tiffinItems, name); }
+function translateAvailability(text) { return localize(MENU_I18N.tiffinAvailability, text); }
+
+// Cart lines store the canonical English name; translate only for display.
+function cartLineDisplayName(id, englishName) {
+  if (id === "tiffin-thali") return t("tiffin_title");
+  return translateItem(englishName);
+}
+
+function applyStaticTranslations() {
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+    el.innerHTML = t(el.dataset.i18nHtml);
+  });
+  document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+    el.setAttribute("aria-label", t(el.dataset.i18nAria));
+  });
+}
+
+function updateLangSwitchUI() {
+  document.querySelectorAll(".lang-btn").forEach((btn) => {
+    btn.classList.toggle("is-active", btn.dataset.lang === currentLang);
+  });
+}
+
+function initLang() {
+  const saved = getCookie(LANG_COOKIE);
+  currentLang = SUPPORTED_LANGS.includes(saved) ? saved : DEFAULT_LANG;
+  document.documentElement.lang = currentLang;
+  updateLangSwitchUI();
+}
+
+function setLang(lang) {
+  currentLang = SUPPORTED_LANGS.includes(lang) ? lang : DEFAULT_LANG;
+  setCookie(LANG_COOKIE, currentLang, 365);
+  document.documentElement.lang = currentLang;
+  updateLangSwitchUI();
+  applyStaticTranslations();
+  updateThemeToggleUI(); // aria-label is state-dependent, not purely static — re-apply after the sweep above
+  rerenderLocalizedContent();
+}
+
+function wireLangSwitch() {
+  document.getElementById("langSwitch")?.addEventListener("click", (e) => {
+    const btn = e.target.closest(".lang-btn");
+    if (!btn) return;
+    setLang(btn.dataset.lang);
+  });
+}
+
+function rerenderLocalizedContent() {
+  renderMenu();
+  renderTiffin();
+  updateCartControlsUI();
+  updateCartFab();
+  renderCartDrawer();
+  wireChipObserver();
+}
+
+/* ---------- helpers ---------- */
 
 function waLink(message) {
   return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -48,10 +192,14 @@ function saveCart() {
   }
 }
 
+/* ---------- rendering ---------- */
+
 function renderMenu() {
   const wrap = document.getElementById("menuCategories");
   const chips = document.getElementById("categoryChips");
   if (!wrap || !chips) return;
+  wrap.innerHTML = "";
+  chips.innerHTML = "";
 
   MENU.forEach((group, i) => {
     const slug = slugify(group.category);
@@ -61,7 +209,7 @@ function renderMenu() {
     chip.href = `#cat-${slug}`;
     chip.className = "chip";
     chip.dataset.target = `cat-${slug}`;
-    chip.textContent = group.category;
+    chip.textContent = translateCategory(group.category);
     chips.appendChild(chip);
 
     // section
@@ -70,11 +218,11 @@ function renderMenu() {
     section.id = `cat-${slug}`;
 
     const heading = document.createElement("h3");
-    heading.textContent = group.category;
+    heading.textContent = translateCategory(group.category);
     if (group.note) {
       const note = document.createElement("span");
       note.className = "category-note";
-      note.textContent = group.note;
+      note.textContent = translateNote(group.note);
       heading.appendChild(note);
     }
     section.appendChild(heading);
@@ -83,19 +231,20 @@ function renderMenu() {
     grid.className = "menu-grid";
     group.items.forEach((item) => {
       const id = `${slug}-${slugify(item.name)}`;
+      const displayName = translateItem(item.name);
       const card = document.createElement("div");
       card.className = "menu-card";
       card.innerHTML = `
-        <img class="menu-card-img" src="${item.image}" alt="${item.name}" loading="lazy">
+        <img class="menu-card-img" src="${item.image}" alt="${displayName}" loading="lazy">
         <div class="menu-card-body">
-          <div class="menu-card-name">${item.name}</div>
-          <div class="menu-card-price">${rupee(item.price)} <small>takeaway</small></div>
+          <div class="menu-card-name">${displayName}</div>
+          <div class="menu-card-price">${rupee(item.price)} <small>${t("label_takeaway")}</small></div>
           <div class="cart-controls" data-id="${id}">
-            <button class="cart-add-btn" data-id="${id}">Add +</button>
+            <button class="cart-add-btn" data-id="${id}">${t("label_add")}</button>
             <div class="cart-stepper" hidden>
-              <button class="stepper-btn" data-action="dec" data-id="${id}" aria-label="Decrease quantity">−</button>
+              <button class="stepper-btn" data-action="dec" data-id="${id}" aria-label="${t("aria_decrease")}">−</button>
               <span class="stepper-qty" data-qty-for="${id}">0</span>
-              <button class="stepper-btn" data-action="inc" data-id="${id}" aria-label="Increase quantity">+</button>
+              <button class="stepper-btn" data-action="inc" data-id="${id}" aria-label="${t("aria_increase")}">+</button>
             </div>
           </div>
         </div>
@@ -117,17 +266,18 @@ function renderTiffin() {
   const avail = document.getElementById("tiffinAvailability");
   const image = document.getElementById("tiffinImage");
   if (!list || !price || !avail) return;
+  list.innerHTML = "";
 
   TIFFIN.items.forEach((item) => {
     const li = document.createElement("li");
-    li.textContent = item;
+    li.textContent = translateTiffinItem(item);
     list.appendChild(li);
   });
   price.textContent = rupee(TIFFIN.price);
-  avail.textContent = TIFFIN.availability;
+  avail.textContent = translateAvailability(TIFFIN.availability);
   if (image) {
     image.src = TIFFIN.image;
-    image.alt = "Home-style tiffin thali";
+    image.alt = t("tiffin_alt");
   }
 }
 
@@ -136,6 +286,7 @@ function slugify(str) {
 }
 
 // Flat lookup of every orderable item (menu items + tiffin) by cart id.
+// Names/categories stored here are the canonical English strings — translate only for display.
 function findCartItem(id) {
   if (id === "tiffin-thali") {
     return { name: "Home-Style Tiffin", price: TIFFIN.price, category: "Tiffin" };
@@ -201,21 +352,22 @@ function renderCartDrawer() {
 
   ids.forEach((id) => {
     const line = cart[id];
+    const displayName = cartLineDisplayName(id, line.name);
     const row = document.createElement("div");
     row.className = "cart-row";
     row.dataset.id = id;
     row.innerHTML = `
       <div class="cart-row-info">
-        <div class="cart-row-name">${line.name}</div>
+        <div class="cart-row-name">${displayName}</div>
         <div class="cart-row-unit">${rupee(line.price)} each</div>
       </div>
       <div class="cart-stepper">
-        <button class="stepper-btn" data-action="dec" data-id="${id}" aria-label="Decrease quantity">−</button>
+        <button class="stepper-btn" data-action="dec" data-id="${id}" aria-label="${t("aria_decrease")}">−</button>
         <span class="stepper-qty" data-qty-for="${id}">${line.qty}</span>
-        <button class="stepper-btn" data-action="inc" data-id="${id}" aria-label="Increase quantity">+</button>
+        <button class="stepper-btn" data-action="inc" data-id="${id}" aria-label="${t("aria_increase")}">+</button>
       </div>
       <div class="cart-row-total">${rupee(line.qty * line.price)}</div>
-      <button class="cart-row-remove" data-action="remove" data-id="${id}" aria-label="Remove ${line.name}">&times;</button>
+      <button class="cart-row-remove" data-action="remove" data-id="${id}" aria-label="${t("aria_remove_prefix")} ${displayName}">&times;</button>
     `;
     itemsWrap.appendChild(row);
   });
@@ -225,7 +377,7 @@ function renderCartDrawer() {
 
   if (whatsappBtn) whatsappBtn.href = waLink(buildOrderMessage());
   if (upiBtn) {
-    upiBtn.textContent = `Pay ${rupee(total)} via UPI`;
+    upiBtn.textContent = t("cart_pay_upi_amount").replace("{amount}", rupee(total));
     upiBtn.href = total > 0 ? upiLink(total, `Ghaint Food order - ${rupee(total)}`) : "#";
     upiBtn.classList.toggle("is-disabled", total === 0);
   }
@@ -235,22 +387,23 @@ function buildOrderMessage() {
   const ids = Object.keys(cart);
   const total = cartTotal();
   if (ids.length === 0) {
-    return "Hi Ghaint Food! I'd like to place an order.";
+    return t("wa_default_order");
   }
   const lines = ids.map((id, i) => {
     const line = cart[id];
-    return `${i + 1}. ${line.name} x${line.qty} — ${rupee(line.qty * line.price)}`;
+    const name = cartLineDisplayName(id, line.name);
+    return `${i + 1}. ${name} x${line.qty} — ${rupee(line.qty * line.price)}`;
   });
   const upi = upiLink(total, `Ghaint Food order - ${rupee(total)}`);
   return [
-    "Hi Ghaint Food! Here's my order:",
+    t("wa_intro"),
     "",
     ...lines,
     "",
-    `Total Payable: ${rupee(total)}`,
+    `${t("wa_total_payable")} ${rupee(total)}`,
     "",
-    `I'll pay via UPI: ${upi}`,
-    "Sending the payment confirmation screenshot next."
+    `${t("wa_pay_via_upi")} ${upi}`,
+    t("wa_screenshot_next")
   ].join("\n");
 }
 
@@ -341,7 +494,7 @@ function wireOrderButtons() {
   document.querySelectorAll("[data-order]").forEach((el) => {
     const kind = el.dataset.order;
     if (kind === "whatsapp") {
-      el.href = waLink("Hi Ghaint Food! I'd like to place an order.");
+      el.href = waLink(t("wa_default_order"));
       el.target = "_blank";
       el.rel = "noopener";
     }
@@ -364,7 +517,7 @@ function wireNavToggle() {
   );
 }
 
-function wireChipScroll() {
+function wireChipClickDelegation() {
   const chipsWrap = document.getElementById("categoryChips");
   if (!chipsWrap) return;
 
@@ -381,10 +534,16 @@ function wireChipScroll() {
     const top = target.getBoundingClientRect().top + window.scrollY - offset;
     window.scrollTo({ top, behavior: "smooth" });
   });
+}
+
+function wireChipObserver() {
+  const chipsWrap = document.getElementById("categoryChips");
+  if (!chipsWrap) return;
+  if (categoryObserver) categoryObserver.disconnect();
 
   const sections = document.querySelectorAll(".menu-category");
   if (!sections.length) return;
-  const observer = new IntersectionObserver(
+  categoryObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -399,7 +558,7 @@ function wireChipScroll() {
     },
     { rootMargin: "-45% 0px -50% 0px" }
   );
-  sections.forEach((s) => observer.observe(s));
+  sections.forEach((s) => categoryObserver.observe(s));
 }
 
 function wireLogoFallback() {
@@ -422,13 +581,19 @@ function sanitizeCart() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  initLang();
+  initTheme();
   sanitizeCart();
+  applyStaticTranslations();
   renderMenu();
   renderTiffin();
   wireOrderButtons();
   wireCart();
   wireNavToggle();
-  wireChipScroll();
+  wireChipClickDelegation();
+  wireChipObserver();
   wireLogoFallback();
+  wireThemeToggle();
+  wireLangSwitch();
   setFooterYear();
 });

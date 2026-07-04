@@ -203,5 +203,168 @@ const MENU_I18N = {
   },
   tiffinAvailability: {
     "Lunch & Dinner — no time restriction": { hi: "लंच और डिनर — कोई समय सीमा नहीं", pa: "ਲੰਚ ਤੇ ਡਿਨਰ — ਕੋਈ ਸਮਾਂ ਸੀਮਾ ਨਹੀਂ" }
+  },
+  // Menu item descriptions, keyed by the canonical English string used in js/menu-data.js.
+  descriptions: {
+    "A crisp golden potato and pea tikki, packed with cumin and green chili, layered with onions, tomato and tangy house chutney in a soft toasted bun. A great comfort snack, satisfying and unmistakably desi. The one everyone starts with.": {
+      hi: "मसालेदार जीरा और हरी मिर्च से भरपूर, कुरकुरी सुनहरी आलू और मटर की टिक्की, प्याज़, टमाटर और तीखी घर की चटनी के साथ नरम टोस्टेड बन में। एक बेहतरीन कम्फर्ट स्नैक, संतोषजनक और पूरी तरह देसी। वह जिससे हर कोई शुरुआत करता है।",
+      pa: "ਜੀਰੇ ਤੇ ਹਰੀ ਮਿਰਚ ਨਾਲ ਭਰਪੂਰ, ਕੁਰਕੁਰੀ ਸੁਨਹਿਰੀ ਆਲੂ ਤੇ ਮਟਰ ਦੀ ਟਿੱਕੀ, ਪਿਆਜ਼, ਟਮਾਟਰ ਤੇ ਤਿੱਖੀ ਘਰ ਦੀ ਚਟਨੀ ਨਾਲ ਨਰਮ ਟੋਸਟਿਡ ਬਨ ਵਿੱਚ। ਇੱਕ ਵਧੀਆ ਕਮਫਰਟ ਸਨੈਕ, ਰੱਜਵਾਂ ਤੇ ਪੂਰੀ ਤਰ੍ਹਾਂ ਦੇਸੀ। ਉਹ ਜਿਸ ਤੋਂ ਹਰ ਕੋਈ ਸ਼ੁਰੂਆਤ ਕਰਦਾ ਹੈ।"
+    },
+    "Our classic aloo tikki with a slice of melted cheese loaded over the hot patty. The cheese softens into the spiced potato for a richer, gooier bite. Comfort food with a little extra indulgence.": {
+      hi: "हमारी क्लासिक आलू टिक्की, गरम पैटी पर पिघली हुई चीज़ की एक स्लाइस के साथ। चीज़ मसालेदार आलू में घुलकर एक रिच और गूई बाइट देती है। थोड़े एक्स्ट्रा इंडल्जेंस वाला कम्फर्ट फूड।",
+      pa: "ਸਾਡੀ ਕਲਾਸਿਕ ਆਲੂ ਟਿੱਕੀ, ਗਰਮ ਪੈਟੀ 'ਤੇ ਪਿਘਲੀ ਹੋਈ ਚੀਜ਼ ਦੀ ਇੱਕ ਸਲਾਈਸ ਨਾਲ। ਚੀਜ਼ ਮਸਾਲੇਦਾਰ ਆਲੂ ਵਿੱਚ ਘੁਲ ਕੇ ਇੱਕ ਰਿੱਚ ਤੇ ਗੂਈ ਬਾਈਟ ਦਿੰਦੀ ਹੈ। ਥੋੜ੍ਹੇ ਵਾਧੂ ਸੁਆਦ ਵਾਲਾ ਕਮਫਰਟ ਫੂਡ।"
+    },
+    "Two spiced potato tikki stacked with cheese, onions, lettuce and tomato between a triple-layer bun. Built for a serious appetite. When one patty isn't enough.": {
+      hi: "दो मसालेदार आलू टिक्की, चीज़, प्याज़, लेट्यूस और टमाटर के साथ तीन परत वाले बन में स्टैक्ड। एक बड़ी भूख के लिए बना। जब एक पैटी काफी न हो।",
+      pa: "ਦੋ ਮਸਾਲੇਦਾਰ ਆਲੂ ਟਿੱਕੀ, ਚੀਜ਼, ਪਿਆਜ਼, ਲੈਟਿਊਸ ਤੇ ਟਮਾਟਰ ਨਾਲ ਤਿੰਨ ਪਰਤਾਂ ਵਾਲੇ ਬਨ ਵਿੱਚ ਸਟੈਕਡ। ਵੱਡੀ ਭੁੱਖ ਲਈ ਬਣਿਆ। ਜਦੋਂ ਇੱਕ ਪੈਟੀ ਕਾਫ਼ੀ ਨਾ ਹੋਵੇ।"
+    },
+    "A thick paneer patty, marinated in tandoori spices and grilled to golden, dressed with mint chutney, onions and tomato. Fresh, rich and full of flavor. A vegetarian power burger.": {
+      hi: "एक मोटी पनीर पैटी, तंदूरी मसालों में मैरिनेट कर सुनहरी होने तक ग्रिल की गई, पुदीने की चटनी, प्याज़ और टमाटर के साथ। ताज़ा, रिच और स्वाद से भरपूर। एक वेजिटेरियन पावर बर्गर।",
+      pa: "ਇੱਕ ਮੋਟੀ ਪਨੀਰ ਪੈਟੀ, ਤੰਦੂਰੀ ਮਸਾਲਿਆਂ ਵਿੱਚ ਮੈਰੀਨੇਟ ਕਰਕੇ ਸੁਨਹਿਰੀ ਹੋਣ ਤੱਕ ਗਰਿੱਲ ਕੀਤੀ ਗਈ, ਪੁਦੀਨੇ ਦੀ ਚਟਨੀ, ਪਿਆਜ਼ ਤੇ ਟਮਾਟਰ ਨਾਲ। ਤਾਜ਼ਾ, ਰਿੱਚ ਤੇ ਸੁਆਦ ਨਾਲ ਭਰਪੂਰ। ਇੱਕ ਵੈਜੀਟੇਰੀਅਨ ਪਾਵਰ ਬਰਗਰ।"
+    },
+    "Our lambent paneer patty melted with mushroom cheese and tomato sauce in a warm bun. The patty is so big and bold that every bite tastes like a Punjab-style dream.": {
+      hi: "हमारी चमकदार पनीर पैटी, मशरूम चीज़ और टमाटर सॉस के साथ गरम बन में पिघली हुई। पैटी इतनी बड़ी और दमदार है कि हर बाइट पंजाब-स्टाइल सपने जैसी लगती है।",
+      pa: "ਸਾਡੀ ਚਮਕਦਾਰ ਪਨੀਰ ਪੈਟੀ, ਮਸ਼ਰੂਮ ਚੀਜ਼ ਤੇ ਟਮਾਟਰ ਸਾਸ ਨਾਲ ਗਰਮ ਬਨ ਵਿੱਚ ਪਿਘਲੀ ਹੋਈ। ਪੈਟੀ ਇੰਨੀ ਵੱਡੀ ਤੇ ਦਮਦਾਰ ਹੈ ਕਿ ਹਰ ਬਾਈਟ ਪੰਜਾਬ-ਸਟਾਈਲ ਸੁਪਨੇ ਵਾਂਗ ਲੱਗਦੀ ਹੈ।"
+    },
+    "A cheesy, saucy mash-up of pizza and burger in one. Mozzarella, tomato sauce, Italian herbs and a slice of pizza-style crust tucked inside a soft bun. Your cravings wrapped in one dense, gooey bite.": {
+      hi: "पिज़्ज़ा और बर्गर का चीज़ी, सॉसी मिश्रण एक साथ। मोज़ेरेला, टमाटर सॉस, इटैलियन हर्ब्स और पिज़्ज़ा-स्टाइल क्रस्ट की एक स्लाइस, नरम बन के अंदर। आपकी क्रेविंग्स एक घने, गूई बाइट में समेटी हुई।",
+      pa: "ਪੀਜ਼ਾ ਤੇ ਬਰਗਰ ਦਾ ਚੀਜ਼ੀ, ਸਾਸੀ ਮਿਸ਼ਰਣ ਇੱਕੋ ਥਾਂ। ਮੌਜ਼ੇਰੇਲਾ, ਟਮਾਟਰ ਸਾਸ, ਇਟਾਲੀਅਨ ਹਰਬਸ ਤੇ ਪੀਜ਼ਾ-ਸਟਾਈਲ ਕਰਸਟ ਦੀ ਇੱਕ ਸਲਾਈਸ, ਨਰਮ ਬਨ ਦੇ ਅੰਦਰ। ਤੁਹਾਡੀਆਂ ਕ੍ਰੇਵਿੰਗਸ ਇੱਕ ਸੰਘਣੀ, ਗੂਈ ਬਾਈਟ ਵਿੱਚ ਸਮੇਟੀਆਂ ਹੋਈਆਂ।"
+    },
+    "A thin hand-stretched base with tangy tomato sauce, mozzarella and fresh basil. Simple, classic, and all about the cheese. Sometimes more is more.": {
+      hi: "हाथ से खींचा हुआ पतला बेस, तीखी टमाटर सॉस, मोज़ेरेला और ताज़ी तुलसी के साथ। सिंपल, क्लासिक, और पूरी तरह चीज़ के बारे में। कभी-कभी ज़्यादा ही अच्छा होता है।",
+      pa: "ਹੱਥ ਨਾਲ ਖਿੱਚਿਆ ਪਤਲਾ ਬੇਸ, ਤਿੱਖੀ ਟਮਾਟਰ ਸਾਸ, ਮੌਜ਼ੇਰੇਲਾ ਤੇ ਤਾਜ਼ੀ ਤੁਲਸੀ ਨਾਲ। ਸਿੰਪਲ, ਕਲਾਸਿਕ, ਤੇ ਪੂਰੀ ਤਰ੍ਹਾਂ ਚੀਜ਼ ਬਾਰੇ। ਕਦੇ-ਕਦੇ ਜ਼ਿਆਦਾ ਹੀ ਵਧੀਆ ਹੁੰਦਾ ਹੈ।"
+    },
+    "Twice the mozzarella melted over our thin crust, then a final layer of rich cheese on top for a seriously gooey, extra cheesy experience.": {
+      hi: "हमारे पतले क्रस्ट पर दोगुनी मोज़ेरेला पिघली हुई, फिर ऊपर रिच चीज़ की एक आखिरी परत — एक बेहद गूई, एक्स्ट्रा चीज़ी एक्सपीरियंस के लिए।",
+      pa: "ਸਾਡੇ ਪਤਲੇ ਕਰਸਟ 'ਤੇ ਦੁੱਗਣੀ ਮੌਜ਼ੇਰੇਲਾ ਪਿਘਲੀ ਹੋਈ, ਫਿਰ ਉੱਪਰ ਰਿੱਚ ਚੀਜ਼ ਦੀ ਇੱਕ ਆਖਰੀ ਪਰਤ — ਇੱਕ ਬੇਹੱਦ ਗੂਈ, ਵਾਧੂ ਚੀਜ਼ੀ ਤਜਰਬੇ ਲਈ।"
+    },
+    "Sweet golden corn kernels over mozzarella and tomato sauce, baked till bubbling. Mild, cheesy and a favourite with kids and adults alike.": {
+      hi: "मीठे सुनहरे कॉर्न के दाने, मोज़ेरेला और टमाटर सॉस के ऊपर, बबल आने तक बेक किए गए। हल्का, चीज़ी और बच्चों व बड़ों दोनों का पसंदीदा।",
+      pa: "ਮਿੱਠੇ ਸੁਨਹਿਰੀ ਕੌਰਨ ਦੇ ਦਾਣੇ, ਮੌਜ਼ੇਰੇਲਾ ਤੇ ਟਮਾਟਰ ਸਾਸ ਦੇ ਉੱਪਰ, ਬੁਲਬੁਲੇ ਆਉਣ ਤੱਕ ਬੇਕ ਕੀਤੇ ਗਏ। ਹਲਕਾ, ਚੀਜ਼ੀ ਤੇ ਬੱਚਿਆਂ ਤੇ ਵੱਡਿਆਂ ਦੋਵਾਂ ਦਾ ਪਸੰਦੀਦਾ।"
+    },
+    "Sliced mushrooms sautéed and layered over mozzarella and tomato sauce, finished with a drizzle of garlic oil. Simple and savory for mushroom fans.": {
+      hi: "कटे हुए मशरूम को हल्का भूनकर मोज़ेरेला और टमाटर सॉस पर परत बनाकर रखा गया, ऊपर से गार्लिक ऑयल की बूंदें। मशरूम पसंद करने वालों के लिए सिंपल और सेवरी।",
+      pa: "ਕੱਟੇ ਹੋਏ ਮਸ਼ਰੂਮ ਹਲਕੇ ਭੁੰਨ ਕੇ ਮੌਜ਼ੇਰੇਲਾ ਤੇ ਟਮਾਟਰ ਸਾਸ 'ਤੇ ਪਰਤ ਬਣਾ ਕੇ ਰੱਖੇ ਗਏ, ਉੱਪਰੋਂ ਗਾਰਲਿਕ ਆਇਲ ਦੀਆਂ ਬੂੰਦਾਂ। ਮਸ਼ਰੂਮ ਪਸੰਦ ਕਰਨ ਵਾਲਿਆਂ ਲਈ ਸਿੰਪਲ ਤੇ ਸੁਆਦਲਾ।"
+    },
+    "A loaded garden pizza with onion, capsicum, mushroom, sweet corn and herby tomato sauce. Colourful, fresh and topped just right.": {
+      hi: "प्याज़, शिमला मिर्च, मशरूम, स्वीट कॉर्न और हर्बी टमाटर सॉस से लदा हुआ गार्डन पिज़्ज़ा। रंगीन, ताज़ा और बिल्कुल सही टॉपिंग के साथ।",
+      pa: "ਪਿਆਜ਼, ਸ਼ਿਮਲਾ ਮਿਰਚ, ਮਸ਼ਰੂਮ, ਸਵੀਟ ਕੌਰਨ ਤੇ ਹਰਬੀ ਟਮਾਟਰ ਸਾਸ ਨਾਲ ਭਰਿਆ ਗਾਰਡਨ ਪੀਜ਼ਾ। ਰੰਗੀਨ, ਤਾਜ਼ਾ ਤੇ ਬਿਲਕੁਲ ਸਹੀ ਟੌਪਿੰਗ ਨਾਲ।"
+    },
+    "Tandoori-seared paneer cubes in a smoky tomato base, finished with mint chutney and crisp coriander. Spicy and pleasantly Punjabi. More pizza than paneer.": {
+      hi: "तंदूरी अंदाज़ में सेंके पनीर क्यूब्स, स्मोकी टमाटर बेस पर, पुदीने की चटनी और ताज़ा धनिये के साथ। तीखा और सुखद रूप से पंजाबी। पनीर से ज़्यादा पिज़्ज़ा।",
+      pa: "ਤੰਦੂਰੀ ਅੰਦਾਜ਼ ਵਿੱਚ ਸੇਕੇ ਪਨੀਰ ਕਿਊਬ, ਸਮੋਕੀ ਟਮਾਟਰ ਬੇਸ 'ਤੇ, ਪੁਦੀਨੇ ਦੀ ਚਟਨੀ ਤੇ ਤਾਜ਼ੇ ਧਨੀਏ ਨਾਲ। ਤਿੱਖਾ ਤੇ ਸੁਖਾਵੇਂ ਢੰਗ ਨਾਲ ਪੰਜਾਬੀ। ਪਨੀਰ ਨਾਲੋਂ ਵੱਧ ਪੀਜ਼ਾ।"
+    },
+    "Crisp golden fries, hot from the fryer, lightly salted straightaway and always right. The perfect sidekick.": {
+      hi: "कुरकुरी सुनहरी फ्राइज़, फ्रायर से सीधे गरम, तुरंत हल्का नमक लगी और हमेशा परफेक्ट। एक बेहतरीन साइडकिक।",
+      pa: "ਕੁਰਕੁਰੀ ਸੁਨਹਿਰੀ ਫਰਾਈਜ਼, ਫਰਾਇਰ ਤੋਂ ਸਿੱਧੀਆਂ ਗਰਮ, ਤੁਰੰਤ ਹਲਕਾ ਨਮਕ ਲੱਗੀਆਂ ਤੇ ਹਮੇਸ਼ਾ ਪਰਫੈਕਟ। ਇੱਕ ਵਧੀਆ ਸਾਈਡਕਿਕ।"
+    },
+    "Our fries tossed in fiery peri peri seasoning. A little tang, a lot of heat, addictive by the handful.": {
+      hi: "हमारी फ्राइज़, तीखे पेरी पेरी सीज़निंग में टॉस की गई। थोड़ा तीखापन, बहुत सारी गर्मी, मुट्ठी भर खाते ही लत लगाने वाली।",
+      pa: "ਸਾਡੀਆਂ ਫਰਾਈਜ਼, ਤਿੱਖੀ ਪੇਰੀ ਪੇਰੀ ਸੀਜ਼ਨਿੰਗ ਵਿੱਚ ਟੌਸ ਕੀਤੀਆਂ। ਥੋੜ੍ਹੀ ਖਟਾਸ, ਬਹੁਤ ਸਾਰੀ ਤੇਜ਼ੀ, ਮੁੱਠ ਭਰ ਖਾਂਦਿਆਂ ਹੀ ਆਦਤ ਪਾ ਦੇਣ ਵਾਲੀਆਂ।"
+    },
+    "Hot fries smothered in a melted cheese sauce. Rich, gooey and unapologetically indulgent. Comfort in every bite.": {
+      hi: "गरम फ्राइज़, पिघली हुई चीज़ सॉस में डूबी हुई। रिच, गूई और बेझिझक इंडल्जेंट। हर बाइट में कम्फर्ट।",
+      pa: "ਗਰਮ ਫਰਾਈਜ਼, ਪਿਘਲੀ ਹੋਈ ਚੀਜ਼ ਸਾਸ ਵਿੱਚ ਡੁੱਬੀਆਂ ਹੋਈਆਂ। ਰਿੱਚ, ਗੂਈ ਤੇ ਬੇਝਿਜਕ ਸੁਆਦਲੀਆਂ। ਹਰ ਬਾਈਟ ਵਿੱਚ ਆਰਾਮ।"
+    },
+    "Fries piled with melted cheese and sweet corn, topped with chili flakes and parsley. Salty, creamy and generous.": {
+      hi: "पिघली चीज़ और स्वीट कॉर्न से लदी फ्राइज़, ऊपर चिली फ्लेक्स और पार्सले के साथ। नमकीन, क्रीमी और भरपूर।",
+      pa: "ਪਿਘਲੀ ਚੀਜ਼ ਤੇ ਸਵੀਟ ਕੌਰਨ ਨਾਲ ਭਰੀਆਂ ਫਰਾਈਜ਼, ਉੱਪਰ ਚਿੱਲੀ ਫਲੇਕਸ ਤੇ ਪਾਰਸਲੇ ਨਾਲ। ਨਮਕੀਨ, ਕਰੀਮੀ ਤੇ ਭਰਪੂਰ।"
+    },
+    "Fries topped with pizza sauce, cheese and basil, then baked till golden. Like a cross between loaded fries and pizza.": {
+      hi: "पिज़्ज़ा सॉस, चीज़ और तुलसी से टॉप की गई फ्राइज़, फिर सुनहरी होने तक बेक की गई। लोडेड फ्राइज़ और पिज़्ज़ा के बीच का एक मेल।",
+      pa: "ਪੀਜ਼ਾ ਸਾਸ, ਚੀਜ਼ ਤੇ ਤੁਲਸੀ ਨਾਲ ਟੌਪ ਕੀਤੀਆਂ ਫਰਾਈਜ਼, ਫਿਰ ਸੁਨਹਿਰੀ ਹੋਣ ਤੱਕ ਬੇਕ ਕੀਤੀਆਂ। ਲੋਡਿਡ ਫਰਾਈਜ਼ ਤੇ ਪੀਜ਼ੇ ਦੇ ਵਿਚਕਾਰ ਦਾ ਇੱਕ ਮੇਲ।"
+    },
+    "Crisp fries loaded with spiced paneer, peppers and mint chutney. Our signature loaded snack with a desi punch.": {
+      hi: "कुरकुरी फ्राइज़, मसालेदार पनीर, शिमला मिर्च और पुदीने की चटनी से लदी हुई। देसी पंच वाला हमारा सिग्नेचर लोडेड स्नैक।",
+      pa: "ਕੁਰਕੁਰੀ ਫਰਾਈਜ਼, ਮਸਾਲੇਦਾਰ ਪਨੀਰ, ਸ਼ਿਮਲਾ ਮਿਰਚ ਤੇ ਪੁਦੀਨੇ ਦੀ ਚਟਨੀ ਨਾਲ ਭਰੀਆਂ ਹੋਈਆਂ। ਦੇਸੀ ਪੰਚ ਵਾਲਾ ਸਾਡਾ ਸਿਗਨੇਚਰ ਲੋਡਿਡ ਸਨੈਕ।"
+    },
+    "Garlic bread brushed with garlic butter and herbs, toasted until crisp on the edges. Warm, fragrant and simple. The right way to start a meal.": {
+      hi: "गार्लिक बटर और हर्ब्स से ब्रश किया गया गार्लिक ब्रेड, किनारों पर कुरकुरा होने तक टोस्ट किया गया। गरम, खुशबूदार और सिंपल। भोजन शुरू करने का सही तरीका।",
+      pa: "ਗਾਰਲਿਕ ਬਟਰ ਤੇ ਹਰਬਸ ਨਾਲ ਬਰੱਸ਼ ਕੀਤਾ ਗਾਰਲਿਕ ਬ੍ਰੈੱਡ, ਕਿਨਾਰਿਆਂ 'ਤੇ ਕੁਰਕੁਰਾ ਹੋਣ ਤੱਕ ਟੋਸਟ ਕੀਤਾ ਗਿਆ। ਗਰਮ, ਖੁਸ਼ਬੂਦਾਰ ਤੇ ਸਿੰਪਲ। ਖਾਣਾ ਸ਼ੁਰੂ ਕਰਨ ਦਾ ਸਹੀ ਤਰੀਕਾ।"
+    },
+    "Our garlic bread slathered in melted mozzarella and herbs, topped with a little more warmth. Rich, comfort, hard to resist.": {
+      hi: "हमारा गार्लिक ब्रेड, पिघली मोज़ेरेला और हर्ब्स में लिपटा हुआ, ऊपर से थोड़ी और गर्माहट के साथ। रिच, आरामदायक, मना करना मुश्किल।",
+      pa: "ਸਾਡਾ ਗਾਰਲਿਕ ਬ੍ਰੈੱਡ, ਪਿਘਲੀ ਮੌਜ਼ੇਰੇਲਾ ਤੇ ਹਰਬਸ ਵਿੱਚ ਲਿਪਟਿਆ ਹੋਇਆ, ਉੱਪਰੋਂ ਥੋੜ੍ਹੀ ਹੋਰ ਗਰਮਾਹਟ ਨਾਲ। ਰਿੱਚ, ਆਰਾਮਦਾਇਕ, ਨਾਂਹ ਕਰਨਾ ਔਖਾ।"
+    },
+    "Garlic bread topped with garden veg, creamy sauce and melted cheese. A tasty, fresh take on a classic side.": {
+      hi: "गार्डन वेजिटेबल्स, क्रीमी सॉस और पिघली चीज़ से टॉप किया गया गार्लिक ब्रेड। एक क्लासिक साइड का स्वादिष्ट, ताज़ा अंदाज़।",
+      pa: "ਗਾਰਡਨ ਸਬਜ਼ੀਆਂ, ਕਰੀਮੀ ਸਾਸ ਤੇ ਪਿਘਲੀ ਚੀਜ਼ ਨਾਲ ਟੌਪ ਕੀਤਾ ਗਾਰਲਿਕ ਬ੍ਰੈੱਡ। ਇੱਕ ਕਲਾਸਿਕ ਸਾਈਡ ਦਾ ਸੁਆਦੀ, ਤਾਜ਼ਾ ਅੰਦਾਜ਼।"
+    },
+    "A spiced patty with onions, tangy chutney and salad in soft bread. Full of flavor, filling and ready to go. Best savoured warm.": {
+      hi: "मसालेदार पैटी, प्याज़, तीखी चटनी और सलाद के साथ नरम ब्रेड में। स्वाद से भरपूर, पेट भरने वाला और तुरंत तैयार। गरम खाने में सबसे बढ़िया।",
+      pa: "ਮਸਾਲੇਦਾਰ ਪੈਟੀ, ਪਿਆਜ਼, ਤਿੱਖੀ ਚਟਨੀ ਤੇ ਸਲਾਦ ਨਾਲ ਨਰਮ ਬ੍ਰੈੱਡ ਵਿੱਚ। ਸੁਆਦ ਨਾਲ ਭਰਪੂਰ, ਢਿੱਡ ਭਰਨ ਵਾਲਾ ਤੇ ਤੁਰੰਤ ਤਿਆਰ। ਗਰਮ ਖਾਣ ਵਿੱਚ ਸਭ ਤੋਂ ਵਧੀਆ।"
+    },
+    "A tangy paneer patty, fresh slaw and mint chutney, wrapped in pillowy bread. Spicy, packed and satisfying. A proper hearty bite.": {
+      hi: "तीखी पनीर पैटी, ताज़ा स्लॉ और पुदीने की चटनी, मुलायम ब्रेड में लिपटी हुई। मसालेदार, भरपूर और संतोषजनक। एक असली हार्दिक बाइट।",
+      pa: "ਤਿੱਖੀ ਪਨੀਰ ਪੈਟੀ, ਤਾਜ਼ਾ ਸਲਾਅ ਤੇ ਪੁਦੀਨੇ ਦੀ ਚਟਨੀ, ਨਰਮ ਬ੍ਰੈੱਡ ਵਿੱਚ ਲਿਪਟੀ ਹੋਈ। ਮਸਾਲੇਦਾਰ, ਭਰਪੂਰ ਤੇ ਰੱਜਵੀਂ। ਇੱਕ ਅਸਲੀ ਦਿਲਦਾਰ ਬਾਈਟ।"
+    },
+    "Fresh veggie layers tossed with onion, tomato, lettuce and chutney between toasted bread. Crunchy, vibrant and bright. Great for a lighter lunch.": {
+      hi: "ताज़ी सब्ज़ियों की परतें, प्याज़, टमाटर, लेट्यूस और चटनी के साथ टोस्टेड ब्रेड के बीच। कुरकुरा, जीवंत और ताज़गी भरा। हल्के लंच के लिए बढ़िया।",
+      pa: "ਤਾਜ਼ੀਆਂ ਸਬਜ਼ੀਆਂ ਦੀਆਂ ਪਰਤਾਂ, ਪਿਆਜ਼, ਟਮਾਟਰ, ਲੈਟਿਊਸ ਤੇ ਚਟਨੀ ਨਾਲ ਟੋਸਟਿਡ ਬ੍ਰੈੱਡ ਦੇ ਵਿਚਕਾਰ। ਕੁਰਕੁਰਾ, ਜੀਵੰਤ ਤੇ ਤਾਜ਼ਗੀ ਭਰਿਆ। ਹਲਕੇ ਲੰਚ ਲਈ ਵਧੀਆ।"
+    },
+    "A simple, toasty sandwich with melted cheese, tomato and buttered bread. Warm, cheesy and unpretentious. Comfort in the simplest form.": {
+      hi: "एक सिंपल, टोस्टी सैंडविच, पिघली चीज़, टमाटर और बटर लगी ब्रेड के साथ। गरम, चीज़ी और सीधा-सादा। सबसे सरल रूप में कम्फर्ट।",
+      pa: "ਇੱਕ ਸਿੰਪਲ, ਟੋਸਟੀ ਸੈਂਡਵਿਚ, ਪਿਘਲੀ ਚੀਜ਼, ਟਮਾਟਰ ਤੇ ਬਟਰ ਲੱਗੀ ਬ੍ਰੈੱਡ ਨਾਲ। ਗਰਮ, ਚੀਜ਼ੀ ਤੇ ਸਿੱਧਾ-ਸਾਦਾ। ਸਭ ਤੋਂ ਸੌਖੇ ਰੂਪ ਵਿੱਚ ਆਰਾਮ।"
+    },
+    "Spiced paneer with onion and capsicum in toasted bread with creamy mayo. Bold flavours and soft bread make every bite worth it.": {
+      hi: "मसालेदार पनीर, प्याज़ और शिमला मिर्च के साथ टोस्टेड ब्रेड में, क्रीमी मेयो के साथ। दमदार स्वाद और नरम ब्रेड हर बाइट को खास बनाते हैं।",
+      pa: "ਮਸਾਲੇਦਾਰ ਪਨੀਰ, ਪਿਆਜ਼ ਤੇ ਸ਼ਿਮਲਾ ਮਿਰਚ ਨਾਲ ਟੋਸਟਿਡ ਬ੍ਰੈੱਡ ਵਿੱਚ, ਕਰੀਮੀ ਮੇਓ ਨਾਲ। ਦਮਦਾਰ ਸੁਆਦ ਤੇ ਨਰਮ ਬ੍ਰੈੱਡ ਹਰ ਬਾਈਟ ਨੂੰ ਖਾਸ ਬਣਾਉਂਦੇ ਹਨ।"
+    },
+    "Fresh moong sprouts tossed with onion, tomato, lemon and herbs, then dressed in crunchy chaat masala. Crisp, light and perfect when you want something green.": {
+      hi: "ताज़े मूंग स्प्राउट्स, प्याज़, टमाटर, नींबू और हर्ब्स के साथ टॉस किए गए, फिर कुरकुरे चाट मसाले में सजाए गए। कुरकुरा, हल्का और जब कुछ हरा-भरा चाहिए हो तो एकदम सही।",
+      pa: "ਤਾਜ਼ੇ ਮੂੰਗ ਸਪ੍ਰਾਊਟਸ, ਪਿਆਜ਼, ਟਮਾਟਰ, ਨਿੰਬੂ ਤੇ ਹਰਬਸ ਨਾਲ ਟੌਸ ਕੀਤੇ ਗਏ, ਫਿਰ ਕੁਰਕੁਰੇ ਚਾਟ ਮਸਾਲੇ ਵਿੱਚ ਸਜਾਏ ਗਏ। ਕੁਰਕੁਰਾ, ਹਲਕਾ ਤੇ ਜਦੋਂ ਕੁਝ ਹਰਾ-ਭਰਾ ਚਾਹੀਦਾ ਹੋਵੇ ਤਾਂ ਬਿਲਕੁਲ ਸਹੀ।"
+    },
+    "Crisp lettuce in a creamy dressing with croutons and parmesan. Cool, fresh and satisfying. Great with a hot meal.": {
+      hi: "कुरकुरा लेट्यूस, क्रीमी ड्रेसिंग में क्राउटन्स और परमेज़न के साथ। ठंडा, ताज़ा और संतोषजनक। गरम खाने के साथ बढ़िया।",
+      pa: "ਕੁਰਕੁਰਾ ਲੈਟਿਊਸ, ਕਰੀਮੀ ਡਰੈਸਿੰਗ ਵਿੱਚ ਕਰੌਟੌਨਸ ਤੇ ਪਰਮੇਜ਼ਨ ਨਾਲ। ਠੰਢਾ, ਤਾਜ਼ਾ ਤੇ ਰੱਜਵਾਂ। ਗਰਮ ਖਾਣੇ ਨਾਲ ਵਧੀਆ।"
+    },
+    "Soya chunks and paneer with fresh vegetables and zingy dressing. High-protein, flavourful and filling. Built for the more serious eater.": {
+      hi: "सोया चंक्स और पनीर, ताज़ी सब्ज़ियों और तीखी ड्रेसिंग के साथ। हाई-प्रोटीन, स्वादिष्ट और पेट भरने वाला। ज़्यादा खाने वालों के लिए बना।",
+      pa: "ਸੋਇਆ ਚੰਕਸ ਤੇ ਪਨੀਰ, ਤਾਜ਼ੀਆਂ ਸਬਜ਼ੀਆਂ ਤੇ ਤਿੱਖੀ ਡਰੈਸਿੰਗ ਨਾਲ। ਹਾਈ-ਪ੍ਰੋਟੀਨ, ਸੁਆਦੀ ਤੇ ਢਿੱਡ ਭਰਨ ਵਾਲਾ। ਵੱਧ ਖਾਣ ਵਾਲਿਆਂ ਲਈ ਬਣਿਆ।"
+    },
+    "Real fruit blended thick with chilled milk and a shot of sweet syrup. Fresh, creamy and refreshingly cool.": {
+      hi: "असली फल, ठंडे दूध और मीठे सिरप की एक बूंद के साथ गाढ़ा ब्लेंड किया गया। ताज़ा, क्रीमी और ठंडक भरा।",
+      pa: "ਅਸਲੀ ਫਲ, ਠੰਢੇ ਦੁੱਧ ਤੇ ਮਿੱਠੇ ਸੀਰਪ ਦੀ ਇੱਕ ਬੂੰਦ ਨਾਲ ਗਾੜ੍ਹਾ ਬਲੈਂਡ ਕੀਤਾ ਗਿਆ। ਤਾਜ਼ਾ, ਕਰੀਮੀ ਤੇ ਠੰਢਕ ਭਰਿਆ।"
+    },
+    "Thick, chilled and blended to smooth perfection. Rich chocolate or tart cranberry, served over ice with a sweet edge.": {
+      hi: "गाढ़ा, ठंडा और चिकनी परफेक्शन तक ब्लेंड किया गया। रिच चॉकलेट या तीखी क्रैनबेरी, बर्फ के ऊपर मीठे टच के साथ परोसी गई।",
+      pa: "ਗਾੜ੍ਹਾ, ਠੰਢਾ ਤੇ ਮੁਲਾਇਮ ਪਰਫੈਕਸ਼ਨ ਤੱਕ ਬਲੈਂਡ ਕੀਤਾ ਗਿਆ। ਰਿੱਚ ਚਾਕਲੇਟ ਜਾਂ ਖੱਟੀ ਕਰੈਨਬੇਰੀ, ਬਰਫ਼ ਉੱਪਰ ਮਿੱਠੇ ਟੱਚ ਨਾਲ ਪਰੋਸੀ ਗਈ।"
+    },
+    "Blended thick with chilled milk, cookies and caramel, then crowned with whipped cream. Dessert in a glass.": {
+      hi: "ठंडे दूध, कुकीज़ और कैरेमल के साथ गाढ़ा ब्लेंड किया गया, फिर ऊपर व्हिप्ड क्रीम से सजाया गया। एक गिलास में मिठाई।",
+      pa: "ਠੰਢੇ ਦੁੱਧ, ਕੂਕੀਜ਼ ਤੇ ਕੈਰੇਮਲ ਨਾਲ ਗਾੜ੍ਹਾ ਬਲੈਂਡ ਕੀਤਾ ਗਿਆ, ਫਿਰ ਉੱਪਰ ਵਿਪਡ ਕਰੀਮ ਨਾਲ ਸਜਾਇਆ ਗਿਆ। ਇੱਕ ਗਲਾਸ ਵਿੱਚ ਮਿਠਾਈ।"
+    },
+    "Thick, chilled and blended with sweetened yogurt and a hint of cardamom. Or sip the classic version, cool and comforting.": {
+      hi: "गाढ़ी, ठंडी और मीठे दही व थोड़ी इलायची के साथ ब्लेंड की गई। या क्लासिक वर्ज़न लें, ठंडी और सुकून भरी।",
+      pa: "ਗਾੜ੍ਹੀ, ਠੰਢੀ ਤੇ ਮਿੱਠੀ ਦਹੀਂ ਤੇ ਥੋੜ੍ਹੀ ਇਲਾਇਚੀ ਨਾਲ ਬਲੈਂਡ ਕੀਤੀ ਗਈ। ਜਾਂ ਕਲਾਸਿਕ ਵਰਜ਼ਨ ਲਵੋ, ਠੰਢੀ ਤੇ ਸਕੂਨ ਭਰੀ।"
+    },
+    "Tart but mellow with just enough salt to balance the yogurt. Simple, soothing and perfect with spicy food.": {
+      hi: "हल्की खट्टी पर सौम्य, दही को संतुलित करने के लिए बस सही मात्रा में नमक। सिंपल, सुकून देने वाली और मसालेदार खाने के साथ बढ़िया।",
+      pa: "ਹਲਕੀ ਖੱਟੀ ਪਰ ਨਰਮ, ਦਹੀਂ ਨੂੰ ਸੰਤੁਲਿਤ ਕਰਨ ਲਈ ਬੱਸ ਸਹੀ ਮਾਤਰਾ ਵਿੱਚ ਨਮਕ। ਸਿੰਪਲ, ਸਕੂਨ ਦੇਣ ਵਾਲੀ ਤੇ ਮਸਾਲੇਦਾਰ ਖਾਣੇ ਨਾਲ ਵਧੀਆ।"
+    },
+    "Fresh lime juice over chilled soda. Crisp, fizzy and ultra-refreshing. Simple and bright.": {
+      hi: "ताज़ा नींबू का रस, ठंडे सोडे के ऊपर। कुरकुरा, फ़िज़ी और बेहद ताज़गी भरा। सिंपल और चमकदार।",
+      pa: "ਤਾਜ਼ਾ ਨਿੰਬੂ ਦਾ ਰਸ, ਠੰਢੇ ਸੋਡੇ ਦੇ ਉੱਪਰ। ਕੁਰਕੁਰਾ, ਫਿਜ਼ੀ ਤੇ ਬੇਹੱਦ ਤਾਜ਼ਗੀ ਭਰਿਆ। ਸਿੰਪਲ ਤੇ ਚਮਕਦਾਰ।"
+    },
+    "North Indian lemonade with a crisp blend of lemon, black salt, cumin and mint. Tangy, refreshing and perfect for heat.": {
+      hi: "उत्तर भारतीय नींबू पानी, नींबू, काले नमक, जीरे और पुदीने के तीखे मिश्रण के साथ। खट्टी, ताज़गी भरी और गर्मी के लिए एकदम सही।",
+      pa: "ਉੱਤਰੀ ਭਾਰਤੀ ਨਿੰਬੂ ਪਾਣੀ, ਨਿੰਬੂ, ਕਾਲੇ ਨਮਕ, ਜੀਰੇ ਤੇ ਪੁਦੀਨੇ ਦੇ ਤਿੱਖੇ ਮਿਸ਼ਰਣ ਨਾਲ। ਖੱਟੀ, ਤਾਜ਼ਗੀ ਭਰੀ ਤੇ ਗਰਮੀ ਲਈ ਬਿਲਕੁਲ ਸਹੀ।"
+    },
+    "Fresh mint and lime muddled over chilled soda and ice, cool, zesty and calorie-free. A refreshing lift.": {
+      hi: "ताज़ा पुदीना और नींबू, ठंडे सोडे और बर्फ के साथ मसला हुआ, ठंडा, तीखा और कैलोरी-फ्री। एक ताज़गी भरा एहसास।",
+      pa: "ਤਾਜ਼ਾ ਪੁਦੀਨਾ ਤੇ ਨਿੰਬੂ, ਠੰਢੇ ਸੋਡੇ ਤੇ ਬਰਫ਼ ਨਾਲ ਮਿਲਾਇਆ ਹੋਇਆ, ਠੰਢਾ, ਤਿੱਖਾ ਤੇ ਕੈਲੋਰੀ-ਫ੍ਰੀ। ਇੱਕ ਤਾਜ਼ਗੀ ਭਰਿਆ ਅਹਿਸਾਸ।"
+    },
+    "Aloo Tikki Burger, a portion of classic fries and a shake for one. A complete meal that keeps things easy and satisfying.": {
+      hi: "आलू टिक्की बर्गर, क्लासिक फ्राइज़ की एक सर्विंग और एक शेक, एक व्यक्ति के लिए। एक पूरा भोजन जो चीज़ों को आसान और संतोषजनक बनाए रखता है।",
+      pa: "ਆਲੂ ਟਿੱਕੀ ਬਰਗਰ, ਕਲਾਸਿਕ ਫਰਾਈਜ਼ ਦੀ ਇੱਕ ਸਰਵਿੰਗ ਤੇ ਇੱਕ ਸ਼ੇਕ, ਇੱਕ ਵਿਅਕਤੀ ਲਈ। ਇੱਕ ਪੂਰਾ ਖਾਣਾ ਜੋ ਚੀਜ਼ਾਂ ਨੂੰ ਸੌਖਾ ਤੇ ਰੱਜਵਾਂ ਰੱਖਦਾ ਹੈ।"
+    },
+    "Our Paneer Tikki Burger combo with loaded fries and a shake. More spice, more cheese and more flavour — perfect for a bigger appetite.": {
+      hi: "हमारा पनीर टिक्की बर्गर कॉम्बो, लोडेड फ्राइज़ और एक शेक के साथ। ज़्यादा मसाला, ज़्यादा चीज़ और ज़्यादा स्वाद — बड़ी भूख के लिए एकदम सही।",
+      pa: "ਸਾਡਾ ਪਨੀਰ ਟਿੱਕੀ ਬਰਗਰ ਕੰਬੋ, ਲੋਡਿਡ ਫਰਾਈਜ਼ ਤੇ ਇੱਕ ਸ਼ੇਕ ਨਾਲ। ਵੱਧ ਮਸਾਲਾ, ਵੱਧ ਚੀਜ਼ ਤੇ ਵੱਧ ਸੁਆਦ — ਵੱਡੀ ਭੁੱਖ ਲਈ ਬਿਲਕੁਲ ਸਹੀ।"
+    },
+    "A pizza, loaded fries and two shakes for sharing. Good for friends or a small group, and made to feed two.": {
+      hi: "एक पिज़्ज़ा, लोडेड फ्राइज़ और दो शेक, शेयर करने के लिए। दोस्तों या एक छोटे ग्रुप के लिए बढ़िया, और दो लोगों का पेट भरने के लिए बना।",
+      pa: "ਇੱਕ ਪੀਜ਼ਾ, ਲੋਡਿਡ ਫਰਾਈਜ਼ ਤੇ ਦੋ ਸ਼ੇਕ, ਸਾਂਝੇ ਕਰਨ ਲਈ। ਦੋਸਤਾਂ ਜਾਂ ਇੱਕ ਛੋਟੇ ਗਰੁੱਪ ਲਈ ਵਧੀਆ, ਤੇ ਦੋ ਲੋਕਾਂ ਦਾ ਢਿੱਡ ਭਰਨ ਲਈ ਬਣਿਆ।"
+    }
   }
 };

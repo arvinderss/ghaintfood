@@ -96,6 +96,11 @@ function translateNote(note) { return localize(MENU_I18N.notes, note); }
 function translateTiffinItem(name) { return localize(MENU_I18N.tiffinItems, name); }
 function translateAvailability(text) { return localize(MENU_I18N.tiffinAvailability, text); }
 
+function translateDescription(item) {
+  if (!item.description) return "";
+  return localize(MENU_I18N.descriptions, item.description);
+}
+
 // Cart lines store the canonical English name; translate only for display.
 function cartLineDisplayName(id, englishName) {
   if (id === "tiffin-thali") return t("tiffin_title");
@@ -238,7 +243,7 @@ function renderMenu() {
         <img class="menu-card-img" src="${item.image}" alt="${displayName}" loading="lazy">
         <div class="menu-card-body">
           <div class="menu-card-name">${displayName}</div>
-          ${item.description ? `<div class="menu-card-description">${item.description}</div>` : ""}
+          ${item.description ? `<div class="menu-card-description">${translateDescription(item)}</div>` : ""}
           <div class="menu-card-price">${rupee(item.price)} <small>${t("label_takeaway")}</small></div>
           <div class="cart-controls" data-id="${id}">
             <button class="cart-add-btn" data-id="${id}">${t("label_add")}</button>

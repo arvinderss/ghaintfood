@@ -306,7 +306,7 @@ img { max-width: 100%; display: block; }
 .menu-card-img { width: 100%; height: 140px; object-fit: cover; background: var(--bg-alt); }
 .menu-card-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
 .menu-card-name { font-weight: 600; }
-.menu-card-description { color: var(--ink-muted); font-size: 14px; line-height: 1.5; margin-top: 4px; }
+.menu-card-description { color: var(--ink-soft); font-size: 14px; line-height: 1.5; margin-top: 4px; }
 .menu-card-price { color: var(--chili-dark); font-weight: 700; }
 .menu-card-price small { display: block; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .03em; opacity: .75; color: var(--ink-soft); }
 

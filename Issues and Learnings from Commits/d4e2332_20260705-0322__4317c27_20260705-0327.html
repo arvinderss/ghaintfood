@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Issue Report — Menu Description Translations &amp; CSS Variable Fix</title>
+<meta name="description" content="Offline reference: root cause, approach and verification for commits d4e2332 and 4317c27 on the Ghaint Food site.">
+<style>
+  :root{
+    --bg:#FFF8EF; --bg-alt:#FCEEDA; --surface:#FFFFFF; --ink:#241A14; --ink-soft:#5C4A3E;
+    --teal:#0E4B4E; --teal-dark:#083234; --teal-light:#1E7C7F;
+    --chili:#E8491D; --chili-dark:#C7360F; --gold:#F2A93B;
+    --border:rgba(36,26,20,0.12); --shadow:0 10px 30px rgba(14,75,78,0.12);
+    --radius:16px; --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --bad:#C7360F; --good:#1E7C7F;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14100B; --bg-alt:#1D1712; --surface:#221B15; --ink:#F3EAE0; --ink-soft:#C9BBAA;
+      --teal:#4FC3C6; --chili-dark:#FF7A4D; --border:rgba(255,255,255,0.14);
+      --shadow:0 10px 30px rgba(0,0,0,0.5); --good:#4FC3C6;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14100B; --bg-alt:#1D1712; --surface:#221B15; --ink:#F3EAE0; --ink-soft:#C9BBAA;
+    --teal:#4FC3C6; --chili-dark:#FF7A4D; --border:rgba(255,255,255,0.14);
+    --shadow:0 10px 30px rgba(0,0,0,0.5); --good:#4FC3C6;
+  }
+  :root[data-theme="light"]{
+    --bg:#FFF8EF; --bg-alt:#FCEEDA; --surface:#FFFFFF; --ink:#241A14; --ink-soft:#5C4A3E;
+    --teal:#0E4B4E; --chili-dark:#C7360F; --border:rgba(36,26,20,0.12);
+    --shadow:0 10px 30px rgba(14,75,78,0.12); --good:#1E7C7F;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px; margin:0 auto; padding:32px 20px 80px;}
+  h1,h2,h3{margin:0 0 .5em; line-height:1.15; letter-spacing:-0.01em;}
+  p{margin:0 0 1em; color:var(--ink-soft);}
+  a{color:var(--teal);}
+  code, .mono{font-family:var(--mono);}
+
+  /* ---- header ---- */
+  header.top{
+    display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;
+    padding-bottom:24px; border-bottom:1px solid var(--border); margin-bottom:32px;
+  }
+  .top-title h1{font-size:clamp(22px,3.4vw,32px);}
+  .top-title p{margin:4px 0 0; font-size:14px;}
+  .meta-pills{display:flex; gap:8px; flex-wrap:wrap;}
+  .pill{
+    display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:999px;
+    background:var(--bg-alt); border:1px solid var(--border); font-size:12.5px; font-weight:600;
+    color:var(--ink-soft); white-space:nowrap;
+  }
+  .pill .dot{width:7px; height:7px; border-radius:50%; background:var(--good);}
+
+  /* ---- summary cards ---- */
+  .summary-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:48px;}
+  @media (max-width:680px){.summary-grid{grid-template-columns:1fr;}}
+  .summary-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:20px; box-shadow:var(--shadow);
+  }
+  .summary-card .icon-badge{background:var(--bg-alt);}
+  .summary-card h3{font-size:15px; display:flex; align-items:center; gap:10px;}
+  .summary-card p{font-size:13.5px; margin-bottom:0;}
+  .sev{display:inline-block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+    padding:2px 8px; border-radius:6px; margin-left:auto;}
+  .sev.high{background:rgba(199,54,15,0.14); color:var(--chili-dark);}
+  .sev.low{background:rgba(30,124,127,0.14); color:var(--good);}
+
+  /* ---- section ---- */
+  section.issue{margin-bottom:64px;}
+  .issue-head{display:flex; gap:14px; align-items:flex-start; margin-bottom:24px;}
+  .issue-head .icon-badge{width:44px; height:44px; flex:none;}
+  .issue-head h2{font-size:22px;}
+  .issue-head .commit-tag{
+    display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600;
+    background:var(--bg-alt); border:1px solid var(--border); padding:3px 10px; border-radius:999px;
+    color:var(--ink-soft); margin-top:6px;
+  }
+
+  .icon-badge{
+    width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+    background:var(--bg-alt); color:var(--teal); flex:none;
+  }
+  .icon-badge svg{width:20px; height:20px;}
+  .icon-badge.bad{color:var(--chili-dark);}
+  .icon-badge.good{color:var(--good);}
+
+  /* ---- flow / infographic ---- */
+  .flow{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:0; margin:28px 0 8px; position:relative;
+  }
+  @media (max-width:820px){
+    .flow{grid-template-columns:1fr; gap:14px;}
+    .flow .arrow{transform:rotate(90deg); margin:0 auto;}
+  }
+  .flow-step{
+    background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 14px;
+    text-align:center; position:relative; z-index:1;
+  }
+  .flow-step .icon-badge{margin:0 auto 10px;}
+  .flow-step h4{font-size:12.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:0 0 6px; font-weight:700;}
+  .flow-step p{font-size:13px; margin:0;}
+  .arrow{display:flex; align-items:center; justify-content:center; color:var(--border); z-index:0;}
+  .arrow svg{width:22px; height:22px; opacity:.6;}
+  @media (max-width:820px){ .flow-step{padding:14px;} }
+  @media (min-width:821px){
+    .flow{grid-template-columns: 1fr 32px 1fr 32px 1fr 32px 1fr 32px 1fr;}
+  }
+
+  /* ---- panels: problem / cause / fix / result ---- */
+  .panel{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:22px 24px; margin-bottom:18px; box-shadow:var(--shadow);
+  }
+  .panel h3{font-size:15px; display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+  .panel h3 .icon-badge{width:30px; height:30px;}
+  .panel h3 .icon-badge svg{width:16px; height:16px;}
+  .panel p:last-child{margin-bottom:0;}
+  .panel ul{margin:0 0 0 0; padding-left:0;}
+  .panel li{
+    display:flex; gap:10px; align-items:flex-start; font-size:14px; color:var(--ink-soft); margin-bottom:8px;
+  }
+  .panel li:last-child{margin-bottom:0;}
+  .panel li svg{width:16px; height:16px; flex:none; margin-top:2px; color:var(--good);}
+
+  /* ---- code blocks ---- */
+  .code-diff{
+    background:var(--bg-alt); border:1px solid var(--border); border-radius:10px; overflow:hidden;
+    font-size:12.5px; margin:10px 0;
+  }
+  .code-diff .file{
+    padding:8px 14px; font-weight:700; font-size:11.5px; color:var(--ink-soft);
+    border-bottom:1px solid var(--border); background:rgba(0,0,0,0.03);
+  }
+  .code-diff pre{margin:0; padding:12px 14px; overflow-x:auto; white-space:pre;}
+  .code-diff .line{display:block; padding:1px 0;}
+  .code-diff .del{background:rgba(199,54,15,0.12); color:var(--chili-dark);}
+  .code-diff .add{background:rgba(30,124,127,0.14); color:var(--good);}
+
+  /* ---- before/after compare ---- */
+  .compare{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:14px 0;}
+  @media (max-width:680px){.compare{grid-template-columns:1fr;}}
+  .compare .card{
+    border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--bg-alt);
+  }
+  .compare .card.before{border-left:3px solid var(--chili-dark);}
+  .compare .card.after{border-left:3px solid var(--good);}
+  .compare .tag{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; display:block;}
+  .compare .before .tag{color:var(--chili-dark);}
+  .compare .after .tag{color:var(--good);}
+  .compare .lang{font-size:12px; font-weight:700; color:var(--ink-soft); margin-bottom:2px;}
+  .compare .text{font-size:13.5px;}
+
+  /* ---- verification steps ---- */
+  .verify-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:14px 0;}
+  @media (max-width:780px){.verify-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:480px){.verify-grid{grid-template-columns:1fr;}}
+  .verify-item{
+    border:1px solid var(--border); border-radius:10px; padding:12px; background:var(--bg-alt); font-size:13px;
+  }
+  .verify-item .n{
+    display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%;
+    background:var(--teal); color:#fff; font-size:11px; font-weight:700; margin-bottom:8px;
+  }
+
+  /* ---- outcome banner ---- */
+  .outcome{
+    display:flex; gap:14px; align-items:flex-start; border-radius:var(--radius); padding:20px 22px;
+    background:linear-gradient(135deg, rgba(30,124,127,0.12), rgba(30,124,127,0.02));
+    border:1px solid rgba(30,124,127,0.3);
+  }
+  .outcome .icon-badge{background:rgba(30,124,127,0.18); color:var(--good);}
+  .outcome h3{color:var(--good); font-size:15px;}
+  .outcome p{margin-bottom:0; font-size:13.5px;}
+
+  hr.divider{border:none; border-top:1px dashed var(--border); margin:56px 0;}
+
+  footer{
+    margin-top:56px; padding-top:20px; border-top:1px solid var(--border);
+    font-size:12.5px; color:var(--ink-soft); text-align:center;
+  }
+  footer strong{color:var(--ink);}
+
+  .scope-note{
+    display:flex; gap:12px; align-items:flex-start; background:var(--bg-alt); border:1px dashed var(--border);
+    border-radius:12px; padding:14px 16px; margin-bottom:40px; font-size:13px;
+  }
+  .scope-note .icon-badge{background:transparent; color:var(--gold, var(--chili-dark));}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="top-title">
+      <h1>Ghaint Food — Issue Report</h1>
+      <p>Post-mortem &amp; fix documentation, generated from a live debugging session</p>
+    </div>
+    <div class="meta-pills">
+      <span class="pill"><span class="dot"></span> repo: ghaintfood</span>
+      <span class="pill">branch: main</span>
+      <span class="pill">commits: <span class="mono">d4e2332</span> · <span class="mono">4317c27</span></span>
+    </div>
+  </header>
+
+  <div class="scope-note">
+    <div class="icon-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86l-8.18 14.19A2 2 0 0 0 3.82 21h16.36a2 2 0 0 0 1.71-2.95L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+    </div>
+    <div>
+      <strong>Offline reference only.</strong> This page is a standalone document for internal learning — it is not linked from
+      <span class="mono">index.html</span>, does not load any site CSS/JS, and has no dependency on (or effect on) the live Ghaint Food website.
+    </div>
+  </div>
+
+  <!-- ============ SUMMARY ============ -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <h3>
+        <span class="icon-badge bad">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        </span>
+        Issue 1 — Descriptions stuck in English
+        <span class="sev high">High impact</span>
+      </h3>
+      <p>Menu item descriptions never translated to Hindi or Punjabi, even though names, categories and every other UI string switched correctly.</p>
+    </div>
+    <div class="summary-card">
+      <h3>
+        <span class="icon-badge good">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.4-1.1-.2-.3-.4-.7-.4-1.1 0-.8.7-1.5 1.5-1.5H16c3.3 0 6-2.7 6-6 0-4.5-4.5-8.8-10-8.8z"/></svg>
+        </span>
+        Issue 2 — Undefined CSS variable
+        <span class="sev low">Cosmetic</span>
+      </h3>
+      <p>Menu card descriptions referenced a color variable (<span class="mono">--ink-muted</span>) that was never defined in the theme, silently falling back to the default text color.</p>
+    </div>
+  </div>
+
+  <!-- ============ ISSUE 1 ============ -->
+  <section class="issue" id="issue-1">
+    <div class="issue-head">
+      <span class="icon-badge bad" style="width:44px;height:44px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l6 6 6-6"/><path d="M5 8h14"/></svg>
+      </span>
+      <div>
+        <h2>Issue 1: Menu descriptions don't switch language</h2>
+        <span class="commit-tag">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v6M12 15v6"/></svg>
+          commit d4e2332
+        </span>
+      </div>
+    </div>
+
+    <!-- flow infographic -->
+    <div class="flow">
+      <div class="flow-step">
+        <span class="icon-badge bad">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86l-8.18 14.19A2 2 0 0 0 3.82 21h16.36a2 2 0 0 0 1.71-2.95L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+        </span>
+        <h4>Reported</h4>
+        <p>Descriptions stay in English after switching to hi/pa</p>
+      </div>
+      <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="flow-step">
+        <span class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        </span>
+        <h4>Traced</h4>
+        <p>Followed the render path from menu data → translate function → DOM</p>
+      </div>
+      <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="flow-step">
+        <span class="icon-badge bad">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </span>
+        <h4>Root cause</h4>
+        <p>Code read a field that was never defined in the data file</p>
+      </div>
+      <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="flow-step">
+        <span class="icon-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        </span>
+        <h4>Fix applied</h4>
+        <p>Added a translation lookup table + rewired the function</p>
+      </div>
+      <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="flow-step">
+        <span class="icon-badge good">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </span>
+        <h4>Verified</h4>
+        <p>Headless-browser test confirms text switches in both languages</p>
+      </div>
+    </div>
+
+    <!-- Problem -->
+    <div class="panel">
+      <h3>
+        <span class="icon-badge bad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></span>
+        The problem
+      </h3>
+      <p>
+        Ghaint Food's site has a working English → Hindi → Punjabi switcher. Category names ("Burgers" → "बर्गर"), item
+        names ("Aloo Tikki" → "आलू टिक्की") and all static page copy translated correctly. But the long marketing
+        <strong>description</strong> text under every menu item card stayed in English no matter which language was selected —
+        the one piece of visible content that customers actually read to decide what to order.
+      </p>
+    </div>
+
+    <!-- Root cause -->
+    <div class="panel">
+      <h3>
+        <span class="icon-badge bad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+        Root cause
+      </h3>
+      <p>
+        Every other translatable string in the codebase follows the same pattern: <span class="mono">js/i18n.js</span> holds a
+        lookup object (<span class="mono">MENU_I18N</span>) keyed by the canonical English text, and a small
+        <span class="mono">translate*()</span> helper in <span class="mono">js/main.js</span> looks up the current language in
+        that object. Descriptions were the exception — the code for them was written to expect a per-item field called
+        <span class="mono">descriptionTranslations</span> directly on each menu item object, but that field was
+        <strong>never added</strong> to <span class="mono">js/menu-data.js</span>. It doesn't exist anywhere in the repository.
+      </p>
+      <div class="code-diff">
+        <div class="file">js/main.js — before (the bug)</div>
+        <pre><span class="line">function translateDescription(item) {</span>
+<span class="line">  if (currentLang === "en") return item.description || "";</span>
+<span class="line del">  const translations = item.descriptionTranslations || {};  // ← always {} — field never set</span>
+<span class="line del">  return translations[currentLang] || item.description || ""; // ← always falls back to English</span>
+<span class="line">}</span></pre>
+      </div>
+      <p>Because <span class="mono">item.descriptionTranslations</span> was always <span class="mono">undefined</span>, the function silently fell back to the English string on every call — no error, no warning, just quietly wrong output.</p>
+    </div>
+
+    <!-- Approach -->
+    <div class="panel">
+      <h3>
+        <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span>
+        Approach
+      </h3>
+      <ul>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Read <span class="mono">js/menu-data.js</span> (the menu content), <span class="mono">js/i18n.js</span> (translation tables) and <span class="mono">js/main.js</span> (render + language-switch logic) end to end to understand how translation actually flows through the app.
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Confirmed the existing, working pattern used for categories/items/notes/tiffin — a lookup table in <span class="mono">MENU_I18N</span> keyed by the English string — and decided the fix should follow that same convention rather than inventing a new one.
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Wrote Hindi and Punjabi translations for all <strong>40</strong> menu item descriptions across every category (Burgers, Pizzas, Loaded Fries &amp; Sides, Garlic Bread, Subs &amp; Sandwiches, Salads, Shakes, Lassi &amp; Coolers, Combos) and added them as a new <span class="mono">MENU_I18N.descriptions</span> map.
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Rewired <span class="mono">translateDescription()</span> to read from that map instead of the nonexistent per-item field.
+        </li>
+      </ul>
+    </div>
+
+    <!-- Fix / before-after -->
+    <div class="panel">
+      <h3>
+        <span class="icon-badge good"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></span>
+        The fix
+      </h3>
+      <div class="code-diff">
+        <div class="file">js/main.js — after</div>
+        <pre><span class="line">function translateDescription(item) {</span>
+<span class="line add">  if (!item.description) return "";</span>
+<span class="line add">  return localize(MENU_I18N.descriptions, item.description);</span>
+<span class="line">}</span></pre>
+      </div>
+      <div class="code-diff">
+        <div class="file">js/i18n.js — added (excerpt of 40 entries)</div>
+        <pre><span class="line">MENU_I18N.descriptions = {</span>
+<span class="line">  "A crisp golden potato and pea tikki, packed with cumin and</span>
+<span class="line">   green chili...": {</span>
+<span class="line add">    hi: "मसालेदार जीरा और हरी मिर्च से भरपूर, कुरकुरी सुनहरी...",</span>
+<span class="line add">    pa: "ਜੀਰੇ ਤੇ ਹਰੀ ਮਿਰਚ ਨਾਲ ਭਰਪੂਰ, ਕੁਰਕੁਰੀ ਸੁਨਹਿਰੀ..."</span>
+<span class="line">  },</span>
+<span class="line">  /* … 39 more item descriptions, same shape … */</span>
+<span class="line">};</span></pre>
+      </div>
+      <p>This mirrors the existing <span class="mono">translateItem()</span> / <span class="mono">translateCategory()</span> pattern exactly, so no other part of the render pipeline needed to change — <span class="mono">renderMenu()</span> already called <span class="mono">translateDescription(item)</span> per card.</p>
+    </div>
+
+    <!-- Verification -->
+    <div class="panel">
+      <h3>
+        <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg></span>
+        How it was verified
+      </h3>
+      <div class="verify-grid">
+        <div class="verify-item"><span class="n">1</span><br>Wrote a Node script to cross-check that all 40 English descriptions in <span class="mono">menu-data.js</span> have a matching key in <span class="mono">MENU_I18N.descriptions</span>, with both <span class="mono">hi</span> and <span class="mono">pa</span> filled in — zero missing, zero mismatched keys.</div>
+        <div class="verify-item"><span class="n">2</span><br>Ran <span class="mono">node --check</span> on all three JS files to rule out syntax errors before touching a browser.</div>
+        <div class="verify-item"><span class="n">3</span><br>Installed a headless Chromium (Playwright) since no browser driver existed in the repo, and served the site locally.</div>
+        <div class="verify-item"><span class="n">4</span><br>Scripted the browser: load page → read first menu card → click "hi" → re-read card → click "pa" → re-read card → check console for errors.</div>
+      </div>
+      <div class="compare">
+        <div class="card before">
+          <span class="tag">Before fix</span>
+          <div class="lang">Any language selected</div>
+          <div class="text">"A crisp golden potato and pea tikki, packed with cumin and green chili…"</div>
+        </div>
+        <div class="card after">
+          <span class="tag">After fix — hi</span>
+          <div class="lang">हिंदी</div>
+          <div class="text">"मसालेदार जीरा और हरी मिर्च से भरपूर, कुरकुरी सुनहरी आलू और मटर की टिक्की…"</div>
+        </div>
+      </div>
+      <div class="compare">
+        <div class="card after">
+          <span class="tag">After fix — pa</span>
+          <div class="lang">ਪੰਜਾਬੀ</div>
+          <div class="text">"ਜੀਰੇ ਤੇ ਹਰੀ ਮਿਰਚ ਨਾਲ ਭਰਪੂਰ, ਕੁਰਕੁਰੀ ਸੁਨਹਿਰੀ ਆਲੂ ਤੇ ਮਟਰ ਦੀ ਟਿੱਕੀ…"</div>
+        </div>
+        <div class="card after">
+          <span class="tag">Console check</span>
+          <div class="lang">Browser DevTools</div>
+          <div class="text">0 errors logged during load + both language switches</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Outcome -->
+    <div class="outcome">
+      <span class="icon-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </span>
+      <div>
+        <h3>Expected vs. actual outcome</h3>
+        <p>
+          <strong>Expected:</strong> selecting Hindi or Punjabi translates every visible menu string, including descriptions,
+          matching the behaviour already working for names and categories.<br>
+          <strong>Actual:</strong> confirmed via automated browser test — description text now switches scripts correctly
+          for both languages, on the first menu item checked and by inspection of the full translation map (40/40 items covered).
+          No regressions: English mode is untouched, and the cart/WhatsApp/UPI logic (which intentionally always uses the
+          canonical English name internally) was not affected.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ ISSUE 2 ============ -->
+  <section class="issue" id="issue-2">
+    <div class="issue-head">
+      <span class="icon-badge good" style="width:44px;height:44px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.4-1.1-.2-.3-.4-.7-.4-1.1 0-.8.7-1.5 1.5-1.5H16c3.3 0 6-2.7 6-6 0-4.5-4.5-8.8-10-8.8z"/></svg>
+      </span>
+      <div>
+        <h2>Issue 2: Undefined <span class="mono">--ink-muted</span> CSS variable</h2>
+        <span class="commit-tag">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v6M12 15v6"/></svg>
+          commit 4317c27
+        </span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>
+        <span class="icon-badge bad"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></span>
+        The problem
+      </h3>
+      <p>
+        While reviewing the diff before committing the Issue&nbsp;1 fix, an unrelated uncommitted change was found already sitting
+        in the working tree in <span class="mono">css/styles.css</span>. The <span class="mono">.menu-card-description</span>
+        rule — the exact element whose translation was just fixed — set its text color to
+        <span class="mono">var(--ink-muted)</span>. That custom property is <strong>never defined</strong> anywhere in the theme's
+        <span class="mono">:root</span> block (light or dark), so the browser falls back to the inherited/default color instead of
+        the intended muted tone used for secondary text everywhere else on the site.
+      </p>
+    </div>
+
+    <div class="panel">
+      <h3>
+        <span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span>
+        Approach &amp; verification
+      </h3>
+      <ul>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Searched the whole stylesheet for <span class="mono">--ink-muted</span> — zero definitions, zero other usages. Confirmed it was a typo/leftover, not an intentionally-undefined "inherit from parent" pattern used elsewhere in the file.
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Checked what the surrounding rules use for the same "secondary/soft text" role — <span class="mono">--ink-soft</span> — defined in every theme variant (light, dark, and the explicit <span class="mono">data-theme</span> overrides) and used consistently for prices, notes, cart labels, etc.
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Since this file wasn't part of the original task, it was flagged to the user first rather than folded in silently — then committed separately once confirmed it was wanted.
+        </li>
+      </ul>
+      <div class="code-diff">
+        <div class="file">css/styles.css</div>
+        <pre><span class="line del">.menu-card-description { color: var(--ink-muted); font-size: 14px; line-height: 1.5; margin-top: 4px; }</span>
+<span class="line add">.menu-card-description { color: var(--ink-soft); font-size: 14px; line-height: 1.5; margin-top: 4px; }</span></pre>
+      </div>
+    </div>
+
+    <div class="outcome">
+      <span class="icon-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </span>
+      <div>
+        <h3>Expected vs. actual outcome</h3>
+        <p>
+          <strong>Expected:</strong> menu card description text renders in the theme's intended muted ink tone, in both light and
+          dark mode, matching every other piece of secondary text on the card (price label, "takeaway" tag).<br>
+          <strong>Actual:</strong> one-line variable swap, verified by inspection — <span class="mono">--ink-soft</span> resolves
+          correctly in all three theme contexts defined in the stylesheet, with no other rule depending on the removed
+          <span class="mono">--ink-muted</span> name.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ============ LEARNINGS ============ -->
+  <section>
+    <div class="issue-head">
+      <span class="icon-badge" style="width:44px;height:44px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 00-4 12.75V17a1 1 0 001 1h6a1 1 0 001-1v-2.25A7 7 0 0012 2z"/><path d="M9 21h6"/></svg>
+      </span>
+      <div><h2>General learnings</h2></div>
+    </div>
+    <div class="panel">
+      <ul>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <strong>Silent fallbacks hide bugs.</strong> Both issues share a shape: code that references something undefined (a JS object field, a CSS variable) doesn't throw — it just quietly degrades to a default. That's convenient for resilience but dangerous for correctness, since nothing surfaces the problem until a human happens to notice.
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <strong>Consistency check as a diagnostic.</strong> Noticing that descriptions were the <em>only</em> field not following the established <span class="mono">MENU_I18N</span> lookup pattern was the fastest route to the root cause — inconsistent patterns in a codebase are worth treating as a signal, not just a style nit.
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <strong>Verify in a real browser, not just by reading code.</strong> A script cross-checking translation-key coverage proves the data is complete; it doesn't prove the UI renders it. Actually loading the page, clicking the language switch, and reading the rendered DOM is what turns "should work" into "confirmed working."
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <strong>Scope discipline.</strong> The CSS variable bug was found by accident while preparing to commit an unrelated fix. It was surfaced and committed separately, on its own merits, rather than bundled silently into the description-translation commit.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    Generated as an offline learning artifact for the <strong>Ghaint Food</strong> repository.
+    Not part of the deployed site — safe to delete, move, or ignore without affecting <span class="mono">index.html</span>.
+  </footer>
+
+</div>
+</body>
+</html>

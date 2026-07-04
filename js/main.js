@@ -238,6 +238,7 @@ function renderMenu() {
         <img class="menu-card-img" src="${item.image}" alt="${displayName}" loading="lazy">
         <div class="menu-card-body">
           <div class="menu-card-name">${displayName}</div>
+          ${item.description ? `<div class="menu-card-description">${item.description}</div>` : ""}
           <div class="menu-card-price">${rupee(item.price)} <small>${t("label_takeaway")}</small></div>
           <div class="cart-controls" data-id="${id}">
             <button class="cart-add-btn" data-id="${id}">${t("label_add")}</button>

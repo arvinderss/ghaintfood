@@ -31,6 +31,7 @@ const THEME_COLOR_DARK = "#14100B";
 
 const THEME_COOKIE = "theme";
 const LANG_COOKIE = "lang";
+const IMAGES_COOKIE = "images";
 
 // Cart is in-memory only — GitHub Pages has no backend to persist it, and localStorage was
 // deliberately dropped so nothing survives a reload. Same for order mode and address.
@@ -100,6 +101,45 @@ function wireThemeToggle() {
   document.getElementById("themeToggle")?.addEventListener("click", toggleTheme);
 }
 
+/* ---------- images on/off ---------- */
+
+// Pure CSS toggle: [data-images="off"] on <html> collapses every .menu-card-img-wrap and
+// .tiffin-visual (see css/styles.css). No re-render needed, so this works even mid-scroll.
+function isImagesOff() {
+  return document.documentElement.getAttribute("data-images") === "off";
+}
+
+function applyImagesPref(off) {
+  if (off) {
+    document.documentElement.setAttribute("data-images", "off");
+  } else {
+    document.documentElement.removeAttribute("data-images");
+  }
+  updateImagesToggleUI();
+}
+
+function updateImagesToggleUI() {
+  const btn = document.getElementById("imagesToggle");
+  if (!btn) return;
+  const off = isImagesOff();
+  btn.setAttribute("aria-pressed", String(off));
+  btn.setAttribute("aria-label", t(off ? "images_toggle_to_on" : "images_toggle_to_off"));
+}
+
+function initImagesPref() {
+  applyImagesPref(getCookie(IMAGES_COOKIE) === "off");
+}
+
+function toggleImagesPref() {
+  const next = !isImagesOff();
+  applyImagesPref(next);
+  setCookie(IMAGES_COOKIE, next ? "off" : "on", 365);
+}
+
+function wireImagesToggle() {
+  document.getElementById("imagesToggle")?.addEventListener("click", toggleImagesPref);
+}
+
 /* ---------- language ---------- */
 
 function t(key) {
@@ -162,6 +202,7 @@ function setLang(lang) {
   updateLangSwitchUI();
   applyStaticTranslations();
   updateThemeToggleUI(); // aria-label is state-dependent, not purely static — re-apply after the sweep above
+  updateImagesToggleUI(); // same reason
   rerenderLocalizedContent();
 }
 
@@ -732,6 +773,7 @@ function setFooterYear() {
 document.addEventListener("DOMContentLoaded", () => {
   initLang();
   initTheme();
+  initImagesPref();
   applyStaticTranslations();
   renderMenu();
   renderTiffin();
@@ -742,6 +784,7 @@ document.addEventListener("DOMContentLoaded", () => {
   wireChipObserver();
   wireLogoFallback();
   wireThemeToggle();
+  wireImagesToggle();
   wireLangSwitch();
   setFooterYear();
 });

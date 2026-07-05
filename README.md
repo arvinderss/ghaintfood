@@ -73,7 +73,7 @@ Theme (`data-theme` attribute on `<html>`) is persisted in the `theme` cookie (1
 | Images on/off | `isImagesOff`, `applyImagesPref`, `updateImagesToggleUI`, `initImagesPref`, `toggleImagesPref`, `wireImagesToggle` | The food-photo show/hide toggle next to the language switcher |
 | i18n | `t`, `localize`, `translateCategory`/`Item`/`Note`/`TiffinItem`/`Availability`/`Description`, `cartLineDisplayName`, `applyStaticTranslations`, `updateLangSwitchUI`, `initLang`, `setLang`, `wireLangSwitch`, `rerenderLocalizedContent` | Translation lookups and the EN/हि/ਪੰ switcher |
 | Link builders | `waLink`, `rupee`, `upiLink` | Build `wa.me`/`upi://` URLs (via `encodeURIComponent`/`URLSearchParams`, never raw string concatenation) |
-| Rendering | `renderMenu`, `renderTiffin`, `slugify`, `findCartItem` | Build the menu/tiffin DOM from data + translations; `slugify` derives stable cart ids from English names |
+| Rendering | `renderMenu`, `renderTiffin`, `slugify`, `findCartItem` | Build the menu/tiffin DOM from data + translations, filtering out `status: "unavailable"` entries first; `slugify` derives stable cart ids from English names |
 | Cart math | `cartCount`, `cartTotal`, `computeTotals` | Item count, items subtotal, and `{ itemsSubtotal, deliveryFee, grandTotal }` |
 | Checkout flow | `setOrderMode`, `validateCheckout`, `showCheckoutError`, `clearCheckoutError`, `handleCheckoutClick`, `buildCheckoutMessage` | Pickup/Delivery mode switching, pre-checkout validation, inline error display, and the WhatsApp message text |
 | Cart mutation | `addToCart`, `changeQty`, `removeFromCart`, `onCartChange` | Add/adjust/remove cart lines; `onCartChange` is the single re-render entry point after any mutation |
@@ -101,6 +101,16 @@ A round icon button next to the language switcher lets a visitor hide every food
 - No re-render is involved and `renderMenu()`/`renderTiffin()` are unaware of this feature — it works on whatever's already in the DOM, so it can't drift out of sync with the menu data.
 - This is a **visual-only** toggle: it does not stop already-rendered images from having been fetched, and does not skip the network request for images not yet on screen. It's for a cleaner/denser reading view, not bandwidth savings.
 - Persisted in the `images` cookie (1 year), same pattern as `theme`/`lang`; defaults to on (images shown) if the cookie is absent.
+
+### Sold out / unavailable items
+
+Listing management is a single optional `status` field on any item in `js/menu-data.js` (or on `TIFFIN`) — there is **no on-site or admin UI** for this by design; the site owner edits the data file directly.
+
+- Omitted or `"available"` (default): shown normally.
+- `"sold-out"`: the item/tiffin stays visible — dimmed via `.is-sold-out` — but its Add-to-cart control is replaced with a `.sold-out-badge` pill reading the translated "Sold Out" label. Use this when stock has temporarily run out but the item is still on the regular menu.
+- `"unavailable"`: the item is dropped entirely before rendering, as if it weren't in the file at all. Use this for items never actually offered or permanently discontinued. `renderMenu()` filters these out first and also drops any category left with zero items afterward, so an empty heading/chip never appears.
+
+Both states apply identically to `TIFFIN`: `renderTiffin()` hides the whole `#tiffin` section for `"unavailable"`, or shows `#tiffinSoldOutBadge` in place of its cart controls for `"sold-out"`.
 
 ## Configuration & constants
 

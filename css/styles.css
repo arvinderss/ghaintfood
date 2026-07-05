@@ -110,7 +110,9 @@ img { max-width: 100%; display: block; }
 .btn:active { transform: scale(0.97); }
 .btn .icon { width: 18px; height: 18px; }
 .btn-whatsapp { background: #25D366; color: #06341c; box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35); }
-.btn-outline { background: transparent; border-color: var(--surface); color: var(--surface); }
+/* Fixed white, not var(--surface): this button only ever sits on the hero's fixed-dark
+   gradient (see --hero-from above), which doesn't flip with the light/dark theme. */
+.btn-outline { background: transparent; border-color: #fff; color: #fff; }
 .btn-upi { background: var(--gold); color: var(--teal-dark); box-shadow: 0 6px 18px rgba(242, 169, 59, 0.35); }
 .btn-lg { padding: 16px 28px; font-size: 16px; }
 .btn.is-disabled { opacity: .5; cursor: not-allowed; pointer-events: none; }
@@ -295,6 +297,21 @@ img { max-width: 100%; display: block; }
   border-bottom: 1px solid var(--border);
   padding: 10px 0;
 }
+/* Fade hint at the scrollable chip row's edges, aligned to .container's own max-width/centering
+   (calc mirrors .container: half of its 1080px max-width, clamped to 0 below that breakpoint)
+   so the fade sits at the chips' actual visible edge on both full-bleed mobile and centered desktop. */
+.category-nav::before,
+.category-nav::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  z-index: 1;
+  pointer-events: none;
+}
+.category-nav::before { left: max(0px, calc(50% - 540px)); background: linear-gradient(to right, var(--bg), transparent); }
+.category-nav::after { right: max(0px, calc(50% - 540px)); background: linear-gradient(to left, var(--bg), transparent); }
 .category-nav-inner {
   display: flex;
   gap: 8px;
@@ -507,11 +524,11 @@ img { max-width: 100%; display: block; }
 }
 .cart-drawer {
   position: fixed;
-  top: 0;
-  right: 0;
   bottom: 0;
+  right: 0;
   width: 100%;
   max-width: 400px;
+  max-height: min(640px, 92vh);
   background: var(--surface);
   z-index: 80;
   display: flex;

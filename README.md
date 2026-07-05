@@ -44,12 +44,13 @@ index.html
 
 1. `initLang()` — reads the `lang` cookie, sets `currentLang` (defaults to `"en"`).
 2. `initTheme()` — reads the `theme` cookie, applies `data-theme` on `<html>` (or leaves it unset to follow OS `prefers-color-scheme`).
-3. `applyStaticTranslations()` — sweeps every `[data-i18n]` / `[data-i18n-html]` / `[data-i18n-aria]` element and fills it from `UI_TEXT`.
-4. `renderMenu()` / `renderTiffin()` — build the menu grid and tiffin section from `MENU` / `TIFFIN`, translated per item.
-5. `wireOrderButtons()`, `wireCart()`, `wireNavToggle()`, `wireChipClickDelegation()`, `wireChipObserver()`, `wireLogoFallback()`, `wireThemeToggle()`, `wireLangSwitch()` — attach all event listeners (each is idempotent/safe to call once).
-6. `setFooterYear()` — fills the copyright year.
+3. `initImagesPref()` — reads the `images` cookie, applies `data-images="off"` on `<html>` if the visitor previously turned photos off.
+4. `applyStaticTranslations()` — sweeps every `[data-i18n]` / `[data-i18n-html]` / `[data-i18n-aria]` element and fills it from `UI_TEXT`.
+5. `renderMenu()` / `renderTiffin()` — build the menu grid and tiffin section from `MENU` / `TIFFIN`, translated per item.
+6. `wireOrderButtons()`, `wireCart()`, `wireNavToggle()`, `wireChipClickDelegation()`, `wireChipObserver()`, `wireLogoFallback()`, `wireThemeToggle()`, `wireImagesToggle()`, `wireLangSwitch()` — attach all event listeners (each is idempotent/safe to call once).
+7. `setFooterYear()` — fills the copyright year.
 
-Switching language later (`setLang()`) re-runs steps 3–4 plus cart/chip re-rendering via `rerenderLocalizedContent()`, but never re-runs step 5 (listeners are attached once via delegation, so newly-rendered DOM nodes are automatically covered).
+Switching language later (`setLang()`) re-runs steps 4–5 plus cart/chip re-rendering via `rerenderLocalizedContent()`, but never re-runs step 6 (listeners are attached once via delegation, so newly-rendered DOM nodes are automatically covered).
 
 ### State (module-level, all in `js/main.js`)
 
@@ -61,7 +62,7 @@ Switching language later (`setLang()`) re-runs steps 3–4 plus cart/chip re-ren
 | `deliveryAddress` | `string` | In-memory only | Free-text address, required only when `orderMode === "Delivery"` |
 | `categoryObserver` | `IntersectionObserver \| null` | Re-created on every render (`wireChipObserver()`) | Highlights the active category chip while scrolling |
 
-Theme (`data-theme` attribute on `<html>`) is persisted in the `theme` cookie (1 year); if absent, the site follows the OS `prefers-color-scheme` live.
+Theme (`data-theme` attribute on `<html>`) is persisted in the `theme` cookie (1 year); if absent, the site follows the OS `prefers-color-scheme` live. Images on/off (`data-images` attribute on `<html>`) follows the same pattern, persisted in the `images` cookie; if absent, images are shown.
 
 ### Function reference (`js/main.js`)
 

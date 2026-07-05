@@ -18,6 +18,16 @@ const DELIVERY_CHARGE = 30;
 // Defensive: if a future edit blanks WHATSAPP_NUMBER, disable the WhatsApp button instead of
 // shipping a broken wa.me link.
 const WHATSAPP_CONFIGURED = Boolean(WHATSAPP_NUMBER && WHATSAPP_NUMBER.trim());
+// ORDER_LABEL: reused verbatim as the first line of the WhatsApp checkout message and inside
+// the UPI transaction note, so both always say the same thing if this is ever reworded.
+const ORDER_LABEL = "Ghaint Food order";
+
+// THEME_COLOR_LIGHT / THEME_COLOR_DARK: drive the mobile browser-chrome tint (<meta
+// name="theme-color">) at runtime. Kept as named constants rather than inline hex so the one
+// place JS sets this color is self-documenting; the static <meta> tag in index.html (needed
+// for the instant before JS runs) is a deliberately-accepted duplicate — see README.
+const THEME_COLOR_LIGHT = "#0E4B4E";
+const THEME_COLOR_DARK = "#14100B";
 
 const THEME_COOKIE = "theme";
 const LANG_COOKIE = "lang";
@@ -63,7 +73,7 @@ function applyTheme(theme) {
     document.documentElement.removeAttribute("data-theme");
   }
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute("content", isDarkActive() ? "#14100B" : "#0E4B4E");
+  if (meta) meta.setAttribute("content", isDarkActive() ? THEME_COLOR_DARK : THEME_COLOR_LIGHT);
   updateThemeToggleUI();
 }
 
@@ -465,7 +475,7 @@ function renderCartDrawer() {
   }
   if (upiBtn) {
     upiBtn.textContent = t("cart_pay_upi_amount").replace("{amount}", rupee(grandTotal));
-    upiBtn.href = grandTotal > 0 ? upiLink(grandTotal, `Ghaint Food order - ${rupee(grandTotal)}`) : "#";
+    upiBtn.href = grandTotal > 0 ? upiLink(grandTotal, `${ORDER_LABEL} - ${rupee(grandTotal)}`) : "#";
     upiBtn.classList.toggle("is-disabled", grandTotal === 0);
   }
 }
@@ -486,7 +496,7 @@ function buildCheckoutMessage() {
     return `${line.qty} × ${name} — ${rupee(line.qty * line.price)}`;
   });
 
-  const messageLines = ["Ghaint Food order", `Mode: ${orderMode}`, ...itemLines, `Subtotal: ${rupee(itemsSubtotal)}`];
+  const messageLines = [ORDER_LABEL, `Mode: ${orderMode}`, ...itemLines, `Subtotal: ${rupee(itemsSubtotal)}`];
   if (orderMode === "Delivery") {
     messageLines.push(`Delivery: ${rupee(deliveryFee)}`);
   }

@@ -73,6 +73,9 @@ const UI_TEXT = {
   order_banner_title: { en: "Hungry? Let's Go.", hi: "भूख लगी है? चलिए शुरू करें।", pa: "ਭੁੱਖ ਲੱਗੀ ਹੈ? ਚੱਲੋ ਸ਼ੁਰੂ ਕਰੀਏ।" },
   order_banner_sub: { en: "Pick whichever's easiest for you.", hi: "जो भी आपके लिए आसान हो, वह चुनें।", pa: "ਜੋ ਵੀ ਤੁਹਾਡੇ ਲਈ ਸੌਖਾ ਹੋਵੇ, ਉਹ ਚੁਣੋ।" },
 
+  // TODO: replace with the exact street address once available — also update the JSON-LD
+  // address block in index.html's <head> (a deliberately separate copy, see README).
+  footer_address: { en: "Ludhiana, Punjab", hi: "लुधियाना, पंजाब", pa: "ਲੁਧਿਆਣਾ, ਪੰਜਾਬ" },
   footer_hours: { en: "Open daily, 12:00 PM – 11:00 PM", hi: "रोज़ाना खुला, दोपहर 12:00 – रात 11:00", pa: "ਰੋਜ਼ਾਨਾ ਖੁੱਲ੍ਹਾ, ਦੁਪਹਿਰ 12:00 – ਰਾਤ 11:00" },
   footer_copy_rights: { en: "All rights reserved.", hi: "सर्वाधिकार सुरक्षित।", pa: "ਸਾਰੇ ਹੱਕ ਰਾਖਵੇਂ ਹਨ।" },
 

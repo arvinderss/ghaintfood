@@ -69,6 +69,7 @@ Theme (`data-theme` attribute on `<html>`) is persisted in the `theme` cookie (1
 |---|---|---|
 | Cookies | `getCookie`, `setCookie` | Read/write `theme` and `lang` cookies (1 year, `SameSite=Lax`) |
 | Theme | `systemPrefersDark`, `isDarkActive`, `applyTheme`, `updateThemeToggleUI`, `initTheme`, `toggleTheme`, `wireThemeToggle` | Light/dark theme state, the sun/moon toggle, and the `theme-color` meta tag |
+| Images on/off | `isImagesOff`, `applyImagesPref`, `updateImagesToggleUI`, `initImagesPref`, `toggleImagesPref`, `wireImagesToggle` | The food-photo show/hide toggle next to the language switcher |
 | i18n | `t`, `localize`, `translateCategory`/`Item`/`Note`/`TiffinItem`/`Availability`/`Description`, `cartLineDisplayName`, `applyStaticTranslations`, `updateLangSwitchUI`, `initLang`, `setLang`, `wireLangSwitch`, `rerenderLocalizedContent` | Translation lookups and the EN/हि/ਪੰ switcher |
 | Link builders | `waLink`, `rupee`, `upiLink` | Build `wa.me`/`upi://` URLs (via `encodeURIComponent`/`URLSearchParams`, never raw string concatenation) |
 | Rendering | `renderMenu`, `renderTiffin`, `slugify`, `findCartItem` | Build the menu/tiffin DOM from data + translations; `slugify` derives stable cart ids from English names |
@@ -91,6 +92,15 @@ Every menu-card image and the tiffin image use a **wrapper + sibling fallback** 
 
 `renderMenu()` attaches a one-shot `error` listener per `<img>` (safe because each card is a fresh DOM node every render). `renderTiffin()` instead assigns `image.onerror = ...` as a property (not `addEventListener`), because `#tiffinImage` is a **static, reused** element across re-renders — using `addEventListener` there would stack a new listener on every language switch.
 
+### Images on/off toggle
+
+A round icon button next to the language switcher lets a visitor hide every food photo (menu cards and the tiffin) for a denser, text-only view — the image icon shows the crossed-out variant while images are on (click to turn them off), mirroring the sun/moon convention of "the icon shown is the action a click performs."
+
+- Purely a CSS toggle: `applyImagesPref()` sets/removes `data-images="off"` on `<html>`; `css/styles.css` collapses `.menu-card-img-wrap` and `.tiffin-visual` entirely (not just the `<img>`) so cards shrink to name/description/price with no leftover blank space.
+- No re-render is involved and `renderMenu()`/`renderTiffin()` are unaware of this feature — it works on whatever's already in the DOM, so it can't drift out of sync with the menu data.
+- This is a **visual-only** toggle: it does not stop already-rendered images from having been fetched, and does not skip the network request for images not yet on screen. It's for a cleaner/denser reading view, not bandwidth savings.
+- Persisted in the `images` cookie (1 year), same pattern as `theme`/`lang`; defaults to on (images shown) if the cookie is absent.
+
 ## Configuration & constants
 
 **Design principle**: every value that JavaScript actually reads or writes at runtime has exactly one source of truth. Values baked into static `<head>` markup (meta tags, JSON-LD, favicon links) are a deliberate, documented exception — see "Why some things are still duplicated" below.
@@ -101,7 +111,7 @@ Every menu-card image and the tiffin image use a **wrapper + sibling fallback** 
 |---|---|---|
 | `WHATSAPP_NUMBER`, `UPI_VPA`, `UPI_PAYEE_NAME`, `DELIVERY_CHARGE`, `WHATSAPP_CONFIGURED`, `ORDER_LABEL` | `js/main.js` (top) | Every WhatsApp/UPI link and the checkout message on the whole page |
 | `THEME_COLOR_LIGHT`, `THEME_COLOR_DARK` | `js/main.js` (top) | `applyTheme()`'s runtime updates to `<meta name="theme-color">` |
-| `THEME_COOKIE`, `LANG_COOKIE` | `js/main.js` (top) | Cookie names for persisted theme/language choice |
+| `THEME_COOKIE`, `LANG_COOKIE`, `IMAGES_COOKIE` | `js/main.js` (top) | Cookie names for persisted theme/language/images-on-off choice |
 | `DEFAULT_LANG`, `SUPPORTED_LANGS` | `js/i18n.js` (top) | Language switcher + fallback logic |
 | All design tokens (colors, fonts, radius, shadow) | `css/styles.css` `:root` (+ dark-mode overrides) | Every component on the page |
 | `IMG.*` shared category photos | `js/menu-data.js` (top) | Menu item `image` fields |

@@ -136,6 +136,8 @@ const UI_TEXT = {
 
   theme_toggle_to_dark: { en: "Switch to dark theme", hi: "डार्क थीम पर जाएं", pa: "ਡਾਰਕ ਥੀਮ 'ਤੇ ਜਾਓ" },
   theme_toggle_to_light: { en: "Switch to light theme", hi: "लाइट थीम पर जाएं", pa: "ਲਾਈਟ ਥੀਮ 'ਤੇ ਜਾਓ" },
+  images_toggle_to_off: { en: "Hide food images", hi: "फ़ूड इमेज छिपाएं", pa: "ਫੂਡ ਤਸਵੀਰਾਂ ਲੁਕਾਓ" },
+  images_toggle_to_on: { en: "Show food images", hi: "फ़ूड इमेज दिखाएं", pa: "ਫੂਡ ਤਸਵੀਰਾਂ ਦਿਖਾਓ" },
   lang_switch_aria: { en: "Language", hi: "भाषा", pa: "ਭਾਸ਼ਾ" }
 };
 

@@ -202,6 +202,35 @@ img { max-width: 100%; display: block; }
   :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
 }
 
+/* Images on/off toggle: same round-button style as the theme toggle. */
+.images-toggle {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+.images-toggle .icon-image-on,
+.images-toggle .icon-image-off { width: 18px; height: 18px; }
+/* Icon shown = the action a click performs (matches the sun/moon convention above):
+   "image-off" (crossed out) shows while images are on, meaning "click to turn them off". */
+.images-toggle .icon-image-on { display: none; }
+.images-toggle .icon-image-off { display: block; }
+:root[data-images="off"] .images-toggle .icon-image-on { display: block; }
+:root[data-images="off"] .images-toggle .icon-image-off { display: none; }
+
+/* Images off: collapse every food photo's slot entirely rather than just hiding the <img>,
+   so the menu reads as a denser, text-only list instead of leaving blank reserved space. */
+:root[data-images="off"] .menu-card-img-wrap,
+:root[data-images="off"] .tiffin-visual { display: none; }
+
 .site-nav {
   position: fixed;
   top: 64px;

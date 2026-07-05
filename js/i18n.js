@@ -1,8 +1,11 @@
 /*
  * Ghaint Food — translations for the light/dark theme + language switcher.
- * UI_TEXT covers static copy (data-i18n / data-i18n-html / data-i18n-aria in index.html).
+ * UI_TEXT covers static copy (data-i18n / data-i18n-html / data-i18n-aria in index.html),
+ * including the Pickup/Delivery checkout UI (order mode, address field, validation errors).
  * MENU_I18N covers menu category/item names, which are keyed by the English
  * strings used in js/menu-data.js so the cart/WhatsApp logic stays language-agnostic.
+ * The WhatsApp checkout message's field labels (Mode/Subtotal/Delivery/Total payable/Address)
+ * are deliberately NOT here — they're a fixed English format contract, kept in js/main.js.
  */
 const DEFAULT_LANG = "en";
 const SUPPORTED_LANGS = ["en", "hi", "pa"];
@@ -81,36 +84,51 @@ const UI_TEXT = {
     hi: "आपका कार्ट खाली है। शुरू करने के लिए मेन्यू से आइटम जोड़ें।",
     pa: "ਤੁਹਾਡਾ ਕਾਰਟ ਖਾਲੀ ਹੈ। ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਮੀਨੂ ਤੋਂ ਆਈਟਮ ਪਾਓ।"
   },
+  cart_subtotal_label: { en: "Items Subtotal", hi: "आइटम सबटोटल", pa: "ਆਈਟਮ ਸਬਟੋਟਲ" },
+  order_mode_aria: { en: "Order mode", hi: "ऑर्डर मोड", pa: "ਆਰਡਰ ਮੋਡ" },
+  order_mode_pickup: { en: "Pickup", hi: "पिकअप", pa: "ਪਿਕਅੱਪ" },
+  order_mode_delivery: { en: "Delivery", hi: "डिलीवरी", pa: "ਡਿਲੀਵਰੀ" },
+  delivery_address_label: { en: "Delivery address", hi: "डिलीवरी पता", pa: "ਡਿਲੀਵਰੀ ਪਤਾ" },
+  delivery_address_aria: { en: "Delivery address", hi: "डिलीवरी पता", pa: "ਡਿਲੀਵਰੀ ਪਤਾ" },
+  cart_delivery_fee_label: { en: "Delivery Fee", hi: "डिलीवरी शुल्क", pa: "ਡਿਲੀਵਰੀ ਫੀਸ" },
   cart_total_label: { en: "Total Payable", hi: "कुल भुगतान", pa: "ਕੁੱਲ ਭੁਗਤਾਨ" },
-  cart_send_whatsapp: { en: "Send Order on WhatsApp", hi: "WhatsApp पर ऑर्डर भेजें", pa: "WhatsApp 'ਤੇ ਆਰਡਰ ਭੇਜੋ" },
+  checkout_error_empty_cart: {
+    en: "Please add at least one item to your cart.",
+    hi: "कृपया अपने कार्ट में कम से कम एक आइटम जोड़ें।",
+    pa: "ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਕਾਰਟ ਵਿੱਚ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਆਈਟਮ ਪਾਓ।"
+  },
+  checkout_error_address_required: {
+    en: "Please enter a delivery address.",
+    hi: "कृपया डिलीवरी पता दर्ज करें।",
+    pa: "ਕਿਰਪਾ ਕਰਕੇ ਡਿਲੀਵਰੀ ਪਤਾ ਦਰਜ ਕਰੋ।"
+  },
+  checkout_error_generic: {
+    en: "Something went wrong. Please try again.",
+    hi: "कुछ गड़बड़ हो गई। कृपया फिर कोशिश करें।",
+    pa: "ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।"
+  },
+  cart_send_whatsapp: { en: "Checkout on WhatsApp", hi: "WhatsApp पर चेकआउट करें", pa: "WhatsApp 'ਤੇ ਚੈੱਕਆਉਟ ਕਰੋ" },
+  cart_whatsapp_not_configured: { en: "Ordering not configured yet", hi: "ऑर्डरिंग अभी सेट नहीं है", pa: "ਆਰਡਰਿੰਗ ਹਾਲੇ ਸੈੱਟ ਨਹੀਂ ਹੈ" },
   cart_pay_upi: { en: "Pay via UPI", hi: "UPI से भुगतान करें", pa: "UPI ਨਾਲ ਭੁਗਤਾਨ ਕਰੋ" },
   cart_pay_upi_amount: { en: "Pay {amount} via UPI", hi: "{amount} UPI से भुगतान करें", pa: "{amount} UPI ਨਾਲ ਭੁਗਤਾਨ ਕਰੋ" },
-  cart_note: {
-    en: 'After sending your order on WhatsApp, tap "Pay via UPI" to complete payment for the exact amount, then send us a screenshot of the payment confirmation in the same chat.',
-    hi: 'WhatsApp पर अपना ऑर्डर भेजने के बाद, सही राशि का भुगतान पूरा करने के लिए "UPI से भुगतान करें" दबाएं, फिर उसी चैट में भुगतान पुष्टि का स्क्रीनशॉट भेजें।',
-    pa: 'WhatsApp \'ਤੇ ਆਪਣਾ ਆਰਡਰ ਭੇਜਣ ਤੋਂ ਬਾਅਦ, ਸਹੀ ਰਕਮ ਦਾ ਭੁਗਤਾਨ ਪੂਰਾ ਕਰਨ ਲਈ "UPI ਨਾਲ ਭੁਗਤਾਨ ਕਰੋ" ਦਬਾਓ, ਫਿਰ ਉਸੇ ਚੈਟ ਵਿੱਚ ਭੁਗਤਾਨ ਪੁਸ਼ਟੀ ਦਾ ਸਕ੍ਰੀਨਸ਼ਾਟ ਭੇਜੋ।'
+  cart_upi_vpa_label: { en: "UPI ID:", hi: "UPI आईडी:", pa: "UPI ਆਈਡੀ:" },
+  cart_upi_copy_label: { en: "Copy", hi: "कॉपी करें", pa: "ਕਾਪੀ ਕਰੋ" },
+  cart_upi_copy_aria: { en: "Copy UPI ID", hi: "UPI आईडी कॉपी करें", pa: "UPI ਆਈਡੀ ਕਾਪੀ ਕਰੋ" },
+  cart_upi_note: {
+    en: "Opens your UPI app pre-filled with the amount — this is not automated payment verification. Please confirm by sending a screenshot on WhatsApp.",
+    hi: "यह आपके UPI ऐप को राशि के साथ पहले से भरा हुआ खोलता है — यह स्वचालित भुगतान सत्यापन नहीं है। कृपया WhatsApp पर स्क्रीनशॉट भेजकर पुष्टि करें।",
+    pa: "ਇਹ ਤੁਹਾਡੀ UPI ਐਪ ਨੂੰ ਰਕਮ ਨਾਲ ਪਹਿਲਾਂ ਤੋਂ ਭਰ ਕੇ ਖੋਲ੍ਹਦਾ ਹੈ — ਇਹ ਆਟੋਮੈਟਿਕ ਭੁਗਤਾਨ ਤਸਦੀਕ ਨਹੀਂ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ WhatsApp 'ਤੇ ਸਕ੍ਰੀਨਸ਼ਾਟ ਭੇਜ ਕੇ ਪੁਸ਼ਟੀ ਕਰੋ।"
   },
 
+  // wa_default_order is the only WhatsApp-message string kept in i18n: it's the generic
+  // greeting used by non-cart "Order on WhatsApp" buttons. The cart checkout message itself
+  // (Mode/Subtotal/Delivery/Total payable/Address labels) is fixed English in js/main.js's
+  // buildCheckoutMessage() — that's an exact format contract, not UI copy, so it does not
+  // change with the visitor's selected language.
   wa_default_order: {
     en: "Hi Ghaint Food! I'd like to place an order.",
     hi: "नमस्ते घैंट फूड! मैं ऑर्डर देना चाहता/चाहती हूं।",
     pa: "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ਘੈਂਟ ਫੂਡ! ਮੈਂ ਆਰਡਰ ਦੇਣਾ ਚਾਹੁੰਦਾ/ਚਾਹੁੰਦੀ ਹਾਂ।"
-  },
-  wa_intro: {
-    en: "Hi Ghaint Food! Here's my order:",
-    hi: "नमस्ते घैंट फूड! यह रहा मेरा ऑर्डर:",
-    pa: "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ਘੈਂਟ ਫੂਡ! ਇਹ ਹੈ ਮੇਰਾ ਆਰਡਰ:"
-  },
-  wa_total_payable: { en: "Total Payable:", hi: "कुल भुगतान:", pa: "ਕੁੱਲ ਭੁਗਤਾਨ:" },
-  wa_pay_via_upi: {
-    en: "I'll pay via UPI:",
-    hi: "मैं UPI से भुगतान करूंगा/करूंगी:",
-    pa: "ਮੈਂ UPI ਨਾਲ ਭੁਗਤਾਨ ਕਰਾਂਗਾ/ਕਰਾਂਗੀ:"
-  },
-  wa_screenshot_next: {
-    en: "Sending the payment confirmation screenshot next.",
-    hi: "अगला संदेश भुगतान पुष्टि का स्क्रीनशॉट होगा।",
-    pa: "ਅਗਲਾ ਸੁਨੇਹਾ ਭੁਗਤਾਨ ਪੁਸ਼ਟੀ ਦਾ ਸਕ੍ਰੀਨਸ਼ਾਟ ਹੋਵੇਗਾ।"
   },
 
   theme_toggle_to_dark: { en: "Switch to dark theme", hi: "डार्क थीम पर जाएं", pa: "ਡਾਰਕ ਥੀਮ 'ਤੇ ਜਾਓ" },
@@ -368,3 +386,7 @@ const MENU_I18N = {
     }
   }
 };
+
+// What this file does: all trilingual UI copy (UI_TEXT) and menu-name translations (MENU_I18N).
+// Security limits: pure data — no execution of user input; missing keys fall back to the English key/text, never break rendering.
+// Before production: fill in real hi/pa translations for any new keys added here, and add a 4th language by extending SUPPORTED_LANGS + both maps.

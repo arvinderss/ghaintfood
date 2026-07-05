@@ -1,21 +1,34 @@
 /*
- * Ghaint Food — site config & interactions.
- * Update WHATSAPP_NUMBER / UPI details below when you have them —
- * every order button and the cart checkout reads from this one place.
+ * Ghaint Food — cart, checkout and interaction logic for the whole page.
+ * Kept as one file (no bundler) so a plain <script> tag is enough on GitHub Pages;
+ * every dynamic value that reaches a URL (wa.me / upi://) is built via URLSearchParams
+ * or encodeURIComponent so WhatsApp/UPI links never break on special characters or emoji.
  */
-const CONFIG = {
-  whatsappNumber: "919914829511", // country code + number, digits only
-  upiId: "kaurrajinder2618-1@okicici", // UPI VPA that receives payment
-  upiPayeeName: "Ghaint Food"
-};
 
-const CART_STORAGE_KEY = "ghaintfood-cart";
+// WHATSAPP_NUMBER: country code + digits only, no plus/spaces — every order button reads this.
+const WHATSAPP_NUMBER = "919914829511";
+// UPI_VPA: the virtual payment address that receives payment via the "Pay via UPI" deep link.
+const UPI_VPA = "kaurrajinder2618-1@okicici";
+// UPI_PAYEE_NAME: shown inside the customer's UPI app; its own constant so the UPI link and
+// the message body can never drift out of sync if this is ever renamed.
+const UPI_PAYEE_NAME = "Ghaint Food";
+// DELIVERY_CHARGE: flat fee for Delivery mode. Flat because distance-based tiers need a
+// backend to calculate driving distance — impossible on a static GitHub Pages host.
+const DELIVERY_CHARGE = 30;
+// Defensive: if a future edit blanks WHATSAPP_NUMBER, disable the WhatsApp button instead of
+// shipping a broken wa.me link.
+const WHATSAPP_CONFIGURED = Boolean(WHATSAPP_NUMBER && WHATSAPP_NUMBER.trim());
+
 const THEME_COOKIE = "theme";
 const LANG_COOKIE = "lang";
 
-let cart = loadCart();
+// Cart is in-memory only — GitHub Pages has no backend to persist it, and localStorage was
+// deliberately dropped so nothing survives a reload. Same for order mode and address.
+let cart = {};
 let currentLang = DEFAULT_LANG;
 let categoryObserver = null;
+let orderMode = "Pickup"; // "Pickup" | "Delivery"
+let deliveryAddress = ""; // only meaningful when orderMode === "Delivery"
 
 /* ---------- cookies ---------- */
 
@@ -162,7 +175,7 @@ function rerenderLocalizedContent() {
 /* ---------- helpers ---------- */
 
 function waLink(message) {
-  return `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
 function rupee(n) {
@@ -171,30 +184,13 @@ function rupee(n) {
 
 function upiLink(amount, note) {
   const params = new URLSearchParams({
-    pa: CONFIG.upiId,
-    pn: CONFIG.upiPayeeName,
+    pa: UPI_VPA,
+    pn: UPI_PAYEE_NAME,
     am: amount.toFixed(2),
     cu: "INR",
     tn: note
   });
   return `upi://pay?${params.toString()}`;
-}
-
-function loadCart() {
-  try {
-    const raw = localStorage.getItem(CART_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : {};
-  } catch {
-    return {};
-  }
-}
-
-function saveCart() {
-  try {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-  } catch {
-    /* storage unavailable — cart still works for this page view */
-  }
 }
 
 /* ---------- rendering ---------- */
@@ -240,7 +236,10 @@ function renderMenu() {
       const card = document.createElement("div");
       card.className = "menu-card";
       card.innerHTML = `
-        <img class="menu-card-img" src="${item.image}" alt="${displayName}" loading="lazy">
+        <div class="menu-card-img-wrap">
+          <img class="menu-card-img" src="${item.image}" alt="${displayName}" loading="lazy">
+          <div class="menu-card-img-fallback" hidden>${displayName}</div>
+        </div>
         <div class="menu-card-body">
           <div class="menu-card-name">${displayName}</div>
           ${item.description ? `<div class="menu-card-description">${translateDescription(item)}</div>` : ""}
@@ -255,6 +254,14 @@ function renderMenu() {
           </div>
         </div>
       `;
+      // Each card's <img> is a fresh node, so binding here (rather than in a "wire" pass)
+      // never stacks duplicate listeners across re-renders (e.g. on a language switch).
+      const img = card.querySelector(".menu-card-img");
+      const fallback = card.querySelector(".menu-card-img-fallback");
+      img.addEventListener("error", () => {
+        img.hidden = true;
+        fallback.hidden = false;
+      });
       grid.appendChild(card);
     });
     section.appendChild(grid);
@@ -271,6 +278,7 @@ function renderTiffin() {
   const price = document.getElementById("tiffinPrice");
   const avail = document.getElementById("tiffinAvailability");
   const image = document.getElementById("tiffinImage");
+  const imageFallback = document.getElementById("tiffinImageFallback");
   if (!list || !price || !avail) return;
   list.innerHTML = "";
 
@@ -281,9 +289,21 @@ function renderTiffin() {
   });
   price.textContent = rupee(TIFFIN.price);
   avail.textContent = translateAvailability(TIFFIN.availability);
+
   if (image) {
-    image.src = TIFFIN.image;
+    image.hidden = false;
     image.alt = t("tiffin_alt");
+    if (imageFallback) {
+      imageFallback.hidden = true;
+      // #tiffinImage is a static element re-used across renders (unlike menu cards), so this
+      // is assigned as a property (not addEventListener) to avoid piling up duplicate handlers.
+      image.onerror = () => {
+        image.hidden = true;
+        imageFallback.textContent = t("tiffin_title");
+        imageFallback.hidden = false;
+      };
+    }
+    image.src = TIFFIN.image;
   }
 }
 
@@ -316,6 +336,47 @@ function cartTotal() {
   return Object.values(cart).reduce((sum, line) => sum + line.qty * line.price, 0);
 }
 
+// Fees are always itemized separately here — grandTotal must never silently absorb the
+// delivery fee without itemsSubtotal/deliveryFee also being shown to the customer.
+function computeTotals() {
+  const itemsSubtotal = cartTotal();
+  const deliveryFee = orderMode === "Delivery" ? DELIVERY_CHARGE : 0;
+  const grandTotal = itemsSubtotal + deliveryFee;
+  return { itemsSubtotal, deliveryFee, grandTotal };
+}
+
+function setOrderMode(mode) {
+  orderMode = mode === "Delivery" ? "Delivery" : "Pickup";
+  clearCheckoutError();
+  renderCartDrawer();
+}
+
+// Validates at the checkout entry point (not earlier) so browsing/adding to cart is always
+// frictionless; only the act of checking out enforces cart/address requirements.
+function validateCheckout() {
+  if (Object.keys(cart).length === 0) {
+    return { ok: false, message: t("checkout_error_empty_cart") };
+  }
+  if (orderMode === "Delivery" && deliveryAddress.trim() === "") {
+    return { ok: false, message: t("checkout_error_address_required") };
+  }
+  return { ok: true };
+}
+
+function showCheckoutError(message) {
+  const el = document.getElementById("cartCheckoutError");
+  if (!el) return;
+  el.textContent = message;
+  el.hidden = false;
+}
+
+function clearCheckoutError() {
+  const el = document.getElementById("cartCheckoutError");
+  if (!el) return;
+  el.textContent = "";
+  el.hidden = true;
+}
+
 function updateCartControlsUI() {
   document.querySelectorAll(".cart-controls").forEach((el) => {
     const id = el.dataset.id;
@@ -346,9 +407,14 @@ function updateCartFab() {
 function renderCartDrawer() {
   const itemsWrap = document.getElementById("cartItems");
   const emptyMsg = document.getElementById("cartEmpty");
+  const subtotalEl = document.getElementById("cartSubtotal");
+  const deliveryFeeRow = document.getElementById("cartDeliveryFeeRow");
+  const deliveryFeeEl = document.getElementById("cartDeliveryFee");
+  const addressField = document.getElementById("deliveryAddressField");
   const totalEl = document.getElementById("cartTotal");
   const whatsappBtn = document.getElementById("cartWhatsappBtn");
   const upiBtn = document.getElementById("cartUpiBtn");
+  const upiVpaText = document.getElementById("cartUpiVpaText");
   if (!itemsWrap || !totalEl) return;
 
   itemsWrap.querySelectorAll(".cart-row").forEach((row) => row.remove());
@@ -378,39 +444,59 @@ function renderCartDrawer() {
     itemsWrap.appendChild(row);
   });
 
-  const total = cartTotal();
-  totalEl.textContent = rupee(total);
+  const { itemsSubtotal, deliveryFee, grandTotal } = computeTotals();
+  if (subtotalEl) subtotalEl.textContent = rupee(itemsSubtotal);
+  if (deliveryFeeRow) deliveryFeeRow.hidden = orderMode !== "Delivery";
+  if (deliveryFeeEl) deliveryFeeEl.textContent = rupee(deliveryFee);
+  if (addressField) addressField.hidden = orderMode !== "Delivery";
+  totalEl.textContent = rupee(grandTotal);
+  if (upiVpaText) upiVpaText.textContent = UPI_VPA;
 
-  if (whatsappBtn) whatsappBtn.href = waLink(buildOrderMessage());
+  if (whatsappBtn) {
+    if (WHATSAPP_CONFIGURED) {
+      whatsappBtn.href = waLink(buildCheckoutMessage());
+      whatsappBtn.textContent = t("cart_send_whatsapp");
+      whatsappBtn.classList.remove("is-disabled");
+    } else {
+      whatsappBtn.href = "#";
+      whatsappBtn.textContent = t("cart_whatsapp_not_configured");
+      whatsappBtn.classList.add("is-disabled");
+    }
+  }
   if (upiBtn) {
-    upiBtn.textContent = t("cart_pay_upi_amount").replace("{amount}", rupee(total));
-    upiBtn.href = total > 0 ? upiLink(total, `Ghaint Food order - ${rupee(total)}`) : "#";
-    upiBtn.classList.toggle("is-disabled", total === 0);
+    upiBtn.textContent = t("cart_pay_upi_amount").replace("{amount}", rupee(grandTotal));
+    upiBtn.href = grandTotal > 0 ? upiLink(grandTotal, `Ghaint Food order - ${rupee(grandTotal)}`) : "#";
+    upiBtn.classList.toggle("is-disabled", grandTotal === 0);
   }
 }
 
-function buildOrderMessage() {
+// Builds the WhatsApp checkout message. Field labels (Mode/Subtotal/Delivery/Total payable/
+// Address/the closing line) are fixed English literals by design — this is an exact format
+// contract, not translatable UI copy. No upi:// link is included here; UPI is its own button.
+function buildCheckoutMessage() {
   const ids = Object.keys(cart);
-  const total = cartTotal();
   if (ids.length === 0) {
     return t("wa_default_order");
   }
-  const lines = ids.map((id, i) => {
+
+  const { itemsSubtotal, deliveryFee, grandTotal } = computeTotals();
+  const itemLines = ids.map((id) => {
     const line = cart[id];
     const name = cartLineDisplayName(id, line.name);
-    return `${i + 1}. ${name} x${line.qty} — ${rupee(line.qty * line.price)}`;
+    return `${line.qty} × ${name} — ${rupee(line.qty * line.price)}`;
   });
-  const upi = upiLink(total, `Ghaint Food order - ${rupee(total)}`);
-  return [
-    t("wa_intro"),
-    "",
-    ...lines,
-    "",
-    `${t("wa_total_payable")} ${rupee(total)}`,
-    "",
-    `${t("wa_pay_via_upi")} ${upi}`,
-    t("wa_screenshot_next")
-  ].join("\n");
+
+  const messageLines = ["Ghaint Food order", `Mode: ${orderMode}`, ...itemLines, `Subtotal: ${rupee(itemsSubtotal)}`];
+  if (orderMode === "Delivery") {
+    messageLines.push(`Delivery: ${rupee(deliveryFee)}`);
+  }
+  messageLines.push(`Total payable: ${rupee(grandTotal)}`);
+  if (orderMode === "Delivery") {
+    messageLines.push(`Address: ${deliveryAddress.trim()}`);
+  }
+  messageLines.push("Please send your UPI payment screenshot as the next message.");
+
+  return messageLines.join("\n");
 }
 
 function addToCart(id) {
@@ -436,7 +522,6 @@ function removeFromCart(id) {
 }
 
 function onCartChange() {
-  saveCart();
   updateCartControlsUI();
   updateCartFab();
   renderCartDrawer();
@@ -458,6 +543,29 @@ function closeCart() {
   overlay.hidden = true;
   drawer.classList.remove("is-open");
   drawer.setAttribute("aria-hidden", "true");
+}
+
+// Gate for both checkout buttons: validates first (cart non-empty, address if Delivery),
+// shows a short inline message on failure, and never lets an unexpected error surface as a
+// broken link or a raw stack trace to the customer.
+function handleCheckoutClick(e, kind) {
+  try {
+    const result = validateCheckout();
+    if (!result.ok) {
+      e.preventDefault();
+      showCheckoutError(result.message);
+      return;
+    }
+    if (kind === "whatsapp" && !WHATSAPP_CONFIGURED) {
+      e.preventDefault();
+      return;
+    }
+    clearCheckoutError();
+  } catch (err) {
+    console.error("Checkout failed:", err);
+    e.preventDefault();
+    showCheckoutError(t("checkout_error_generic"));
+  }
 }
 
 function wireCart() {
@@ -487,9 +595,29 @@ function wireCart() {
     if (e.key === "Escape") closeCart();
   });
 
-  document.getElementById("cartUpiBtn")?.addEventListener("click", (e) => {
-    if (e.currentTarget.classList.contains("is-disabled")) e.preventDefault();
+  document.getElementById("orderModeToggle")?.addEventListener("change", (e) => {
+    const radio = e.target.closest('input[name="orderMode"]');
+    if (radio) setOrderMode(radio.value);
   });
+
+  document.getElementById("deliveryAddress")?.addEventListener("input", (e) => {
+    deliveryAddress = e.target.value;
+    // Re-render so the WhatsApp checkout link always reflects the latest address text.
+    // renderCartDrawer() never touches the textarea node itself, so typing/focus/cursor
+    // position are unaffected — only the (separate) cart summary and button hrefs update.
+    renderCartDrawer();
+  });
+
+  document.getElementById("cartUpiVpaCopy")?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(UPI_VPA);
+    } catch (err) {
+      console.error("Copying UPI ID failed:", err);
+    }
+  });
+
+  document.getElementById("cartWhatsappBtn")?.addEventListener("click", (e) => handleCheckoutClick(e, "whatsapp"));
+  document.getElementById("cartUpiBtn")?.addEventListener("click", (e) => handleCheckoutClick(e, "upi"));
 
   updateCartControlsUI();
   updateCartFab();
@@ -497,12 +625,21 @@ function wireCart() {
 }
 
 function wireOrderButtons() {
+  // These generic "Order on WhatsApp" buttons (hero/order-banner/footer/fab) have varying
+  // internal markup (icon + span, icon-only, plain text) — only toggle href/class here,
+  // never textContent/innerHTML, so a missing WHATSAPP_NUMBER can't wipe out an icon.
   document.querySelectorAll("[data-order]").forEach((el) => {
     const kind = el.dataset.order;
     if (kind === "whatsapp") {
-      el.href = waLink(t("wa_default_order"));
-      el.target = "_blank";
-      el.rel = "noopener";
+      if (WHATSAPP_CONFIGURED) {
+        el.href = waLink(t("wa_default_order"));
+        el.target = "_blank";
+        el.rel = "noopener";
+        el.classList.remove("is-disabled");
+      } else {
+        el.href = "#";
+        el.classList.add("is-disabled");
+      }
     }
   });
 }
@@ -580,16 +717,9 @@ function setFooterYear() {
   if (el) el.textContent = new Date().getFullYear();
 }
 
-function sanitizeCart() {
-  Object.keys(cart).forEach((id) => {
-    if (!findCartItem(id)) delete cart[id];
-  });
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   initLang();
   initTheme();
-  sanitizeCart();
   applyStaticTranslations();
   renderMenu();
   renderTiffin();
@@ -603,3 +733,7 @@ document.addEventListener("DOMContentLoaded", () => {
   wireLangSwitch();
   setFooterYear();
 });
+
+// What this file does: renders the menu/tiffin/cart from data + i18n, and builds the WhatsApp/UPI checkout links.
+// Security limits: client-side only — no backend validation, no payment verification; cart, order mode and address are in-memory and lost on reload.
+// Before production: set real WHATSAPP_NUMBER / UPI_VPA / UPI_PAYEE_NAME / DELIVERY_CHARGE above, confirm the WhatsApp number is verified, and test the UPI deep link with a real UPI app.

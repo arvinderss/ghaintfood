@@ -320,3 +320,7 @@ const TIFFIN = {
     "Tawa Chapati"
   ]
 };
+
+// What this file does: menu items, categories and the tiffin thali — the only place prices/images live.
+// Security limits: static data only, no user input; image URLs are trusted third-party links (see js/main.js's onerror fallback).
+// Before production: replace placeholder image URLs with real photos and confirm every price.

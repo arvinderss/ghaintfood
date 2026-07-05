@@ -23,15 +23,14 @@ ghaintfood/
 ## Before you go live
 
 1. **Add the logo.** Save your logo image as `assets/logo.png` (square image, at least 200×200px works best). Until it's there, the site shows a fallback teal/orange "G" monogram automatically — nothing breaks.
-2. **Confirm your WhatsApp number and UPI ID.** Open [js/main.js](js/main.js) and check:
+2. **Confirm your WhatsApp number and UPI ID.** Open [js/main.js](js/main.js) and check the constants at the top:
    ```js
-   const CONFIG = {
-     whatsappNumber: "919914829511",
-     upiId: "kaurrajinder2618-1@okicici", // UPI VPA that receives payment
-     upiPayeeName: "Ghaint Food"
-   };
+   const WHATSAPP_NUMBER = "919914829511";
+   const UPI_VPA = "kaurrajinder2618-1@okicici";
+   const UPI_PAYEE_NAME = "Ghaint Food";
+   const DELIVERY_CHARGE = 30; // flat fee for Delivery mode
    ```
-   The cart's "Pay via UPI" button and the WhatsApp order message are both built from this UPI ID and amount, so keep it accurate.
+   The cart's "Pay via UPI" button and the WhatsApp checkout message are both built from these, so keep them accurate. If `WHATSAPP_NUMBER` is ever left blank, the checkout button automatically shows "Ordering not configured yet" instead of a broken link.
 3. **Update the address & hours** in the footer of [index.html](index.html) (search for `TODO`).
 4. **Edit the menu.** All items, categories, prices and images live in [js/menu-data.js](js/menu-data.js) — the page renders itself from that file, so you never need to touch the HTML to update prices.
 5. **Swap the placeholder images.** Every item currently uses a generic stock photo (Wikimedia Commons, shared per category) so the menu doesn't look empty. Replace the `IMG.*` URLs at the top of [js/menu-data.js](js/menu-data.js) with your own photos (or per-item `image` URLs) whenever you're ready — nothing else needs to change.
@@ -39,11 +38,12 @@ ghaintfood/
 ### How ordering works
 
 - Customers add items to a cart from the menu (quantity stepper on each card), then open the cart via the floating cart button.
-- The cart drawer shows an itemized invoice with a running total.
-- **Send Order on WhatsApp** opens WhatsApp with the itemized order and total pre-filled.
-- **Pay via UPI** opens a `upi://pay` deep link pre-filled with your UPI ID and the exact total, acting as a payment request. On a phone this launches the customer's UPI app directly; it only works from the same device that's completing the order (there's no way to make an arbitrary payment link work from a desktop browser without a payment gateway).
-- The customer is asked to send a payment confirmation screenshot in the same WhatsApp chat as the next message — there's no automatic payment verification since this is a static site with no backend.
-- The cart persists in the browser's `localStorage` so it survives a page refresh, but it is entirely client-side (no order history, no admin view).
+- The cart drawer shows an itemized invoice: items subtotal, a Pickup/Delivery toggle, a delivery fee row (only shown for Delivery), and the grand total payable — fees are always itemized, never merged silently into the total.
+- Choosing **Delivery** reveals a required address field. Clicking either checkout button first validates the cart (non-empty) and, for Delivery, the address (non-blank); on failure a short inline message appears next to the buttons and nothing is sent.
+- **Checkout on WhatsApp** opens WhatsApp with an itemized message (mode, line items, subtotal, delivery fee if applicable, total payable, address if applicable, and a reminder to send a payment screenshot next).
+- **Pay via UPI** opens a `upi://pay` deep link pre-filled with your UPI ID and the exact grand total, acting as a payment request. It only works from the same device that's completing the order — desktop browsers can't launch a UPI app, so the UPI ID is also shown as copyable plain text beside the button for that case.
+- There's no automatic payment verification since this is a static site with no backend — the customer is asked to send a payment confirmation screenshot in the same WhatsApp chat as the next message.
+- **The cart is in-memory only.** There is deliberately no `localStorage`/persistence — GitHub Pages can't hold server-side state, and the cart, order mode and address are all reset by a page reload.
 
 ### Theme (light/dark) and language (English/Hindi/Punjabi)
 
@@ -112,6 +112,6 @@ To fix it:
 ## Editing content later
 
 - **Menu/prices/images** → [js/menu-data.js](js/menu-data.js)
-- **WhatsApp number, UPI ID** → [js/main.js](js/main.js) (`CONFIG` object at the top)
-- **Copy (hero, about, tiffin description)** → [index.html](index.html) (English source text) + [js/i18n.js](js/i18n.js) (all three languages)
+- **WhatsApp number, UPI ID, delivery fee** → [js/main.js](js/main.js) (constants at the top: `WHATSAPP_NUMBER`, `UPI_VPA`, `UPI_PAYEE_NAME`, `DELIVERY_CHARGE`)
+- **Copy (hero, about, tiffin description, checkout UI)** → [index.html](index.html) (English source text) + [js/i18n.js](js/i18n.js) (all three languages). The WhatsApp checkout message's field labels ("Mode:", "Subtotal:", "Delivery:", "Total payable:", "Address:") are a fixed English format and live directly in `buildCheckoutMessage()` in [js/main.js](js/main.js) rather than in `js/i18n.js`.
 - **Colors/fonts/spacing** → [css/styles.css](css/styles.css) (`:root` CSS variables control the whole palette; dark-theme overrides sit right below in the `prefers-color-scheme`/`[data-theme="dark"]` blocks)

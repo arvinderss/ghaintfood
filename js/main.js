@@ -246,6 +246,9 @@ function upiLink(amount, note) {
 
 /* ---------- rendering ---------- */
 
+// item.status: undefined/"available" (default) | "sold-out" (shown, not orderable) |
+// "unavailable" (omitted entirely, as if not in the menu file). Set this per item in
+// js/menu-data.js — there is no on-site control for it, by design (see README).
 function renderMenu() {
   const wrap = document.getElementById("menuCategories");
   const chips = document.getElementById("categoryChips");
@@ -253,7 +256,13 @@ function renderMenu() {
   wrap.innerHTML = "";
   chips.innerHTML = "";
 
-  MENU.forEach((group, i) => {
+  // "unavailable" items are dropped before rendering; a category left with zero items after
+  // that filter is skipped too, so an empty heading/chip never appears.
+  const visibleGroups = MENU
+    .map((group) => ({ ...group, items: group.items.filter((item) => item.status !== "unavailable") }))
+    .filter((group) => group.items.length > 0);
+
+  visibleGroups.forEach((group, i) => {
     const slug = slugify(group.category);
 
     // chip
@@ -284,8 +293,9 @@ function renderMenu() {
     group.items.forEach((item) => {
       const id = `${slug}-${slugify(item.name)}`;
       const displayName = translateItem(item.name);
+      const soldOut = item.status === "sold-out";
       const card = document.createElement("div");
-      card.className = "menu-card";
+      card.className = soldOut ? "menu-card is-sold-out" : "menu-card";
       card.innerHTML = `
         <div class="menu-card-img-wrap">
           <img class="menu-card-img" src="${item.image}" alt="${displayName}" loading="lazy">
@@ -295,6 +305,9 @@ function renderMenu() {
           <div class="menu-card-name">${displayName}</div>
           ${item.description ? `<div class="menu-card-description">${translateDescription(item)}</div>` : ""}
           <div class="menu-card-price">${rupee(item.price)} <small>${t("label_takeaway")}</small></div>
+          ${soldOut ? `
+          <div class="sold-out-badge">${t("label_sold_out")}</div>
+          ` : `
           <div class="cart-controls" data-id="${id}">
             <button class="cart-add-btn" data-id="${id}">${t("label_add")}</button>
             <div class="cart-stepper" hidden>
@@ -303,6 +316,7 @@ function renderMenu() {
               <button class="stepper-btn" data-action="inc" data-id="${id}" aria-label="${t("aria_increase")}">+</button>
             </div>
           </div>
+          `}
         </div>
       `;
       // Each card's <img> is a fresh node, so binding here (rather than in a "wire" pass)
@@ -318,19 +332,32 @@ function renderMenu() {
     section.appendChild(grid);
 
     wrap.appendChild(section);
-    if (i < MENU.length - 1) {
+    if (i < visibleGroups.length - 1) {
       wrap.appendChild(document.createElement("hr")).className = "menu-divider";
     }
   });
 }
 
+// TIFFIN.status follows the same convention as menu items (see renderMenu): undefined/
+// "available" | "sold-out" (section stays visible, ordering disabled) | "unavailable"
+// (whole tiffin section hidden).
 function renderTiffin() {
+  const section = document.getElementById("tiffin");
   const list = document.getElementById("tiffinList");
   const price = document.getElementById("tiffinPrice");
   const avail = document.getElementById("tiffinAvailability");
   const image = document.getElementById("tiffinImage");
   const imageFallback = document.getElementById("tiffinImageFallback");
+  const cartControls = document.querySelector('.tiffin-copy .cart-controls');
+  const soldOutBadge = document.getElementById("tiffinSoldOutBadge");
   if (!list || !price || !avail) return;
+
+  if (TIFFIN.status === "unavailable") {
+    if (section) section.hidden = true;
+    return;
+  }
+  if (section) section.hidden = false;
+
   list.innerHTML = "";
 
   TIFFIN.items.forEach((item) => {
@@ -340,6 +367,13 @@ function renderTiffin() {
   });
   price.textContent = rupee(TIFFIN.price);
   avail.textContent = translateAvailability(TIFFIN.availability);
+
+  const soldOut = TIFFIN.status === "sold-out";
+  if (cartControls) cartControls.hidden = soldOut;
+  if (soldOutBadge) {
+    soldOutBadge.hidden = !soldOut;
+    soldOutBadge.textContent = soldOut ? t("label_sold_out") : "";
+  }
 
   if (image) {
     image.hidden = false;

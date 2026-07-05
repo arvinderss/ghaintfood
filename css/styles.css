@@ -346,6 +346,27 @@ img { max-width: 100%; display: block; }
 .menu-card-price { color: var(--chili-dark); font-weight: 700; }
 .menu-card-price small { display: block; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .03em; opacity: .75; color: var(--ink-soft); }
 
+/* Sold out: dim the whole card so it reads as unavailable without hiding it (still shown for
+   menu completeness/trust) — used on both menu cards and the tiffin section. */
+.menu-card.is-sold-out .menu-card-img,
+.menu-card.is-sold-out .menu-card-img-fallback { filter: grayscale(60%); opacity: .55; }
+.menu-card.is-sold-out .menu-card-name,
+.menu-card.is-sold-out .menu-card-description,
+.menu-card.is-sold-out .menu-card-price { opacity: .6; }
+.sold-out-badge {
+  align-self: flex-start;
+  background: var(--ink-soft);
+  color: var(--surface);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  padding: 8px 16px;
+}
+.sold-out-badge[hidden] { display: none; }
+
 /* Cart add / stepper controls (used on menu cards, tiffin, and the cart drawer) */
 .cart-add-btn {
   border: 2px solid var(--teal);

@@ -39,6 +39,7 @@ const UI_TEXT = {
   },
   label_takeaway: { en: "takeaway", hi: "टेकअवे", pa: "ਟੇਕਅਵੇ" },
   label_add: { en: "Add +", hi: "जोड़ें +", pa: "ਪਾਓ +" },
+  label_sold_out: { en: "Sold Out", hi: "स्टॉक खत्म", pa: "ਸਟਾਕ ਖਤਮ" },
   label_add_tiffin: { en: "Add to Cart +", hi: "कार्ट में जोड़ें +", pa: "ਕਾਰਟ ਵਿੱਚ ਪਾਓ +" },
   aria_decrease: { en: "Decrease quantity", hi: "मात्रा घटाएं", pa: "ਮਾਤਰਾ ਘਟਾਓ" },
   aria_increase: { en: "Increase quantity", hi: "मात्रा बढ़ाएं", pa: "ਮਾਤਰਾ ਵਧਾਓ" },

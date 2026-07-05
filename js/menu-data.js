@@ -2,7 +2,14 @@
  * Menu data for Ghaint Food.
  * "price" = takeaway / direct order price (the only price shown on the site).
  * "image" = a generic stock photo (Wikimedia Commons) shown until real photos are added — swap the URL per item whenever you like.
- * Edit this file whenever the menu, prices or images change — nothing else needs to change.
+ * "status" (optional, on items and on TIFFIN) = listing management, with no on-site control:
+ *   - omitted or "available" (default): shown normally.
+ *   - "sold-out": stays visible, dimmed, with a "Sold Out" badge instead of Add-to-cart —
+ *     use when stock has run out but the item is still part of the regular menu.
+ *   - "unavailable": dropped entirely before rendering, as if not in this file at all — use
+ *     for items never actually offered or permanently discontinued. If this empties a whole
+ *     category, that category (and its chip) also disappears.
+ * Edit this file whenever the menu, prices, images or availability change — nothing else needs to change.
  */
 const IMG = {
   burger: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Cheeseburger.jpg/500px-Cheeseburger.jpg",

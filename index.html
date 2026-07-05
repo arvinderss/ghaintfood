@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!--
+  Ghaint Food — single static page (no framework/build step) so it can be served
+  as-is by GitHub Pages. All menu/cart/i18n behavior is injected by the three
+  scripts loaded at the bottom; this file only holds markup, ids and data-i18n hooks.
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -130,6 +135,7 @@
       </div>
       <div class="tiffin-visual">
         <img src="" alt="Home-style tiffin thali" id="tiffinImage">
+        <div class="tiffin-image-fallback" id="tiffinImageFallback" hidden></div>
       </div>
     </div>
   </section>
@@ -194,15 +200,43 @@
     <p class="cart-empty" id="cartEmpty" data-i18n="cart_empty">Your cart is empty. Add items from the menu to get started.</p>
   </div>
   <div class="cart-drawer-footer">
+    <div class="cart-summary-row"><span data-i18n="cart_subtotal_label">Items Subtotal</span><strong id="cartSubtotal">₹0</strong></div>
+
+    <div class="order-mode-toggle" id="orderModeToggle" role="radiogroup" data-i18n-aria="order_mode_aria" aria-label="Order mode">
+      <input type="radio" id="orderModePickup" name="orderMode" value="Pickup" checked>
+      <label for="orderModePickup" class="order-mode-btn" data-i18n="order_mode_pickup">Pickup</label>
+      <input type="radio" id="orderModeDelivery" name="orderMode" value="Delivery">
+      <label for="orderModeDelivery" class="order-mode-btn" data-i18n="order_mode_delivery">Delivery</label>
+    </div>
+
+    <div class="delivery-address-field" id="deliveryAddressField" hidden>
+      <label for="deliveryAddress" data-i18n="delivery_address_label">Delivery address</label>
+      <textarea id="deliveryAddress" class="delivery-address-input" rows="2" data-i18n-aria="delivery_address_aria" aria-label="Delivery address"></textarea>
+    </div>
+
+    <div class="cart-summary-row" id="cartDeliveryFeeRow" hidden><span data-i18n="cart_delivery_fee_label">Delivery Fee</span><strong id="cartDeliveryFee">₹0</strong></div>
+
     <div class="cart-total-row"><span data-i18n="cart_total_label">Total Payable</span><strong id="cartTotal">₹0</strong></div>
-    <a class="btn btn-whatsapp btn-lg" id="cartWhatsappBtn" href="#" target="_blank" rel="noopener" data-i18n="cart_send_whatsapp">Send Order on WhatsApp</a>
-    <a class="btn btn-upi btn-lg" id="cartUpiBtn" href="#">Pay via UPI</a>
-    <p class="cart-note" data-i18n="cart_note">After sending your order on WhatsApp, tap "Pay via UPI" to complete payment for the exact amount, then send us a screenshot of the payment confirmation in the same chat.</p>
+
+    <p class="checkout-error" id="cartCheckoutError" role="alert" hidden></p>
+
+    <a class="btn btn-whatsapp btn-lg" id="cartWhatsappBtn" href="#" target="_blank" rel="noopener" data-i18n="cart_send_whatsapp">Checkout on WhatsApp</a>
+    <a class="btn btn-upi btn-lg" id="cartUpiBtn" href="#" data-i18n="cart_pay_upi">Pay via UPI</a>
+
+    <div class="upi-vpa-row">
+      <span data-i18n="cart_upi_vpa_label">UPI ID:</span>
+      <code class="upi-vpa-value" id="cartUpiVpaText"></code>
+      <button type="button" class="upi-vpa-copy" id="cartUpiVpaCopy" data-i18n="cart_upi_copy_label" data-i18n-aria="cart_upi_copy_aria" aria-label="Copy UPI ID">Copy</button>
+    </div>
+    <p class="cart-note" id="cartUpiNote" data-i18n="cart_upi_note">Opens your UPI app pre-filled with the amount — this is not automated payment verification. Please confirm by sending a screenshot on WhatsApp.</p>
   </div>
 </aside>
 
 <script src="js/i18n.js"></script>
 <script src="js/menu-data.js"></script>
 <script src="js/main.js"></script>
+<!-- What this file does: page markup/structure — header, menu, tiffin, cart drawer and JSON-LD, driven by js/*.js. -->
+<!-- Security limits: no backend; JSON-LD/contact details are informational only and not verified server-side; cart UI has no auth. -->
+<!-- Before production: update the JSON-LD telephone, footer address/hours (see TODOs), and confirm WHATSAPP_NUMBER in js/main.js matches. -->
 </body>
 </html>

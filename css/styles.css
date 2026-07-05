@@ -1,3 +1,8 @@
+/*
+ * Ghaint Food — all styling for the single-page site (mobile-first, two breakpoints).
+ * Component classes are grouped in the order they appear on the page; theme colors
+ * live only in :root custom properties so light/dark and future rebrands touch one place.
+ */
 :root {
   --bg: #FFF8EF;
   --bg-alt: #FCEEDA;
@@ -304,6 +309,8 @@ img { max-width: 100%; display: block; }
   box-shadow: var(--card-shadow);
 }
 .menu-card-img { width: 100%; height: 140px; object-fit: cover; background: var(--bg-alt); }
+.menu-card-img-fallback { height: 140px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; background: var(--bg-alt); color: var(--ink-soft); font-weight: 600; font-size: 13px; }
+.menu-card-img-fallback[hidden] { display: none; }
 .menu-card-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
 .menu-card-name { font-weight: 600; }
 .menu-card-description { color: var(--ink-soft); font-size: 14px; line-height: 1.5; margin-top: 4px; }
@@ -362,6 +369,8 @@ img { max-width: 100%; display: block; }
 
 .tiffin-visual { width: 220px; height: 220px; flex-shrink: 0; border-radius: 50%; overflow: hidden; box-shadow: var(--shadow); }
 .tiffin-visual img { width: 100%; height: 100%; object-fit: cover; }
+.tiffin-image-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; padding: 16px; background: var(--bg-alt); color: var(--ink-soft); font-weight: 700; }
+.tiffin-image-fallback[hidden] { display: none; }
 
 /* About */
 .about-section { padding: 48px 0; }
@@ -507,6 +516,28 @@ img { max-width: 100%; display: block; }
 .cart-drawer-footer .btn { width: 100%; }
 .cart-note { font-size: 12px; margin: 0; color: var(--ink-soft); }
 
+/* Checkout: items subtotal / delivery fee rows, Pickup/Delivery toggle, address, inline error, UPI VPA */
+.cart-summary-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; color: var(--ink-soft); padding: 4px 0; }
+
+.order-mode-toggle { display: flex; gap: 2px; background: var(--bg-alt); border-radius: 999px; padding: 3px; }
+.order-mode-toggle input[type="radio"] { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.order-mode-btn { flex: 1; text-align: center; padding: 8px 14px; border-radius: 999px; font-weight: 700; font-family: var(--font-display); font-size: 14px; color: var(--ink-soft); cursor: pointer; }
+.order-mode-toggle input:checked + .order-mode-btn { background: var(--teal); color: #fff; }
+
+.delivery-address-field { display: flex; flex-direction: column; gap: 6px; }
+.delivery-address-field[hidden] { display: none; }
+.delivery-address-field label { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.delivery-address-input { width: 100%; resize: vertical; min-height: 56px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); color: var(--ink); font-family: var(--font-body); font-size: 14px; }
+.delivery-address-input:focus { outline: 2px solid var(--teal); outline-offset: 1px; }
+
+.checkout-error { font-size: 13px; font-weight: 600; color: var(--chili-dark); margin: 0; }
+.checkout-error[hidden] { display: none; }
+
+.upi-vpa-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--ink-soft); }
+.upi-vpa-value { font-family: monospace; background: var(--bg-alt); padding: 2px 8px; border-radius: 6px; color: var(--ink); user-select: all; }
+.upi-vpa-copy { border: 1px solid var(--border); background: var(--surface); color: var(--teal); font-weight: 700; font-size: 12px; padding: 4px 10px; border-radius: 999px; cursor: pointer; }
+.upi-vpa-copy:hover { background: var(--teal); color: #fff; }
+
 /* Tablet+ */
 @media (min-width: 640px) {
   .hero-ctas, .order-buttons .btn { max-width: none; width: auto; }
@@ -545,3 +576,7 @@ img { max-width: 100%; display: block; }
   .menu-grid { grid-template-columns: 1fr 1fr 1fr; }
   .hero { padding: 80px 0 60px; }
 }
+
+/* What this file does: theming (CSS custom properties) + layout/components for the whole page. */
+/* Security limits: presentation only — no user input is rendered unescaped here; that safety lives in js/main.js. */
+/* Before production: swap placeholder image dimensions/colors if real photos differ, and re-check contrast if brand colors change. */

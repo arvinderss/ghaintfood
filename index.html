@@ -10,14 +10,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ghaint Food — Ludhiana's Ghaint Tadka | Burgers, Pizzas, Tiffins &amp; More</title>
 <meta name="description" content="Ghaint Food, Ludhiana — bold burgers, cheesy pizzas, loaded fries and home-style tiffins. Order takeaway direct on WhatsApp.">
+<!-- Initial paint only — js/main.js's applyTheme() immediately overwrites this with
+     THEME_COLOR_LIGHT/THEME_COLOR_DARK on load. Keep this hex equal to THEME_COLOR_LIGHT. -->
 <meta name="theme-color" content="#0E4B4E">
+<!-- assets/logo.png is referenced 5 times in this file (favicon x2, og:image, header/hero
+     <img>). All 5 must use the SAME "?v=" query string — bump every one of them together
+     whenever the image file itself changes, so browsers don't keep serving a stale cache. -->
 <link rel="icon" type="image/png" href="assets/logo.png?v=20260704">
 <link rel="shortcut icon" href="assets/logo.png?v=20260704">
 
 <meta property="og:type" content="restaurant">
 <meta property="og:title" content="Ghaint Food — Ludhiana's Ghaint Tadka">
 <meta property="og:description" content="Bold burgers, cheesy pizzas, loaded fries &amp; home-style tiffins. Order takeaway direct on WhatsApp.">
-<meta property="og:image" content="assets/logo.png">
+<meta property="og:image" content="assets/logo.png?v=20260704">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,6 +30,11 @@
 
 <link rel="stylesheet" href="css/styles.css">
 
+<!-- This block is intentionally a separate copy of the phone number/address, not read from
+     js/main.js or js/i18n.js: search engines and link-preview bots parse JSON-LD without
+     running JavaScript, so it must stay in raw, static HTML. See README's "Configuration &
+     constants" section for the full list of values that are duplicated here on purpose, and
+     update this "telephone" together with WHATSAPP_NUMBER in js/main.js whenever it changes. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -168,7 +178,7 @@
   <div class="container footer-inner">
     <div class="footer-brand">
       <span class="brand-name">Ghaint <em>Food</em></span>
-      <p>Ludhiana, Punjab <!-- TODO: add exact address --></p>
+      <p data-i18n="footer_address">Ludhiana, Punjab <!-- TODO: add exact address --></p>
       <p data-i18n="footer_hours">Open daily, 12:00 PM – 11:00 PM <!-- TODO: confirm hours --></p>
     </div>
     <div class="footer-links">

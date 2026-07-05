@@ -522,8 +522,10 @@ function renderCartDrawer() {
 }
 
 // Builds the WhatsApp checkout message. Field labels (Mode/Subtotal/Delivery/Total payable/
-// Address/the closing line) are fixed English literals by design — this is an exact format
-// contract, not translatable UI copy. No upi:// link is included here; UPI is its own button.
+// Address/UPI Payment Link/the closing line) are fixed English literals by design — this is
+// an exact format contract, not translatable UI copy. The UPI link included here is built via
+// the same upiLink()/grandTotal used for the on-page "Pay via UPI" button, so the two can
+// never drift apart.
 function buildCheckoutMessage() {
   const ids = Object.keys(cart);
   if (ids.length === 0) {
@@ -545,6 +547,7 @@ function buildCheckoutMessage() {
   if (orderMode === "Delivery") {
     messageLines.push(`Address: ${deliveryAddress.trim()}`);
   }
+  messageLines.push(`UPI Payment Link: ${upiLink(grandTotal, `${ORDER_LABEL} - ${rupee(grandTotal)}`)}`);
   messageLines.push("Please send your UPI payment screenshot as the next message.");
   messageLines.push("");
   messageLines.push("Thank you for ordering with Ghaint Food!");

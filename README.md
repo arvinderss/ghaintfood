@@ -25,7 +25,7 @@ ghaintfood/
 1. **Add the logo.** Save your logo image as `assets/logo.png` (square image, at least 200×200px works best). Until it's there, the site shows a fallback teal/orange "G" monogram automatically — nothing breaks.
 2. **Confirm your WhatsApp number and UPI ID.** Open [js/main.js](js/main.js) and check the constants at the top:
    ```js
-   const WHATSAPP_NUMBER = "919914829511";
+   const WHATSAPP_NUMBER = "917719727000";
    const UPI_VPA = "kaurrajinder2618-1@okicici";
    const UPI_PAYEE_NAME = "Ghaint Food";
    const DELIVERY_CHARGE = 30; // flat fee for Delivery mode

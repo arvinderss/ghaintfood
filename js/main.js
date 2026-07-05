@@ -6,7 +6,7 @@
  */
 
 // WHATSAPP_NUMBER: country code + digits only, no plus/spaces — every order button reads this.
-const WHATSAPP_NUMBER = "919914829511";
+const WHATSAPP_NUMBER = "917719727000";
 // UPI_VPA: the virtual payment address that receives payment via the "Pay via UPI" deep link.
 const UPI_VPA = "kaurrajinder2618-1@okicici";
 // UPI_PAYEE_NAME: shown inside the customer's UPI app; its own constant so the UPI link and
@@ -495,6 +495,8 @@ function buildCheckoutMessage() {
     messageLines.push(`Address: ${deliveryAddress.trim()}`);
   }
   messageLines.push("Please send your UPI payment screenshot as the next message.");
+  messageLines.push("");
+  messageLines.push("Thank you for ordering with Ghaint Food!");
 
   return messageLines.join("\n");
 }

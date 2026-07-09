@@ -68,7 +68,8 @@ Theme (`data-theme` attribute on `<html>`) is persisted in the `theme` cookie (1
 
 | Area | Functions | Responsibility |
 |---|---|---|
-| Cookies | `getCookie`, `setCookie` | Read/write `theme` and `lang` cookies (1 year, `SameSite=Lax`) |
+| Cookies | `getCookie`, `setCookie` | Read/write `theme` and `lang` cookies (1 year, `SameSite=Lax; Secure`) |
+| Escaping | `escapeHtml` | Escapes data-derived values before they enter the `innerHTML` menu/cart templates (defense-in-depth) |
 | Theme | `systemPrefersDark`, `isDarkActive`, `applyTheme`, `updateThemeToggleUI`, `initTheme`, `toggleTheme`, `wireThemeToggle` | Light/dark theme state, the sun/moon toggle, and the `theme-color` meta tag |
 | Images on/off | `isImagesOff`, `applyImagesPref`, `updateImagesToggleUI`, `initImagesPref`, `toggleImagesPref`, `wireImagesToggle` | The food-photo show/hide toggle next to the language switcher |
 | i18n | `t`, `localize`, `translateCategory`/`Item`/`Note`/`TiffinItem`/`Availability`/`Description`, `cartLineDisplayName`, `applyStaticTranslations`, `updateLangSwitchUI`, `initLang`, `setLang`, `wireLangSwitch`, `rerenderLocalizedContent` | Translation lookups and the EN/हि/ਪੰ switcher |
@@ -230,3 +231,12 @@ These are deliberate design decisions, not oversights:
 - **No automated payment verification.** "Pay via UPI" opens a pre-filled payment request; confirming payment actually happened is a manual step (customer sends a screenshot on WhatsApp).
 - **No test suite.** Changes are verified manually (or via a headless browser during development) — add/remove cart items, toggle Pickup/Delivery, trigger validation errors, inspect the built WhatsApp/UPI links, force an image failure, toggle dark mode, check mobile width, and confirm no `localStorage` writes occur.
 - **Single-locale SEO/social metadata.** `<title>`, meta description, and `og:*` tags are always in English regardless of the visitor's selected language, since they're static HTML read before/without JS.
+
+## Security posture
+
+Static site, no backend — the attack surface is small, but a few hardening measures are in place:
+
+- **Content-Security-Policy** (`<meta http-equiv>` in `index.html`'s `<head>`): pins scripts/styles/fonts/images to a known allow-list, blocking any injected foreign script or exfiltration target. There are **no** inline scripts or inline styles, so the policy needs no `'unsafe-inline'` — keep it that way. **If you move menu images (`js/menu-data.js`) off `upload.wikimedia.org`, add the new host to `img-src`** or the photos will be blocked.
+- **Output escaping.** `escapeHtml()` wraps every data-derived value (item names, descriptions, image URLs) before it reaches the `innerHTML` templates. The only user-typed input — the delivery address — never touches the DOM as HTML; it flows solely into the `wa.me` message via `encodeURIComponent`.
+- **`Referrer-Policy: strict-origin-when-cross-origin`** (`<meta name="referrer">`) and **`SameSite=Lax; Secure`** preference cookies.
+- **Known gap:** clickjacking protection (`frame-ancestors` / `X-Frame-Options`) can't be set from a `<meta>` tag, and GitHub Pages doesn't allow custom response headers — so framing protection would require a host that can set headers (e.g. Cloudflare in front of the site).

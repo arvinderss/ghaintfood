@@ -8,6 +8,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Content-Security-Policy: locks every resource to a known origin so that even if markup
+     were ever injected, it can't load a foreign script or exfiltrate to another host. This
+     site has NO inline scripts and NO inline styles (all JS/CSS is in js/ and css/), so no
+     'unsafe-inline'/'unsafe-eval' is needed — keep it that way. The <script type="application/
+     ld+json"> block below is inert data, not executable JS, so script-src does not apply to it.
+     MAINTENANCE: img-src lists the food-photo host (upload.wikimedia.org). If you ever move
+     menu images (js/menu-data.js) to another host, add that host here or they'll be blocked.
+     Note: frame-ancestors / X-Frame-Options can't be set from a <meta> tag on GitHub Pages;
+     clickjacking protection would require server-set headers, which static hosting doesn't offer. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://upload.wikimedia.org; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
 <title>Ghaint Food — Ludhiana's Ghaint Tadka | Burgers, Pizzas, Tiffins &amp; More</title>
 <meta name="description" content="Ghaint Food, Ludhiana — bold burgers, cheesy pizzas, loaded fries and home-style tiffins. Order takeaway direct on WhatsApp.">
 <!-- Initial paint only — js/main.js's applyTheme() immediately overwrites this with

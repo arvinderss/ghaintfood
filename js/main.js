@@ -51,7 +51,11 @@ function getCookie(name) {
 
 function setCookie(name, value, days) {
   const maxAge = days * 24 * 60 * 60;
-  document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${maxAge}; path=/; SameSite=Lax`;
+  // Secure: the production site is HTTPS-only (GitHub Pages + custom domain), so scope these
+  // preference cookies to HTTPS. SameSite=Lax blocks them from cross-site request contexts.
+  // (Over plain http://localhost during local testing, Secure cookies won't persist — theme/
+  // lang/images preferences simply won't be remembered there; they work fine on the live site.)
+  document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${maxAge}; path=/; SameSite=Lax; Secure`;
 }
 
 /* ---------- theme (light/dark) ---------- */
@@ -246,6 +250,20 @@ function upiLink(amount, note) {
 
 /* ---------- rendering ---------- */
 
+// Defense-in-depth for the innerHTML templates below. Menu/tiffin data is developer-authored
+// and trusted today, but escaping every data-derived value keeps a stray quote or "<" from
+// breaking out of an attribute or element if this content ever comes from a less-trusted
+// source. Trusted control strings (t()/rupee()) don't need it; item names, descriptions and
+// image URLs (which land in a src="…" attribute) do.
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 // item.status: undefined/"available" (default) | "sold-out" (shown, not orderable) |
 // "unavailable" (omitted entirely, as if not in the menu file). Set this per item in
 // js/menu-data.js — there is no on-site control for it, by design (see README).
@@ -292,18 +310,20 @@ function renderMenu() {
     grid.className = "menu-grid";
     group.items.forEach((item) => {
       const id = `${slug}-${slugify(item.name)}`;
-      const displayName = translateItem(item.name);
+      const displayName = escapeHtml(translateItem(item.name));
+      const imageUrl = escapeHtml(item.image);
+      const description = item.description ? escapeHtml(translateDescription(item)) : "";
       const soldOut = item.status === "sold-out";
       const card = document.createElement("div");
       card.className = soldOut ? "menu-card is-sold-out" : "menu-card";
       card.innerHTML = `
         <div class="menu-card-img-wrap">
-          <img class="menu-card-img" src="${item.image}" alt="${displayName}" loading="lazy">
+          <img class="menu-card-img" src="${imageUrl}" alt="${displayName}" loading="lazy">
           <div class="menu-card-img-fallback" hidden>${displayName}</div>
         </div>
         <div class="menu-card-body">
           <div class="menu-card-name">${displayName}</div>
-          ${item.description ? `<div class="menu-card-description">${translateDescription(item)}</div>` : ""}
+          ${description ? `<div class="menu-card-description">${description}</div>` : ""}
           <div class="menu-card-price">${rupee(item.price)} <small>${t("label_takeaway")}</small></div>
           ${soldOut ? `
           <div class="sold-out-badge">${t("label_sold_out")}</div>
@@ -509,7 +529,7 @@ function renderCartDrawer() {
 
   ids.forEach((id) => {
     const line = cart[id];
-    const displayName = cartLineDisplayName(id, line.name);
+    const displayName = escapeHtml(cartLineDisplayName(id, line.name));
     const row = document.createElement("div");
     row.className = "cart-row";
     row.dataset.id = id;

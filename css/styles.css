@@ -644,6 +644,82 @@ img { max-width: 100%; display: block; }
   .hero { padding: 80px 0 60px; }
 }
 
+/* ---------- legal page (legal.html: Terms & Privacy) ---------- */
+/* Uses the same theme variables as the rest of the site, so light/dark carries over. */
+.legal-page { padding: 28px 0 56px; }
+.legal-container { max-width: 760px; }
+.legal-crumb { font-size: 14px; font-weight: 600; margin: 0 0 20px; }
+.legal-crumb a { color: var(--teal); }
+.legal-crumb-bottom { margin: 40px 0 0; }
+.legal-title { font-family: var(--font-display); font-size: 34px; color: var(--teal); margin: 0 0 6px; }
+.legal-updated { color: var(--ink-soft); font-size: 14px; margin: 0 0 24px; }
+
+.legal-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  padding: 14px 18px;
+  margin: 0 0 32px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 14px;
+}
+.legal-toc a { color: var(--teal); }
+
+.legal-section { margin: 0 0 40px; scroll-margin-top: 90px; }
+.legal-section h2 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--teal);
+  margin: 0 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border);
+}
+.legal-section h3 { font-size: 17px; color: var(--ink); margin: 22px 0 6px; }
+.legal-section p { color: var(--ink-soft); margin: 0 0 12px; }
+.legal-section ul { color: var(--ink-soft); margin: 0 0 12px; padding-left: 20px; }
+.legal-section li { margin: 0 0 6px; }
+.legal-section strong { color: var(--ink); }
+
+/* Security highlight callout — the "how we keep your info safe" panel. */
+.legal-highlight {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--teal);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  padding: 24px;
+}
+.legal-highlight h2 { border-bottom: none; padding-bottom: 0; margin-bottom: 8px; }
+.legal-secure-list { list-style: none; padding-left: 0; margin: 16px 0; }
+.legal-secure-list li { position: relative; padding-left: 30px; margin-bottom: 12px; }
+/* Pure-CSS checkmark (a rotated L-shaped border) inside a teal disc — no image asset, so
+   nothing here depends on img-src / data: URIs and it stays CSP-clean. */
+.legal-secure-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+.legal-secure-list li::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.legal-fineprint { font-size: 13px; color: var(--ink-soft); font-style: italic; margin-bottom: 0; }
+
 /* What this file does: theming (CSS custom properties) + layout/components for the whole page. */
 /* Security limits: presentation only — no user input is rendered unescaped here; that safety lives in js/main.js. */
 /* Before production: swap placeholder image dimensions/colors if real photos differ, and re-check contrast if brand colors change. */

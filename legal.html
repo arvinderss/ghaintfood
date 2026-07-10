@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!--
+  Ghaint Food — Terms & Conditions + Privacy Policy.
+  Reuses the same header/footer chrome and the same three scripts as index.html, so the
+  theme toggle, language switch and footer year all work here with no extra code. The legal
+  copy itself is intentionally English-only (the authoritative version) and carries no
+  data-i18n hooks, so switching language translates the surrounding chrome but never the
+  legal text — machine-translating legal terms would be a liability.
+
+  OWNER TODOs before relying on this (search "TODO"):
+    - Replace [LEGAL ENTITY NAME] with the registered business/proprietor name.
+    - Fill in the exact registered address and a contact email.
+    - Set the "Last updated" date when you publish/edit.
+    - Have a qualified professional review this text — it is a plain-language starting
+      point tailored to this business, NOT legal advice.
+  Security note: every claim in the "How we keep your information safe" section is a factual
+  description of what this site actually does. Do NOT add certification/standard-compliance
+  claims (ISO, SOC 2, etc.) unless the business genuinely holds them.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Same Content-Security-Policy as index.html. This page loads no menu images, but keeping
+     one identical policy across the site is easier to maintain than a per-page variant. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://upload.wikimedia.org; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<title>Terms &amp; Conditions and Privacy Policy — Ghaint Food</title>
+<meta name="description" content="Ghaint Food's Terms &amp; Conditions and Privacy Policy — how we handle your order details and keep your information safe.">
+<meta name="theme-color" content="#0E4B4E">
+<link rel="icon" type="image/png" href="assets/logo.png?v=20260704">
+<link rel="shortcut icon" href="assets/logo.png?v=20260704">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<a class="skip-link" href="#main" data-i18n="skip_link">Skip to content</a>
+
+<header class="site-header">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand js-logo">
+      <img src="assets/logo.png" alt="Ghaint Food" class="brand-logo js-logo-img">
+      <span class="brand-fallback">G</span>
+      <span class="brand-name">Ghaint <em>Food</em></span>
+    </a>
+
+    <div class="site-actions">
+      <div class="lang-switch" id="langSwitch" role="group" data-i18n-aria="lang_switch_aria" aria-label="Language">
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+        <button type="button" class="lang-btn" data-lang="hi">हि</button>
+        <button type="button" class="lang-btn" data-lang="pa">ਪੰ</button>
+      </div>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 4.5a1 1 0 0 1-1-1V2a1 1 0 1 1 2 0v1.5a1 1 0 0 1-1 1zm0 15a1 1 0 0 1 1 1V22a1 1 0 1 1-2 0v-1.5a1 1 0 0 1 1-1zm9-7.5a1 1 0 0 1-1 1h-1.5a1 1 0 1 1 0-2H20a1 1 0 0 1 1 1zM4.5 12a1 1 0 0 1-1 1H2a1 1 0 1 1 0-2h1.5a1 1 0 0 1 1 1zm13.02-6.53a1 1 0 0 1 0 1.41l-1.06 1.06a1 1 0 1 1-1.41-1.41l1.06-1.06a1 1 0 0 1 1.41 0zM8.46 17.46a1 1 0 0 1 0 1.42l-1.06 1.06a1 1 0 1 1-1.42-1.42l1.06-1.06a1 1 0 0 1 1.42 0zm9.06 1.42a1 1 0 0 1-1.42 0l-1.06-1.06a1 1 0 1 1 1.42-1.42l1.06 1.06a1 1 0 0 1 0 1.42zM7.4 6.53a1 1 0 0 1-1.41 0L4.93 5.47a1 1 0 0 1 1.41-1.41L7.4 5.11a1 1 0 0 1 0 1.42zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10z"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.7 15.3a8.5 8.5 0 0 1-10-11 1 1 0 0 0-1.2-1.3A10 10 0 1 0 22 16.5a1 1 0 0 0-1.3-1.2z"/></svg>
+      </button>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" data-i18n-aria="aria_toggle_menu" aria-label="Toggle menu" aria-expanded="false" aria-controls="siteNav">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="site-nav" id="siteNav">
+      <a href="index.html#menu" data-i18n="nav_menu">Menu</a>
+      <a href="index.html#tiffin" data-i18n="nav_tiffin">Tiffin</a>
+      <a href="index.html#about" data-i18n="nav_about">Our Story</a>
+      <a href="index.html#order" class="nav-cta" data-i18n="nav_order">Order Now</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="legal-page">
+  <div class="container legal-container">
+
+    <p class="legal-crumb"><a href="index.html">&larr; Back to Ghaint Food</a></p>
+    <h1 class="legal-title">Terms &amp; Privacy</h1>
+    <!-- TODO: set this date when you publish or next edit these terms. -->
+    <p class="legal-updated">Last updated: <time>[DATE]</time>. This page is provided in English, which is the authoritative version.</p>
+
+    <nav class="legal-toc" aria-label="On this page">
+      <a href="#security">How we keep your information safe</a>
+      <a href="#privacy">Privacy Policy</a>
+      <a href="#terms">Terms &amp; Conditions</a>
+    </nav>
+
+    <!-- ============================ SECURITY HIGHLIGHT ============================ -->
+    <!-- Every bullet below is a factual description of how this site actually works.
+         Keep it that way — no certification or standards-compliance claims. -->
+    <section class="legal-section" id="security">
+      <div class="legal-highlight">
+        <h2>How we keep your information safe</h2>
+        <p>We built this site to need as little of your personal information as possible. In plain terms:</p>
+        <ul class="legal-secure-list">
+          <li><strong>We don't store your personal data on this website.</strong> There is no customer account system and no customer database behind this site — so there is no store of personal information here to be lost, leaked or stolen.</li>
+          <li><strong>Your connection is encrypted.</strong> The site is served only over a secure (HTTPS) connection, so information moving between your browser and the site is encrypted in transit.</li>
+          <li><strong>No tracking, no advertising.</strong> We don't use advertising, analytics or third-party tracking. The only things we save on your device are small preference settings — your chosen language, light/dark theme, and whether food photos are shown — which don't identify you.</li>
+          <li><strong>We never see your payment details.</strong> Payments are made through your own UPI app. We never receive or store your card number, bank details or UPI PIN.</li>
+          <li><strong>The pages are hardened.</strong> The site uses a strict Content-Security-Policy and other browser safeguards to reduce the risk of tampering or malicious code, and the preference settings above are stored with secure cookie flags.</li>
+          <li><strong>We only use what you send us.</strong> When you place an order over WhatsApp, we use the details in your message — your name, phone number, order, and delivery address if you choose delivery — only to prepare and hand over or deliver that order.</li>
+        </ul>
+        <p class="legal-fineprint">No online system can be guaranteed to be perfectly secure, but because we deliberately collect and keep so little, there is very little about you for anyone to obtain from this site.</p>
+      </div>
+    </section>
+
+    <!-- ============================ PRIVACY POLICY ============================ -->
+    <section class="legal-section" id="privacy">
+      <h2>Privacy Policy</h2>
+
+      <p>This Privacy Policy explains how <strong>Ghaint Food</strong> (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) handles information when you use this website and order from us. <!-- TODO: replace with the registered legal entity / proprietor name and address. --></p>
+
+      <h3>1. Our privacy-first approach</h3>
+      <p>This website is a menu and an order-builder. It has no login, no shopping account and no server that stores customer records. Your cart is held only in your browser while you use the page and is cleared when you reload or close it. When you're ready, the site helps you send your order to us as a WhatsApp message — nothing about your order is saved on the website itself.</p>
+
+      <h3>2. Information we collect</h3>
+      <p>We only receive the information you choose to send us when you place an order, which typically includes:</p>
+      <ul>
+        <li>your name and WhatsApp phone number (these reach us through WhatsApp when you message us);</li>
+        <li>the items in your order and your chosen pickup or delivery option;</li>
+        <li>your delivery address, only if you select delivery and provide it.</li>
+      </ul>
+      <p>We do <strong>not</strong> collect this through a form on the site — it comes to us inside your WhatsApp message. We do not ask for or receive your payment card, bank account or UPI PIN at any point.</p>
+
+      <h3>3. Cookies and local settings</h3>
+      <p>We use a small number of &ldquo;strictly functional&rdquo; cookies to remember your display preferences: your selected language, light or dark theme, and whether food photos are shown. These are not used to track you, are not shared with anyone, and contain no personal information. We do not use advertising or analytics cookies.</p>
+
+      <h3>4. How we use your information</h3>
+      <p>We use the order details you send only to:</p>
+      <ul>
+        <li>prepare your order correctly;</li>
+        <li>arrange pickup or delivery;</li>
+        <li>contact you about that order (for example, to confirm it or ask a question); and</li>
+        <li>keep a basic record of the sale for our own accounts.</li>
+      </ul>
+      <p>We do not sell, rent or trade your information, and we do not use it for marketing without your agreement.</p>
+
+      <h3>5. Who your information reaches</h3>
+      <ul>
+        <li><strong>WhatsApp / Meta:</strong> your order message travels over WhatsApp, which is operated by Meta under its own terms and privacy policy.</li>
+        <li><strong>Your UPI app / bank:</strong> if you pay by UPI, the payment is handled between your UPI app and your bank. We only receive a confirmation from you (such as a screenshot).</li>
+        <li><strong>Delivery:</strong> if you choose delivery, whoever delivers your order will be given your address so they can bring it to you.</li>
+      </ul>
+
+      <h3>6. How long we keep it</h3>
+      <p>We keep order messages and any basic sales record only for as long as we reasonably need them — to complete your order, handle any follow-up, and meet ordinary bookkeeping needs — and then we remove them. You can ask us to delete your WhatsApp conversation with us at any time.</p>
+
+      <h3>7. Your rights</h3>
+      <p>You can ask us to show you what order information we hold about you, correct it, or delete it. India's Digital Personal Data Protection Act, 2023 gives you rights over your personal data, including access, correction and erasure, and the ability to raise a grievance. To exercise any of these, contact us using the details in section 9.</p>
+
+      <h3>8. Children</h3>
+      <p>This site is intended for general audiences ordering food and is not directed at children. We do not knowingly seek personal information from children.</p>
+
+      <h3>9. Contact</h3>
+      <!-- TODO: add a real contact email and the registered address. -->
+      <p>For any privacy question or request, contact us on WhatsApp at <strong>+91 77197 27000</strong>, or by email at <strong>[EMAIL]</strong>. Ghaint Food, Ludhiana, Punjab, India.</p>
+
+      <h3>10. Changes to this policy</h3>
+      <p>We may update this Privacy Policy from time to time. When we do, we'll change the &ldquo;Last updated&rdquo; date at the top of this page.</p>
+    </section>
+
+    <!-- ============================ TERMS & CONDITIONS ============================ -->
+    <section class="legal-section" id="terms">
+      <h2>Terms &amp; Conditions</h2>
+
+      <p>These Terms &amp; Conditions govern your use of this website and any order you place with <strong>Ghaint Food</strong>. By using the site or ordering from us, you agree to them.</p>
+
+      <h3>1. About our service</h3>
+      <p>We are a takeaway food business in Ludhiana, Punjab. This website lets you browse our menu and build an order, which you then send to us over WhatsApp. Placing items in the cart is not itself an order.</p>
+
+      <h3>2. Orders and acceptance</h3>
+      <p>An order is a request until we confirm it. We confirm orders over WhatsApp, and we may decline or cancel an order — for example if an item is unavailable, the details are unclear, or we can't fulfil it — in which case we'll let you know and refund any payment already made for it.</p>
+
+      <h3>3. Prices</h3>
+      <p>All prices on the site are takeaway prices in Indian Rupees (₹). Delivery orders may include a delivery fee, which is shown in your cart before you check out. We try to keep prices accurate, but they may change, and if an obvious pricing error occurs we will confirm the correct price with you before proceeding.</p>
+
+      <h3>4. Payment</h3>
+      <p>Payment is made by UPI using your own UPI app, or as otherwise agreed with us. The &ldquo;Pay via UPI&rdquo; option simply opens your UPI app with the amount filled in — it is not automated payment verification, so please confirm your payment with us (for example by sending a screenshot on WhatsApp). We never receive your card, bank or UPI PIN details.</p>
+
+      <h3>5. Pickup and delivery</h3>
+      <p>For pickup, we'll let you know when your order is ready to collect. For delivery, please give a complete, correct address; delivery is subject to your location being within an area we can reach. Estimated times are our best effort and may vary with kitchen load, weather and traffic.</p>
+
+      <h3>6. Cancellations and refunds</h3>
+      <p>Because food is freshly prepared to order, an order usually can't be cancelled once we've started preparing it. If something is wrong with your order, tell us promptly on WhatsApp and we'll do our best to put it right. Refunds, where due, are made to the source of payment.</p>
+
+      <h3>7. Food, ingredients and allergens</h3>
+      <p>Our food is prepared in a kitchen that handles common allergens such as dairy, gluten, soy and nuts, so we cannot guarantee any item is free from traces of them. If you have an allergy or dietary requirement, please tell us before ordering and we'll advise what we can.</p>
+
+      <h3>8. Website content</h3>
+      <p>The Ghaint Food name, logo, menu descriptions and site content belong to us and may not be copied or reused without our permission. Menu photographs shown may be for illustration. Please use the site only for placing genuine orders and browsing the menu, and don't attempt to disrupt, misuse or gain unauthorised access to it.</p>
+
+      <h3>9. Liability</h3>
+      <p>We take care to describe and prepare our food accurately, but to the extent permitted by law we are not liable for indirect or unforeseeable losses. Nothing in these terms limits any liability that cannot be limited under applicable law.</p>
+
+      <h3>10. Governing law</h3>
+      <p>These terms are governed by the laws of India, and any dispute will be subject to the courts at Ludhiana, Punjab.</p>
+
+      <h3>11. Contact</h3>
+      <!-- TODO: add a real contact email. -->
+      <p>Questions about these terms? Reach us on WhatsApp at <strong>+91 77197 27000</strong> or by email at <strong>[EMAIL]</strong>.</p>
+    </section>
+
+    <p class="legal-crumb legal-crumb-bottom"><a href="index.html">&larr; Back to Ghaint Food</a></p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="brand-name">Ghaint <em>Food</em></span>
+      <p data-i18n="footer_address">Ludhiana, Punjab</p>
+      <p data-i18n="footer_hours">Open daily, 12:00 PM – 11:00 PM</p>
+    </div>
+    <div class="footer-links">
+      <a href="index.html#menu" data-i18n="nav_menu">Menu</a>
+      <a href="index.html#tiffin" data-i18n="nav_tiffin">Tiffin</a>
+      <a href="index.html#about" data-i18n="nav_about">Our Story</a>
+      <a href="#privacy" data-i18n="privacy_policy">Privacy Policy</a>
+      <a href="#terms" data-i18n="terms_conditions">Terms &amp; Conditions</a>
+    </div>
+  </div>
+  <p class="footer-copy">© <span id="year"></span> Ghaint Food. <span data-i18n="footer_copy_rights">All rights reserved.</span></p>
+</footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/menu-data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

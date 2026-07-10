@@ -9,6 +9,7 @@ This README doubles as the site's low-level design (LLD) reference — architect
 ```
 ghaintfood/
 ├── index.html          # all page content/markup, JSON-LD, meta tags
+├── legal.html          # Terms & Conditions + Privacy Policy (reuses the same header/footer + js/*)
 ├── css/
 │   └── styles.css      # all styling (mobile-first, light/dark theming via CSS custom properties)
 ├── js/
@@ -240,3 +241,11 @@ Static site, no backend — the attack surface is small, but a few hardening mea
 - **Output escaping.** `escapeHtml()` wraps every data-derived value (item names, descriptions, image URLs) before it reaches the `innerHTML` templates. The only user-typed input — the delivery address — never touches the DOM as HTML; it flows solely into the `wa.me` message via `encodeURIComponent`.
 - **`Referrer-Policy: strict-origin-when-cross-origin`** (`<meta name="referrer">`) and **`SameSite=Lax; Secure`** preference cookies.
 - **Known gap:** clickjacking protection (`frame-ancestors` / `X-Frame-Options`) can't be set from a `<meta>` tag, and GitHub Pages doesn't allow custom response headers — so framing protection would require a host that can set headers (e.g. Cloudflare in front of the site).
+
+### Legal pages (`legal.html`)
+
+`legal.html` holds the **Terms & Conditions** and **Privacy Policy**, linked from both footers. It deliberately reuses `index.html`'s header/footer chrome and the same three scripts, so the theme toggle, language switch and footer year work with no extra code; it carries the same CSP. The legal copy is **English-only and has no `data-i18n` hooks** — switching language translates the surrounding chrome but never the legal text (machine-translated legal terms would be a liability).
+
+The Privacy Policy's **"How we keep your information safe"** section is written to be **strictly factual** — it describes what the site actually does (no data stored on the site, HTTPS, no trackers, hardened with CSP, payments never expose card/bank details). **Do not add certification or standards-compliance claims** (ISO, SOC 2, "GDPR/DPDP compliant", etc.) unless the business genuinely holds them — an untrue claim in a published policy is itself a liability.
+
+**Before publishing, fill the `TODO`/placeholder markers in `legal.html`:** `[LEGAL ENTITY NAME]`, the registered address, `[EMAIL]`, and the `[DATE]` "Last updated" value — and have the text reviewed by a qualified professional (it is a plain-language starting point, not legal advice).

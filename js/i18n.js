@@ -79,6 +79,8 @@ const UI_TEXT = {
   footer_address: { en: "Ludhiana, Punjab", hi: "लुधियाना, पंजाब", pa: "ਲੁਧਿਆਣਾ, ਪੰਜਾਬ" },
   footer_hours: { en: "Open daily, 12:00 PM – 11:00 PM", hi: "रोज़ाना खुला, दोपहर 12:00 – रात 11:00", pa: "ਰੋਜ਼ਾਨਾ ਖੁੱਲ੍ਹਾ, ਦੁਪਹਿਰ 12:00 – ਰਾਤ 11:00" },
   footer_copy_rights: { en: "All rights reserved.", hi: "सर्वाधिकार सुरक्षित।", pa: "ਸਾਰੇ ਹੱਕ ਰਾਖਵੇਂ ਹਨ।" },
+  privacy_policy: { en: "Privacy Policy", hi: "गोपनीयता नीति", pa: "ਪਰਾਈਵੇਸੀ ਨੀਤੀ" },
+  terms_conditions: { en: "Terms & Conditions", hi: "नियम और शर्तें", pa: "ਨਿਯਮ ਤੇ ਸ਼ਰਤਾਂ" },
 
   cart_title: { en: "Your Order", hi: "आपका ऑर्डर", pa: "ਤੁਹਾਡਾ ਆਰਡਰ" },
   aria_view_cart: { en: "View your cart", hi: "अपना कार्ट देखें", pa: "ਆਪਣਾ ਕਾਰਟ ਵੇਖੋ" },

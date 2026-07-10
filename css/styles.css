@@ -646,6 +646,13 @@ img { max-width: 100%; display: block; }
 
 /* ---------- legal page (legal.html: Terms & Privacy) ---------- */
 /* Uses the same theme variables as the rest of the site, so light/dark carries over. */
+/* Language switching: show only the block whose data-lang matches the active <html lang>,
+   which js/main.js sets from the language switch. English is the static/default, so it also
+   shows before JS runs and if JS is disabled. */
+.legal-lang { display: none; }
+html[lang="en"] .legal-lang[data-lang="en"],
+html[lang="hi"] .legal-lang[data-lang="hi"],
+html[lang="pa"] .legal-lang[data-lang="pa"] { display: block; }
 .legal-page { padding: 28px 0 56px; }
 .legal-container { max-width: 760px; }
 .legal-crumb { font-size: 14px; font-weight: 600; margin: 0 0 20px; }

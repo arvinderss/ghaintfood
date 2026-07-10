@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <!--
-  Ghaint Food — Terms & Conditions + Privacy Policy.
+  Ghaint Food — Terms & Conditions + Privacy Policy (English / हिंदी / ਪੰਜਾਬੀ).
   Reuses the same header/footer chrome and the same three scripts as index.html, so the
-  theme toggle, language switch and footer year all work here with no extra code. The legal
-  copy itself is intentionally English-only (the authoritative version) and carries no
-  data-i18n hooks, so switching language translates the surrounding chrome but never the
-  legal text — machine-translating legal terms would be a liability.
+  theme toggle, language switch and footer year all work here with no extra code.
 
-  OWNER TODOs before relying on this (search "TODO"):
-    - Replace [LEGAL ENTITY NAME] with the registered business/proprietor name.
-    - Fill in the exact registered address and a contact email.
-    - Set the "Last updated" date when you publish/edit.
-    - Have a qualified professional review this text — it is a plain-language starting
-      point tailored to this business, NOT legal advice.
-  Security note: every claim in the "How we keep your information safe" section is a factual
-  description of what this site actually does. Do NOT add certification/standard-compliance
-  claims (ISO, SOC 2, etc.) unless the business genuinely holds them.
+  Structure: each topic (#security/#privacy/#terms) is a language-NEUTRAL <section> wrapper
+  carrying the single id, and inside it are three ".legal-lang" blocks (en/hi/pa). CSS shows
+  only the block matching <html lang>, which js/main.js sets from the language switch — so
+  ids stay unique and the footer/TOC anchors keep working in every language.
+  English is the authoritative version; the translations are provided for convenience and,
+  per the note under the title, English prevails if they ever differ in meaning.
+
+  OWNER TODOs before relying on this (search "TODO"/brackets): the placeholders
+  [LEGAL ENTITY NAME], the registered address, [EMAIL] and the [DATE] "Last updated" value
+  appear once PER LANGUAGE block — fill all three. Have the text reviewed by a qualified
+  professional; it is a plain-language starting point, NOT legal advice.
+  Security note: the "How we keep your information safe" section is strictly factual — do NOT
+  add certification/standard-compliance claims (ISO, SOC 2, etc.) unless genuinely held.
 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Same Content-Security-Policy as index.html. This page loads no menu images, but keeping
-     one identical policy across the site is easier to maintain than a per-page variant. -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://upload.wikimedia.org; connect-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
@@ -79,133 +78,374 @@
 <main id="main" class="legal-page">
   <div class="container legal-container">
 
-    <p class="legal-crumb"><a href="index.html">&larr; Back to Ghaint Food</a></p>
-    <h1 class="legal-title">Terms &amp; Privacy</h1>
-    <!-- TODO: set this date when you publish or next edit these terms. -->
-    <p class="legal-updated">Last updated: <time>[DATE]</time>. This page is provided in English, which is the authoritative version.</p>
-
-    <nav class="legal-toc" aria-label="On this page">
-      <a href="#security">How we keep your information safe</a>
-      <a href="#privacy">Privacy Policy</a>
-      <a href="#terms">Terms &amp; Conditions</a>
-    </nav>
+    <!-- ===== top matter (crumb + title + updated note + table of contents) ===== -->
+    <div class="legal-lang" data-lang="en" lang="en">
+      <p class="legal-crumb"><a href="index.html">&larr; Back to Ghaint Food</a></p>
+      <h1 class="legal-title">Terms &amp; Privacy</h1>
+      <!-- TODO: set the [DATE] below when you publish or next edit these terms. -->
+      <p class="legal-updated">Last updated: <time>[DATE]</time>. This page is available in English, हिंदी and ਪੰਜਾਬੀ. The English version is the authoritative one — if the translations ever differ in meaning, the English text prevails.</p>
+      <nav class="legal-toc" aria-label="On this page">
+        <a href="#security">How we keep your information safe</a>
+        <a href="#privacy">Privacy Policy</a>
+        <a href="#terms">Terms &amp; Conditions</a>
+      </nav>
+    </div>
+    <div class="legal-lang" data-lang="hi" lang="hi">
+      <p class="legal-crumb"><a href="index.html">&larr; Ghaint Food पर वापस</a></p>
+      <h1 class="legal-title">शर्तें और गोपनीयता</h1>
+      <p class="legal-updated">अंतिम अपडेट: <time>[DATE]</time>। यह पेज English, हिंदी और ਪੰਜਾਬੀ में उपलब्ध है। English संस्करण आधिकारिक है — यदि अनुवादों के अर्थ में कभी अंतर हो, तो English पाठ ही मान्य होगा।</p>
+      <nav class="legal-toc" aria-label="इस पेज पर">
+        <a href="#security">हम आपकी जानकारी कैसे सुरक्षित रखते हैं</a>
+        <a href="#privacy">गोपनीयता नीति</a>
+        <a href="#terms">नियम और शर्तें</a>
+      </nav>
+    </div>
+    <div class="legal-lang" data-lang="pa" lang="pa">
+      <p class="legal-crumb"><a href="index.html">&larr; Ghaint Food 'ਤੇ ਵਾਪਸ</a></p>
+      <h1 class="legal-title">ਸ਼ਰਤਾਂ ਤੇ ਪਰਾਈਵੇਸੀ</h1>
+      <p class="legal-updated">ਆਖ਼ਰੀ ਅੱਪਡੇਟ: <time>[DATE]</time>। ਇਹ ਪੇਜ English, हिंदी ਤੇ ਪੰਜਾਬੀ ਵਿੱਚ ਉਪਲਬਧ ਹੈ। English ਵਰਜ਼ਨ ਅਧਿਕਾਰਤ ਹੈ — ਜੇ ਅਨੁਵਾਦਾਂ ਦੇ ਅਰਥ ਵਿੱਚ ਕਦੇ ਫ਼ਰਕ ਹੋਵੇ, ਤਾਂ English ਪਾਠ ਹੀ ਮੰਨਿਆ ਜਾਵੇਗਾ।</p>
+      <nav class="legal-toc" aria-label="ਇਸ ਪੇਜ 'ਤੇ">
+        <a href="#security">ਅਸੀਂ ਤੁਹਾਡੀ ਜਾਣਕਾਰੀ ਕਿਵੇਂ ਸੁਰੱਖਿਅਤ ਰੱਖਦੇ ਹਾਂ</a>
+        <a href="#privacy">ਪਰਾਈਵੇਸੀ ਨੀਤੀ</a>
+        <a href="#terms">ਨਿਯਮ ਤੇ ਸ਼ਰਤਾਂ</a>
+      </nav>
+    </div>
 
     <!-- ============================ SECURITY HIGHLIGHT ============================ -->
-    <!-- Every bullet below is a factual description of how this site actually works.
-         Keep it that way — no certification or standards-compliance claims. -->
+    <!-- Strictly factual description of how the site works. No certification claims. -->
     <section class="legal-section" id="security">
-      <div class="legal-highlight">
-        <h2>How we keep your information safe</h2>
-        <p>We built this site to need as little of your personal information as possible. In plain terms:</p>
-        <ul class="legal-secure-list">
-          <li><strong>We don't store your personal data on this website.</strong> There is no customer account system and no customer database behind this site — so there is no store of personal information here to be lost, leaked or stolen.</li>
-          <li><strong>Your connection is encrypted.</strong> The site is served only over a secure (HTTPS) connection, so information moving between your browser and the site is encrypted in transit.</li>
-          <li><strong>No tracking, no advertising.</strong> We don't use advertising, analytics or third-party tracking. The only things we save on your device are small preference settings — your chosen language, light/dark theme, and whether food photos are shown — which don't identify you.</li>
-          <li><strong>We never see your payment details.</strong> Payments are made through your own UPI app. We never receive or store your card number, bank details or UPI PIN.</li>
-          <li><strong>The pages are hardened.</strong> The site uses a strict Content-Security-Policy and other browser safeguards to reduce the risk of tampering or malicious code, and the preference settings above are stored with secure cookie flags.</li>
-          <li><strong>We only use what you send us.</strong> When you place an order over WhatsApp, we use the details in your message — your name, phone number, order, and delivery address if you choose delivery — only to prepare and hand over or deliver that order.</li>
-        </ul>
-        <p class="legal-fineprint">No online system can be guaranteed to be perfectly secure, but because we deliberately collect and keep so little, there is very little about you for anyone to obtain from this site.</p>
+      <div class="legal-lang" data-lang="en" lang="en">
+        <div class="legal-highlight">
+          <h2>How we keep your information safe</h2>
+          <p>We built this site to need as little of your personal information as possible. In plain terms:</p>
+          <ul class="legal-secure-list">
+            <li><strong>We don't store your personal data on this website.</strong> There is no customer account system and no customer database behind this site — so there is no store of personal information here to be lost, leaked or stolen.</li>
+            <li><strong>Your connection is encrypted.</strong> The site is served only over a secure (HTTPS) connection, so information moving between your browser and the site is encrypted in transit.</li>
+            <li><strong>No tracking, no advertising.</strong> We don't use advertising, analytics or third-party tracking. The only things we save on your device are small preference settings — your chosen language, light/dark theme, and whether food photos are shown — which don't identify you.</li>
+            <li><strong>We never see your payment details.</strong> Payments are made through your own UPI app. We never receive or store your card number, bank details or UPI PIN.</li>
+            <li><strong>The pages are hardened.</strong> The site uses a strict Content-Security-Policy and other browser safeguards to reduce the risk of tampering or malicious code, and the preference settings above are stored with secure cookie flags.</li>
+            <li><strong>We only use what you send us.</strong> When you place an order over WhatsApp, we use the details in your message — your name, phone number, order, and delivery address if you choose delivery — only to prepare and hand over or deliver that order.</li>
+          </ul>
+          <p class="legal-fineprint">No online system can be guaranteed to be perfectly secure, but because we deliberately collect and keep so little, there is very little about you for anyone to obtain from this site.</p>
+        </div>
+      </div>
+      <div class="legal-lang" data-lang="hi" lang="hi">
+        <div class="legal-highlight">
+          <h2>हम आपकी जानकारी कैसे सुरक्षित रखते हैं</h2>
+          <p>हमने इस साइट को इस तरह बनाया है कि इसे आपकी निजी जानकारी की ज़रूरत जितनी कम हो सके उतनी हो। सरल शब्दों में:</p>
+          <ul class="legal-secure-list">
+            <li><strong>हम इस वेबसाइट पर आपका निजी डेटा संग्रहित नहीं करते।</strong> इस साइट के पीछे कोई ग्राहक खाता प्रणाली या ग्राहक डेटाबेस नहीं है — इसलिए यहाँ ऐसी कोई निजी जानकारी रखी ही नहीं जाती जो खोई, लीक या चोरी हो सके।</li>
+            <li><strong>आपका कनेक्शन एन्क्रिप्टेड है।</strong> साइट केवल सुरक्षित (HTTPS) कनेक्शन पर दी जाती है, इसलिए आपके ब्राउज़र और साइट के बीच जाने वाली जानकारी ट्रांज़िट में एन्क्रिप्ट रहती है।</li>
+            <li><strong>कोई ट्रैकिंग नहीं, कोई विज्ञापन नहीं।</strong> हम विज्ञापन, एनालिटिक्स या तीसरे-पक्ष की ट्रैकिंग का उपयोग नहीं करते। हम आपके डिवाइस पर केवल छोटी प्राथमिकता-सेटिंग्स सहेजते हैं — आपकी चुनी हुई भाषा, लाइट/डार्क थीम, और क्या भोजन की तस्वीरें दिखाई जाएँ — जो आपकी पहचान नहीं करतीं।</li>
+            <li><strong>हम आपके भुगतान विवरण कभी नहीं देखते।</strong> भुगतान आपके अपने UPI ऐप के ज़रिए होता है। हम आपका कार्ड नंबर, बैंक विवरण या UPI PIN कभी प्राप्त या संग्रहित नहीं करते।</li>
+            <li><strong>पेज सुरक्षित बनाए गए हैं।</strong> साइट छेड़छाड़ या दुर्भावनापूर्ण कोड के जोखिम को कम करने के लिए एक सख्त Content-Security-Policy और अन्य ब्राउज़र सुरक्षा उपायों का उपयोग करती है, और ऊपर बताई गई सेटिंग्स सुरक्षित कुकी फ़्लैग के साथ संग्रहित की जाती हैं।</li>
+            <li><strong>हम केवल वही उपयोग करते हैं जो आप भेजते हैं।</strong> जब आप WhatsApp पर ऑर्डर देते हैं, तो हम आपके संदेश में मौजूद विवरण — आपका नाम, फ़ोन नंबर, ऑर्डर, और यदि आप डिलीवरी चुनते हैं तो पता — केवल उस ऑर्डर को तैयार करने और सौंपने/डिलीवर करने के लिए उपयोग करते हैं।</li>
+          </ul>
+          <p class="legal-fineprint">कोई भी ऑनलाइन प्रणाली पूरी तरह सुरक्षित होने की गारंटी नहीं दे सकती, लेकिन चूँकि हम जानबूझकर बहुत कम जानकारी एकत्र और संग्रहित करते हैं, इसलिए इस साइट से आपके बारे में पाने के लिए किसी के पास बहुत कम है।</p>
+        </div>
+      </div>
+      <div class="legal-lang" data-lang="pa" lang="pa">
+        <div class="legal-highlight">
+          <h2>ਅਸੀਂ ਤੁਹਾਡੀ ਜਾਣਕਾਰੀ ਕਿਵੇਂ ਸੁਰੱਖਿਅਤ ਰੱਖਦੇ ਹਾਂ</h2>
+          <p>ਅਸੀਂ ਇਸ ਸਾਈਟ ਨੂੰ ਇਸ ਤਰ੍ਹਾਂ ਬਣਾਇਆ ਹੈ ਕਿ ਇਸ ਨੂੰ ਤੁਹਾਡੀ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਦੀ ਲੋੜ ਜਿੰਨੀ ਘੱਟ ਹੋ ਸਕੇ ਓਨੀ ਹੋਵੇ। ਸਧਾਰਨ ਸ਼ਬਦਾਂ ਵਿੱਚ:</p>
+          <ul class="legal-secure-list">
+            <li><strong>ਅਸੀਂ ਇਸ ਵੈੱਬਸਾਈਟ 'ਤੇ ਤੁਹਾਡਾ ਨਿੱਜੀ ਡਾਟਾ ਸਟੋਰ ਨਹੀਂ ਕਰਦੇ।</strong> ਇਸ ਸਾਈਟ ਦੇ ਪਿੱਛੇ ਕੋਈ ਗਾਹਕ ਖਾਤਾ ਸਿਸਟਮ ਜਾਂ ਗਾਹਕ ਡਾਟਾਬੇਸ ਨਹੀਂ ਹੈ — ਇਸ ਲਈ ਇੱਥੇ ਅਜਿਹੀ ਕੋਈ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਰੱਖੀ ਹੀ ਨਹੀਂ ਜਾਂਦੀ ਜੋ ਗੁਆਚ, ਲੀਕ ਜਾਂ ਚੋਰੀ ਹੋ ਸਕੇ।</li>
+            <li><strong>ਤੁਹਾਡਾ ਕਨੈਕਸ਼ਨ ਐਨਕ੍ਰਿਪਟਿਡ ਹੈ।</strong> ਸਾਈਟ ਸਿਰਫ਼ ਸੁਰੱਖਿਅਤ (HTTPS) ਕਨੈਕਸ਼ਨ 'ਤੇ ਦਿੱਤੀ ਜਾਂਦੀ ਹੈ, ਇਸ ਲਈ ਤੁਹਾਡੇ ਬ੍ਰਾਊਜ਼ਰ ਤੇ ਸਾਈਟ ਵਿਚਕਾਰ ਜਾਣ ਵਾਲੀ ਜਾਣਕਾਰੀ ਟ੍ਰਾਂਜ਼ਿਟ ਵਿੱਚ ਐਨਕ੍ਰਿਪਟ ਰਹਿੰਦੀ ਹੈ।</li>
+            <li><strong>ਕੋਈ ਟ੍ਰੈਕਿੰਗ ਨਹੀਂ, ਕੋਈ ਇਸ਼ਤਿਹਾਰ ਨਹੀਂ।</strong> ਅਸੀਂ ਇਸ਼ਤਿਹਾਰ, ਐਨਾਲਿਟਿਕਸ ਜਾਂ ਤੀਜੀ-ਧਿਰ ਦੀ ਟ੍ਰੈਕਿੰਗ ਨਹੀਂ ਵਰਤਦੇ। ਅਸੀਂ ਤੁਹਾਡੇ ਡਿਵਾਈਸ 'ਤੇ ਸਿਰਫ਼ ਛੋਟੀਆਂ ਪਸੰਦ-ਸੈਟਿੰਗਾਂ ਸੰਭਾਲਦੇ ਹਾਂ — ਤੁਹਾਡੀ ਚੁਣੀ ਭਾਸ਼ਾ, ਲਾਈਟ/ਡਾਰਕ ਥੀਮ, ਤੇ ਕੀ ਖਾਣੇ ਦੀਆਂ ਤਸਵੀਰਾਂ ਦਿਖਾਈਆਂ ਜਾਣ — ਜੋ ਤੁਹਾਡੀ ਪਛਾਣ ਨਹੀਂ ਕਰਦੀਆਂ।</li>
+            <li><strong>ਅਸੀਂ ਤੁਹਾਡੇ ਭੁਗਤਾਨ ਵੇਰਵੇ ਕਦੇ ਨਹੀਂ ਵੇਖਦੇ।</strong> ਭੁਗਤਾਨ ਤੁਹਾਡੇ ਆਪਣੇ UPI ਐਪ ਰਾਹੀਂ ਹੁੰਦਾ ਹੈ। ਅਸੀਂ ਤੁਹਾਡਾ ਕਾਰਡ ਨੰਬਰ, ਬੈਂਕ ਵੇਰਵੇ ਜਾਂ UPI PIN ਕਦੇ ਪ੍ਰਾਪਤ ਜਾਂ ਸਟੋਰ ਨਹੀਂ ਕਰਦੇ।</li>
+            <li><strong>ਪੇਜ ਸੁਰੱਖਿਅਤ ਬਣਾਏ ਗਏ ਹਨ।</strong> ਸਾਈਟ ਛੇੜਛਾੜ ਜਾਂ ਖ਼ਤਰਨਾਕ ਕੋਡ ਦੇ ਜੋਖਮ ਨੂੰ ਘਟਾਉਣ ਲਈ ਇੱਕ ਸਖ਼ਤ Content-Security-Policy ਤੇ ਹੋਰ ਬ੍ਰਾਊਜ਼ਰ ਸੁਰੱਖਿਆ ਉਪਾਅ ਵਰਤਦੀ ਹੈ, ਤੇ ਉੱਪਰ ਦੱਸੀਆਂ ਸੈਟਿੰਗਾਂ ਸੁਰੱਖਿਅਤ ਕੁਕੀ ਫਲੈਗ ਨਾਲ ਸਟੋਰ ਕੀਤੀਆਂ ਜਾਂਦੀਆਂ ਹਨ।</li>
+            <li><strong>ਅਸੀਂ ਸਿਰਫ਼ ਉਹੀ ਵਰਤਦੇ ਹਾਂ ਜੋ ਤੁਸੀਂ ਭੇਜਦੇ ਹੋ।</strong> ਜਦੋਂ ਤੁਸੀਂ WhatsApp 'ਤੇ ਆਰਡਰ ਦਿੰਦੇ ਹੋ, ਅਸੀਂ ਤੁਹਾਡੇ ਸੁਨੇਹੇ ਵਿਚਲੇ ਵੇਰਵੇ — ਤੁਹਾਡਾ ਨਾਮ, ਫ਼ੋਨ ਨੰਬਰ, ਆਰਡਰ, ਤੇ ਜੇ ਤੁਸੀਂ ਡਿਲੀਵਰੀ ਚੁਣਦੇ ਹੋ ਤਾਂ ਪਤਾ — ਸਿਰਫ਼ ਉਸ ਆਰਡਰ ਨੂੰ ਤਿਆਰ ਕਰਨ ਤੇ ਸੌਂਪਣ/ਡਿਲੀਵਰ ਕਰਨ ਲਈ ਵਰਤਦੇ ਹਾਂ।</li>
+          </ul>
+          <p class="legal-fineprint">ਕੋਈ ਵੀ ਆਨਲਾਈਨ ਸਿਸਟਮ ਪੂਰੀ ਤਰ੍ਹਾਂ ਸੁਰੱਖਿਅਤ ਹੋਣ ਦੀ ਗਾਰੰਟੀ ਨਹੀਂ ਦੇ ਸਕਦਾ, ਪਰ ਕਿਉਂਕਿ ਅਸੀਂ ਜਾਣ-ਬੁੱਝ ਕੇ ਬਹੁਤ ਘੱਟ ਜਾਣਕਾਰੀ ਇਕੱਠੀ ਤੇ ਸਟੋਰ ਕਰਦੇ ਹਾਂ, ਇਸ ਸਾਈਟ ਤੋਂ ਤੁਹਾਡੇ ਬਾਰੇ ਹਾਸਲ ਕਰਨ ਲਈ ਕਿਸੇ ਕੋਲ ਬਹੁਤ ਘੱਟ ਹੈ।</p>
+        </div>
       </div>
     </section>
 
     <!-- ============================ PRIVACY POLICY ============================ -->
     <section class="legal-section" id="privacy">
-      <h2>Privacy Policy</h2>
+      <div class="legal-lang" data-lang="en" lang="en">
+        <h2>Privacy Policy</h2>
+        <p>This Privacy Policy explains how <strong>Ghaint Food</strong> (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) handles information when you use this website and order from us. <!-- TODO: replace with the registered legal entity / proprietor name. --></p>
 
-      <p>This Privacy Policy explains how <strong>Ghaint Food</strong> (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) handles information when you use this website and order from us. <!-- TODO: replace with the registered legal entity / proprietor name and address. --></p>
+        <h3>1. Our privacy-first approach</h3>
+        <p>This website is a menu and an order-builder. It has no login, no shopping account and no server that stores customer records. Your cart is held only in your browser while you use the page and is cleared when you reload or close it. When you're ready, the site helps you send your order to us as a WhatsApp message — nothing about your order is saved on the website itself.</p>
 
-      <h3>1. Our privacy-first approach</h3>
-      <p>This website is a menu and an order-builder. It has no login, no shopping account and no server that stores customer records. Your cart is held only in your browser while you use the page and is cleared when you reload or close it. When you're ready, the site helps you send your order to us as a WhatsApp message — nothing about your order is saved on the website itself.</p>
+        <h3>2. Information we collect</h3>
+        <p>We only receive the information you choose to send us when you place an order, which typically includes:</p>
+        <ul>
+          <li>your name and WhatsApp phone number (these reach us through WhatsApp when you message us);</li>
+          <li>the items in your order and your chosen pickup or delivery option;</li>
+          <li>your delivery address, only if you select delivery and provide it.</li>
+        </ul>
+        <p>We do <strong>not</strong> collect this through a form on the site — it comes to us inside your WhatsApp message. We do not ask for or receive your payment card, bank account or UPI PIN at any point.</p>
 
-      <h3>2. Information we collect</h3>
-      <p>We only receive the information you choose to send us when you place an order, which typically includes:</p>
-      <ul>
-        <li>your name and WhatsApp phone number (these reach us through WhatsApp when you message us);</li>
-        <li>the items in your order and your chosen pickup or delivery option;</li>
-        <li>your delivery address, only if you select delivery and provide it.</li>
-      </ul>
-      <p>We do <strong>not</strong> collect this through a form on the site — it comes to us inside your WhatsApp message. We do not ask for or receive your payment card, bank account or UPI PIN at any point.</p>
+        <h3>3. Cookies and local settings</h3>
+        <p>We use a small number of &ldquo;strictly functional&rdquo; cookies to remember your display preferences: your selected language, light or dark theme, and whether food photos are shown. These are not used to track you, are not shared with anyone, and contain no personal information. We do not use advertising or analytics cookies.</p>
 
-      <h3>3. Cookies and local settings</h3>
-      <p>We use a small number of &ldquo;strictly functional&rdquo; cookies to remember your display preferences: your selected language, light or dark theme, and whether food photos are shown. These are not used to track you, are not shared with anyone, and contain no personal information. We do not use advertising or analytics cookies.</p>
+        <h3>4. How we use your information</h3>
+        <p>We use the order details you send only to:</p>
+        <ul>
+          <li>prepare your order correctly;</li>
+          <li>arrange pickup or delivery;</li>
+          <li>contact you about that order (for example, to confirm it or ask a question); and</li>
+          <li>keep a basic record of the sale for our own accounts.</li>
+        </ul>
+        <p>We do not sell, rent or trade your information, and we do not use it for marketing without your agreement.</p>
 
-      <h3>4. How we use your information</h3>
-      <p>We use the order details you send only to:</p>
-      <ul>
-        <li>prepare your order correctly;</li>
-        <li>arrange pickup or delivery;</li>
-        <li>contact you about that order (for example, to confirm it or ask a question); and</li>
-        <li>keep a basic record of the sale for our own accounts.</li>
-      </ul>
-      <p>We do not sell, rent or trade your information, and we do not use it for marketing without your agreement.</p>
+        <h3>5. Who your information reaches</h3>
+        <ul>
+          <li><strong>WhatsApp / Meta:</strong> your order message travels over WhatsApp, which is operated by Meta under its own terms and privacy policy.</li>
+          <li><strong>Your UPI app / bank:</strong> if you pay by UPI, the payment is handled between your UPI app and your bank. We only receive a confirmation from you (such as a screenshot).</li>
+          <li><strong>Delivery:</strong> if you choose delivery, whoever delivers your order will be given your address so they can bring it to you.</li>
+        </ul>
 
-      <h3>5. Who your information reaches</h3>
-      <ul>
-        <li><strong>WhatsApp / Meta:</strong> your order message travels over WhatsApp, which is operated by Meta under its own terms and privacy policy.</li>
-        <li><strong>Your UPI app / bank:</strong> if you pay by UPI, the payment is handled between your UPI app and your bank. We only receive a confirmation from you (such as a screenshot).</li>
-        <li><strong>Delivery:</strong> if you choose delivery, whoever delivers your order will be given your address so they can bring it to you.</li>
-      </ul>
+        <h3>6. How long we keep it</h3>
+        <p>We keep order messages and any basic sales record only for as long as we reasonably need them — to complete your order, handle any follow-up, and meet ordinary bookkeeping needs — and then we remove them. You can ask us to delete your WhatsApp conversation with us at any time.</p>
 
-      <h3>6. How long we keep it</h3>
-      <p>We keep order messages and any basic sales record only for as long as we reasonably need them — to complete your order, handle any follow-up, and meet ordinary bookkeeping needs — and then we remove them. You can ask us to delete your WhatsApp conversation with us at any time.</p>
+        <h3>7. Your rights</h3>
+        <p>You can ask us to show you what order information we hold about you, correct it, or delete it. India's Digital Personal Data Protection Act, 2023 gives you rights over your personal data, including access, correction and erasure, and the ability to raise a grievance. To exercise any of these, contact us using the details in section 9.</p>
 
-      <h3>7. Your rights</h3>
-      <p>You can ask us to show you what order information we hold about you, correct it, or delete it. India's Digital Personal Data Protection Act, 2023 gives you rights over your personal data, including access, correction and erasure, and the ability to raise a grievance. To exercise any of these, contact us using the details in section 9.</p>
+        <h3>8. Children</h3>
+        <p>This site is intended for general audiences ordering food and is not directed at children. We do not knowingly seek personal information from children.</p>
 
-      <h3>8. Children</h3>
-      <p>This site is intended for general audiences ordering food and is not directed at children. We do not knowingly seek personal information from children.</p>
+        <h3>9. Contact</h3>
+        <!-- TODO: add a real contact email and the registered address. -->
+        <p>For any privacy question or request, contact us on WhatsApp at <strong>+91 77197 27000</strong>, or by email at <strong>[EMAIL]</strong>. Ghaint Food, Ludhiana, Punjab, India.</p>
 
-      <h3>9. Contact</h3>
-      <!-- TODO: add a real contact email and the registered address. -->
-      <p>For any privacy question or request, contact us on WhatsApp at <strong>+91 77197 27000</strong>, or by email at <strong>[EMAIL]</strong>. Ghaint Food, Ludhiana, Punjab, India.</p>
+        <h3>10. Changes to this policy</h3>
+        <p>We may update this Privacy Policy from time to time. When we do, we'll change the &ldquo;Last updated&rdquo; date at the top of this page.</p>
+      </div>
+      <div class="legal-lang" data-lang="hi" lang="hi">
+        <h2>गोपनीयता नीति</h2>
+        <p>यह गोपनीयता नीति बताती है कि जब आप इस वेबसाइट का उपयोग करते हैं और हमसे ऑर्डर करते हैं तो <strong>Ghaint Food</strong> (&ldquo;हम&rdquo;, &ldquo;हमारा&rdquo;) आपकी जानकारी को कैसे संभालता है।</p>
 
-      <h3>10. Changes to this policy</h3>
-      <p>We may update this Privacy Policy from time to time. When we do, we'll change the &ldquo;Last updated&rdquo; date at the top of this page.</p>
+        <h3>1. हमारा गोपनीयता-प्रथम दृष्टिकोण</h3>
+        <p>यह वेबसाइट एक मेन्यू और ऑर्डर-बिल्डर है। इसमें कोई लॉगिन, कोई शॉपिंग खाता और कोई सर्वर नहीं है जो ग्राहक रिकॉर्ड संग्रहित करे। आपका कार्ट पेज उपयोग करते समय केवल आपके ब्राउज़र में रहता है और रीलोड या बंद करने पर हट जाता है। जब आप तैयार हों, साइट आपकी मदद करती है कि आप अपना ऑर्डर WhatsApp संदेश के रूप में हमें भेजें — आपके ऑर्डर के बारे में कुछ भी वेबसाइट पर सहेजा नहीं जाता।</p>
+
+        <h3>2. हम कौन-सी जानकारी एकत्र करते हैं</h3>
+        <p>जब आप ऑर्डर देते हैं तो हम केवल वही जानकारी प्राप्त करते हैं जो आप हमें भेजना चुनते हैं, जिसमें आमतौर पर शामिल है:</p>
+        <ul>
+          <li>आपका नाम और WhatsApp फ़ोन नंबर (ये WhatsApp के ज़रिए हम तक पहुँचते हैं जब आप हमें संदेश करते हैं);</li>
+          <li>आपके ऑर्डर की वस्तुएँ और आपका चुना हुआ पिकअप या डिलीवरी विकल्प;</li>
+          <li>आपका डिलीवरी पता, केवल तभी जब आप डिलीवरी चुनते हैं और उसे देते हैं।</li>
+        </ul>
+        <p>हम इसे साइट पर किसी फ़ॉर्म के ज़रिए <strong>एकत्र नहीं</strong> करते — यह आपके WhatsApp संदेश के अंदर हम तक आता है। हम किसी भी समय आपका भुगतान कार्ड, बैंक खाता या UPI PIN न तो माँगते हैं और न प्राप्त करते हैं।</p>
+
+        <h3>3. कुकीज़ और स्थानीय सेटिंग्स</h3>
+        <p>हम आपकी प्रदर्शन प्राथमिकताओं को याद रखने के लिए कुछ &ldquo;पूर्णतः कार्यात्मक&rdquo; कुकीज़ का उपयोग करते हैं: आपकी चुनी हुई भाषा, लाइट या डार्क थीम, और क्या भोजन की तस्वीरें दिखाई जाएँ। इनका उपयोग आपको ट्रैक करने के लिए नहीं किया जाता, किसी के साथ साझा नहीं किया जाता, और इनमें कोई निजी जानकारी नहीं होती। हम विज्ञापन या एनालिटिक्स कुकीज़ का उपयोग नहीं करते।</p>
+
+        <h3>4. हम आपकी जानकारी का उपयोग कैसे करते हैं</h3>
+        <p>हम आपके भेजे गए ऑर्डर विवरण का उपयोग केवल इनके लिए करते हैं:</p>
+        <ul>
+          <li>आपके ऑर्डर को सही ढंग से तैयार करने;</li>
+          <li>पिकअप या डिलीवरी की व्यवस्था करने;</li>
+          <li>उस ऑर्डर के बारे में आपसे संपर्क करने (उदाहरण के लिए, पुष्टि करने या कोई सवाल पूछने); और</li>
+          <li>अपने हिसाब-किताब के लिए बिक्री का एक बुनियादी रिकॉर्ड रखने।</li>
+        </ul>
+        <p>हम आपकी जानकारी न बेचते हैं, न किराए पर देते हैं, न उसका व्यापार करते हैं, और आपकी सहमति के बिना उसका उपयोग मार्केटिंग के लिए नहीं करते।</p>
+
+        <h3>5. आपकी जानकारी किन तक पहुँचती है</h3>
+        <ul>
+          <li><strong>WhatsApp / Meta:</strong> आपका ऑर्डर संदेश WhatsApp पर जाता है, जिसे Meta अपनी शर्तों और गोपनीयता नीति के तहत संचालित करता है।</li>
+          <li><strong>आपका UPI ऐप / बैंक:</strong> यदि आप UPI से भुगतान करते हैं, तो भुगतान आपके UPI ऐप और आपके बैंक के बीच होता है। हम आपसे केवल एक पुष्टि प्राप्त करते हैं (जैसे स्क्रीनशॉट)।</li>
+          <li><strong>डिलीवरी:</strong> यदि आप डिलीवरी चुनते हैं, तो जो व्यक्ति आपका ऑर्डर पहुँचाएगा उसे आपका पता दिया जाएगा ताकि वह आप तक ला सके।</li>
+        </ul>
+
+        <h3>6. हम इसे कब तक रखते हैं</h3>
+        <p>हम ऑर्डर संदेश और कोई भी बुनियादी बिक्री रिकॉर्ड केवल उतने समय तक रखते हैं जितनी हमें उचित रूप से ज़रूरत हो — आपका ऑर्डर पूरा करने, किसी फ़ॉलो-अप को संभालने, और सामान्य बहीखाता ज़रूरतों को पूरा करने के लिए — और फिर हम उन्हें हटा देते हैं। आप किसी भी समय हमसे अपनी WhatsApp बातचीत हटाने के लिए कह सकते हैं।</p>
+
+        <h3>7. आपके अधिकार</h3>
+        <p>आप हमसे पूछ सकते हैं कि हमारे पास आपके बारे में कौन-सी ऑर्डर जानकारी है, उसे सही करा सकते हैं, या हटवा सकते हैं। भारत का डिजिटल व्यक्तिगत डेटा संरक्षण अधिनियम, 2023 आपको आपके निजी डेटा पर अधिकार देता है, जिसमें पहुँच, सुधार और मिटाना, तथा शिकायत दर्ज करने की क्षमता शामिल है। इनमें से किसी का उपयोग करने के लिए, खंड 9 में दिए गए विवरण से हमसे संपर्क करें।</p>
+
+        <h3>8. बच्चे</h3>
+        <p>यह साइट भोजन ऑर्डर करने वाले सामान्य दर्शकों के लिए है और बच्चों की ओर निर्देशित नहीं है। हम जानबूझकर बच्चों से निजी जानकारी नहीं माँगते।</p>
+
+        <h3>9. संपर्क</h3>
+        <p>किसी भी गोपनीयता संबंधी सवाल या अनुरोध के लिए, हमसे WhatsApp पर <strong>+91 77197 27000</strong> पर, या ईमेल द्वारा <strong>[EMAIL]</strong> पर संपर्क करें। Ghaint Food, लुधियाना, पंजाब, भारत।</p>
+
+        <h3>10. इस नीति में बदलाव</h3>
+        <p>हम समय-समय पर इस गोपनीयता नीति को अपडेट कर सकते हैं। जब हम ऐसा करते हैं, तो हम इस पेज के शीर्ष पर &ldquo;अंतिम अपडेट&rdquo; तिथि बदल देंगे।</p>
+      </div>
+      <div class="legal-lang" data-lang="pa" lang="pa">
+        <h2>ਪਰਾਈਵੇਸੀ ਨੀਤੀ</h2>
+        <p>ਇਹ ਪਰਾਈਵੇਸੀ ਨੀਤੀ ਦੱਸਦੀ ਹੈ ਕਿ ਜਦੋਂ ਤੁਸੀਂ ਇਸ ਵੈੱਬਸਾਈਟ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋ ਤੇ ਸਾਡੇ ਤੋਂ ਆਰਡਰ ਕਰਦੇ ਹੋ ਤਾਂ <strong>Ghaint Food</strong> (&ldquo;ਅਸੀਂ&rdquo;, &ldquo;ਸਾਡਾ&rdquo;) ਤੁਹਾਡੀ ਜਾਣਕਾਰੀ ਨੂੰ ਕਿਵੇਂ ਸੰਭਾਲਦਾ ਹੈ।</p>
+
+        <h3>1. ਸਾਡਾ ਪਰਾਈਵੇਸੀ-ਪਹਿਲ ਵਾਲਾ ਤਰੀਕਾ</h3>
+        <p>ਇਹ ਵੈੱਬਸਾਈਟ ਇੱਕ ਮੀਨੂ ਤੇ ਆਰਡਰ-ਬਿਲਡਰ ਹੈ। ਇਸ ਵਿੱਚ ਕੋਈ ਲੌਗਇਨ, ਕੋਈ ਸ਼ਾਪਿੰਗ ਖਾਤਾ ਤੇ ਕੋਈ ਸਰਵਰ ਨਹੀਂ ਜੋ ਗਾਹਕ ਰਿਕਾਰਡ ਸਟੋਰ ਕਰੇ। ਤੁਹਾਡਾ ਕਾਰਟ ਪੇਜ ਵਰਤਦੇ ਸਮੇਂ ਸਿਰਫ਼ ਤੁਹਾਡੇ ਬ੍ਰਾਊਜ਼ਰ ਵਿੱਚ ਰਹਿੰਦਾ ਹੈ ਤੇ ਰੀਲੋਡ ਜਾਂ ਬੰਦ ਕਰਨ 'ਤੇ ਹਟ ਜਾਂਦਾ ਹੈ। ਜਦੋਂ ਤੁਸੀਂ ਤਿਆਰ ਹੋਵੋ, ਸਾਈਟ ਤੁਹਾਡੀ ਮਦਦ ਕਰਦੀ ਹੈ ਕਿ ਤੁਸੀਂ ਆਪਣਾ ਆਰਡਰ WhatsApp ਸੁਨੇਹੇ ਵਜੋਂ ਸਾਨੂੰ ਭੇਜੋ — ਤੁਹਾਡੇ ਆਰਡਰ ਬਾਰੇ ਕੁਝ ਵੀ ਵੈੱਬਸਾਈਟ 'ਤੇ ਸੰਭਾਲਿਆ ਨਹੀਂ ਜਾਂਦਾ।</p>
+
+        <h3>2. ਅਸੀਂ ਕਿਹੜੀ ਜਾਣਕਾਰੀ ਇਕੱਠੀ ਕਰਦੇ ਹਾਂ</h3>
+        <p>ਜਦੋਂ ਤੁਸੀਂ ਆਰਡਰ ਦਿੰਦੇ ਹੋ ਤਾਂ ਅਸੀਂ ਸਿਰਫ਼ ਉਹੀ ਜਾਣਕਾਰੀ ਪ੍ਰਾਪਤ ਕਰਦੇ ਹਾਂ ਜੋ ਤੁਸੀਂ ਸਾਨੂੰ ਭੇਜਣੀ ਚੁਣਦੇ ਹੋ, ਜਿਸ ਵਿੱਚ ਆਮ ਤੌਰ 'ਤੇ ਸ਼ਾਮਲ ਹੈ:</p>
+        <ul>
+          <li>ਤੁਹਾਡਾ ਨਾਮ ਤੇ WhatsApp ਫ਼ੋਨ ਨੰਬਰ (ਇਹ WhatsApp ਰਾਹੀਂ ਸਾਡੇ ਤੱਕ ਪਹੁੰਚਦੇ ਹਨ ਜਦੋਂ ਤੁਸੀਂ ਸਾਨੂੰ ਸੁਨੇਹਾ ਕਰਦੇ ਹੋ);</li>
+          <li>ਤੁਹਾਡੇ ਆਰਡਰ ਦੀਆਂ ਚੀਜ਼ਾਂ ਤੇ ਤੁਹਾਡਾ ਚੁਣਿਆ ਪਿਕਅਪ ਜਾਂ ਡਿਲੀਵਰੀ ਵਿਕਲਪ;</li>
+          <li>ਤੁਹਾਡਾ ਡਿਲੀਵਰੀ ਪਤਾ, ਸਿਰਫ਼ ਤਦ ਜਦੋਂ ਤੁਸੀਂ ਡਿਲੀਵਰੀ ਚੁਣਦੇ ਹੋ ਤੇ ਇਹ ਦਿੰਦੇ ਹੋ।</li>
+        </ul>
+        <p>ਅਸੀਂ ਇਸ ਨੂੰ ਸਾਈਟ 'ਤੇ ਕਿਸੇ ਫ਼ਾਰਮ ਰਾਹੀਂ <strong>ਇਕੱਠਾ ਨਹੀਂ</strong> ਕਰਦੇ — ਇਹ ਤੁਹਾਡੇ WhatsApp ਸੁਨੇਹੇ ਦੇ ਅੰਦਰ ਸਾਡੇ ਤੱਕ ਆਉਂਦਾ ਹੈ। ਅਸੀਂ ਕਿਸੇ ਵੀ ਸਮੇਂ ਤੁਹਾਡਾ ਭੁਗਤਾਨ ਕਾਰਡ, ਬੈਂਕ ਖਾਤਾ ਜਾਂ UPI PIN ਨਾ ਮੰਗਦੇ ਹਾਂ ਤੇ ਨਾ ਪ੍ਰਾਪਤ ਕਰਦੇ ਹਾਂ।</p>
+
+        <h3>3. ਕੁਕੀਜ਼ ਤੇ ਸਥਾਨਕ ਸੈਟਿੰਗਾਂ</h3>
+        <p>ਅਸੀਂ ਤੁਹਾਡੀਆਂ ਡਿਸਪਲੇ ਪਸੰਦਾਂ ਯਾਦ ਰੱਖਣ ਲਈ ਕੁਝ &ldquo;ਪੂਰੀ ਤਰ੍ਹਾਂ ਫ਼ੰਕਸ਼ਨਲ&rdquo; ਕੁਕੀਜ਼ ਵਰਤਦੇ ਹਾਂ: ਤੁਹਾਡੀ ਚੁਣੀ ਭਾਸ਼ਾ, ਲਾਈਟ ਜਾਂ ਡਾਰਕ ਥੀਮ, ਤੇ ਕੀ ਖਾਣੇ ਦੀਆਂ ਤਸਵੀਰਾਂ ਦਿਖਾਈਆਂ ਜਾਣ। ਇਹ ਤੁਹਾਨੂੰ ਟ੍ਰੈਕ ਕਰਨ ਲਈ ਨਹੀਂ ਵਰਤੀਆਂ ਜਾਂਦੀਆਂ, ਕਿਸੇ ਨਾਲ ਸਾਂਝੀਆਂ ਨਹੀਂ ਕੀਤੀਆਂ ਜਾਂਦੀਆਂ, ਤੇ ਇਹਨਾਂ ਵਿੱਚ ਕੋਈ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਨਹੀਂ ਹੁੰਦੀ। ਅਸੀਂ ਇਸ਼ਤਿਹਾਰ ਜਾਂ ਐਨਾਲਿਟਿਕਸ ਕੁਕੀਜ਼ ਨਹੀਂ ਵਰਤਦੇ।</p>
+
+        <h3>4. ਅਸੀਂ ਤੁਹਾਡੀ ਜਾਣਕਾਰੀ ਕਿਵੇਂ ਵਰਤਦੇ ਹਾਂ</h3>
+        <p>ਅਸੀਂ ਤੁਹਾਡੇ ਭੇਜੇ ਆਰਡਰ ਵੇਰਵੇ ਸਿਰਫ਼ ਇਹਨਾਂ ਲਈ ਵਰਤਦੇ ਹਾਂ:</p>
+        <ul>
+          <li>ਤੁਹਾਡੇ ਆਰਡਰ ਨੂੰ ਸਹੀ ਢੰਗ ਨਾਲ ਤਿਆਰ ਕਰਨ;</li>
+          <li>ਪਿਕਅਪ ਜਾਂ ਡਿਲੀਵਰੀ ਦਾ ਪ੍ਰਬੰਧ ਕਰਨ;</li>
+          <li>ਉਸ ਆਰਡਰ ਬਾਰੇ ਤੁਹਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰਨ (ਮਿਸਾਲ ਵਜੋਂ, ਪੁਸ਼ਟੀ ਕਰਨ ਜਾਂ ਕੋਈ ਸਵਾਲ ਪੁੱਛਣ); ਤੇ</li>
+          <li>ਆਪਣੇ ਹਿਸਾਬ-ਕਿਤਾਬ ਲਈ ਵਿਕਰੀ ਦਾ ਇੱਕ ਮੁੱਢਲਾ ਰਿਕਾਰਡ ਰੱਖਣ।</li>
+        </ul>
+        <p>ਅਸੀਂ ਤੁਹਾਡੀ ਜਾਣਕਾਰੀ ਨਾ ਵੇਚਦੇ ਹਾਂ, ਨਾ ਕਿਰਾਏ 'ਤੇ ਦਿੰਦੇ ਹਾਂ, ਨਾ ਉਸ ਦਾ ਵਪਾਰ ਕਰਦੇ ਹਾਂ, ਤੇ ਤੁਹਾਡੀ ਸਹਿਮਤੀ ਤੋਂ ਬਿਨਾਂ ਉਸ ਨੂੰ ਮਾਰਕੀਟਿੰਗ ਲਈ ਨਹੀਂ ਵਰਤਦੇ।</p>
+
+        <h3>5. ਤੁਹਾਡੀ ਜਾਣਕਾਰੀ ਕਿਨ੍ਹਾਂ ਤੱਕ ਪਹੁੰਚਦੀ ਹੈ</h3>
+        <ul>
+          <li><strong>WhatsApp / Meta:</strong> ਤੁਹਾਡਾ ਆਰਡਰ ਸੁਨੇਹਾ WhatsApp 'ਤੇ ਜਾਂਦਾ ਹੈ, ਜਿਸ ਨੂੰ Meta ਆਪਣੀਆਂ ਸ਼ਰਤਾਂ ਤੇ ਪਰਾਈਵੇਸੀ ਨੀਤੀ ਅਧੀਨ ਚਲਾਉਂਦਾ ਹੈ।</li>
+          <li><strong>ਤੁਹਾਡਾ UPI ਐਪ / ਬੈਂਕ:</strong> ਜੇ ਤੁਸੀਂ UPI ਨਾਲ ਭੁਗਤਾਨ ਕਰਦੇ ਹੋ, ਤਾਂ ਭੁਗਤਾਨ ਤੁਹਾਡੇ UPI ਐਪ ਤੇ ਤੁਹਾਡੇ ਬੈਂਕ ਵਿਚਕਾਰ ਹੁੰਦਾ ਹੈ। ਅਸੀਂ ਤੁਹਾਡੇ ਤੋਂ ਸਿਰਫ਼ ਇੱਕ ਪੁਸ਼ਟੀ ਪ੍ਰਾਪਤ ਕਰਦੇ ਹਾਂ (ਜਿਵੇਂ ਸਕ੍ਰੀਨਸ਼ਾਟ)।</li>
+          <li><strong>ਡਿਲੀਵਰੀ:</strong> ਜੇ ਤੁਸੀਂ ਡਿਲੀਵਰੀ ਚੁਣਦੇ ਹੋ, ਤਾਂ ਜੋ ਵਿਅਕਤੀ ਤੁਹਾਡਾ ਆਰਡਰ ਪਹੁੰਚਾਵੇਗਾ ਉਸ ਨੂੰ ਤੁਹਾਡਾ ਪਤਾ ਦਿੱਤਾ ਜਾਵੇਗਾ ਤਾਂ ਜੋ ਉਹ ਤੁਹਾਡੇ ਤੱਕ ਲਿਆ ਸਕੇ।</li>
+        </ul>
+
+        <h3>6. ਅਸੀਂ ਇਸ ਨੂੰ ਕਿੰਨਾ ਚਿਰ ਰੱਖਦੇ ਹਾਂ</h3>
+        <p>ਅਸੀਂ ਆਰਡਰ ਸੁਨੇਹੇ ਤੇ ਕੋਈ ਵੀ ਮੁੱਢਲਾ ਵਿਕਰੀ ਰਿਕਾਰਡ ਸਿਰਫ਼ ਓਨੇ ਸਮੇਂ ਤੱਕ ਰੱਖਦੇ ਹਾਂ ਜਿੰਨੀ ਸਾਨੂੰ ਵਾਜਬ ਤੌਰ 'ਤੇ ਲੋੜ ਹੋਵੇ — ਤੁਹਾਡਾ ਆਰਡਰ ਪੂਰਾ ਕਰਨ, ਕਿਸੇ ਫ਼ਾਲੋ-ਅੱਪ ਨੂੰ ਸੰਭਾਲਣ, ਤੇ ਆਮ ਬਹੀ-ਖਾਤਾ ਲੋੜਾਂ ਪੂਰੀਆਂ ਕਰਨ ਲਈ — ਤੇ ਫਿਰ ਅਸੀਂ ਉਹਨਾਂ ਨੂੰ ਹਟਾ ਦਿੰਦੇ ਹਾਂ। ਤੁਸੀਂ ਕਿਸੇ ਵੀ ਸਮੇਂ ਸਾਡੇ ਤੋਂ ਆਪਣੀ WhatsApp ਗੱਲਬਾਤ ਹਟਾਉਣ ਲਈ ਕਹਿ ਸਕਦੇ ਹੋ।</p>
+
+        <h3>7. ਤੁਹਾਡੇ ਹੱਕ</h3>
+        <p>ਤੁਸੀਂ ਸਾਡੇ ਤੋਂ ਪੁੱਛ ਸਕਦੇ ਹੋ ਕਿ ਸਾਡੇ ਕੋਲ ਤੁਹਾਡੇ ਬਾਰੇ ਕਿਹੜੀ ਆਰਡਰ ਜਾਣਕਾਰੀ ਹੈ, ਉਸ ਨੂੰ ਠੀਕ ਕਰਵਾ ਸਕਦੇ ਹੋ, ਜਾਂ ਹਟਵਾ ਸਕਦੇ ਹੋ। ਭਾਰਤ ਦਾ ਡਿਜੀਟਲ ਪਰਸਨਲ ਡਾਟਾ ਪ੍ਰੋਟੈਕਸ਼ਨ ਐਕਟ, 2023 ਤੁਹਾਨੂੰ ਤੁਹਾਡੇ ਨਿੱਜੀ ਡਾਟੇ 'ਤੇ ਹੱਕ ਦਿੰਦਾ ਹੈ, ਜਿਸ ਵਿੱਚ ਪਹੁੰਚ, ਸੁਧਾਰ ਤੇ ਮਿਟਾਉਣਾ, ਤੇ ਸ਼ਿਕਾਇਤ ਦਰਜ ਕਰਨ ਦੀ ਸਮਰੱਥਾ ਸ਼ਾਮਲ ਹੈ। ਇਹਨਾਂ ਵਿੱਚੋਂ ਕਿਸੇ ਨੂੰ ਵਰਤਣ ਲਈ, ਭਾਗ 9 ਵਿੱਚ ਦਿੱਤੇ ਵੇਰਵੇ ਨਾਲ ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।</p>
+
+        <h3>8. ਬੱਚੇ</h3>
+        <p>ਇਹ ਸਾਈਟ ਖਾਣਾ ਆਰਡਰ ਕਰਨ ਵਾਲੇ ਆਮ ਦਰਸ਼ਕਾਂ ਲਈ ਹੈ ਤੇ ਬੱਚਿਆਂ ਵੱਲ ਸੇਧਿਤ ਨਹੀਂ ਹੈ। ਅਸੀਂ ਜਾਣ-ਬੁੱਝ ਕੇ ਬੱਚਿਆਂ ਤੋਂ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਨਹੀਂ ਮੰਗਦੇ।</p>
+
+        <h3>9. ਸੰਪਰਕ</h3>
+        <p>ਕਿਸੇ ਵੀ ਪਰਾਈਵੇਸੀ ਸਬੰਧੀ ਸਵਾਲ ਜਾਂ ਬੇਨਤੀ ਲਈ, ਸਾਡੇ ਨਾਲ WhatsApp 'ਤੇ <strong>+91 77197 27000</strong> 'ਤੇ, ਜਾਂ ਈਮੇਲ ਰਾਹੀਂ <strong>[EMAIL]</strong> 'ਤੇ ਸੰਪਰਕ ਕਰੋ। Ghaint Food, ਲੁਧਿਆਣਾ, ਪੰਜਾਬ, ਭਾਰਤ।</p>
+
+        <h3>10. ਇਸ ਨੀਤੀ ਵਿੱਚ ਬਦਲਾਅ</h3>
+        <p>ਅਸੀਂ ਸਮੇਂ-ਸਮੇਂ 'ਤੇ ਇਸ ਪਰਾਈਵੇਸੀ ਨੀਤੀ ਨੂੰ ਅੱਪਡੇਟ ਕਰ ਸਕਦੇ ਹਾਂ। ਜਦੋਂ ਅਸੀਂ ਇਵੇਂ ਕਰਦੇ ਹਾਂ, ਅਸੀਂ ਇਸ ਪੇਜ ਦੇ ਸਿਖਰ 'ਤੇ &ldquo;ਆਖ਼ਰੀ ਅੱਪਡੇਟ&rdquo; ਮਿਤੀ ਬਦਲ ਦੇਵਾਂਗੇ।</p>
+      </div>
     </section>
 
     <!-- ============================ TERMS & CONDITIONS ============================ -->
     <section class="legal-section" id="terms">
-      <h2>Terms &amp; Conditions</h2>
+      <div class="legal-lang" data-lang="en" lang="en">
+        <h2>Terms &amp; Conditions</h2>
+        <p>These Terms &amp; Conditions govern your use of this website and any order you place with <strong>Ghaint Food</strong>. By using the site or ordering from us, you agree to them.</p>
 
-      <p>These Terms &amp; Conditions govern your use of this website and any order you place with <strong>Ghaint Food</strong>. By using the site or ordering from us, you agree to them.</p>
+        <h3>1. About our service</h3>
+        <p>We are a takeaway food business in Ludhiana, Punjab. This website lets you browse our menu and build an order, which you then send to us over WhatsApp. Placing items in the cart is not itself an order.</p>
 
-      <h3>1. About our service</h3>
-      <p>We are a takeaway food business in Ludhiana, Punjab. This website lets you browse our menu and build an order, which you then send to us over WhatsApp. Placing items in the cart is not itself an order.</p>
+        <h3>2. Orders and acceptance</h3>
+        <p>An order is a request until we confirm it. We confirm orders over WhatsApp, and we may decline or cancel an order — for example if an item is unavailable, the details are unclear, or we can't fulfil it — in which case we'll let you know and refund any payment already made for it.</p>
 
-      <h3>2. Orders and acceptance</h3>
-      <p>An order is a request until we confirm it. We confirm orders over WhatsApp, and we may decline or cancel an order — for example if an item is unavailable, the details are unclear, or we can't fulfil it — in which case we'll let you know and refund any payment already made for it.</p>
+        <h3>3. Prices</h3>
+        <p>All prices on the site are takeaway prices in Indian Rupees (₹). Delivery orders may include a delivery fee, which is shown in your cart before you check out. We try to keep prices accurate, but they may change, and if an obvious pricing error occurs we will confirm the correct price with you before proceeding.</p>
 
-      <h3>3. Prices</h3>
-      <p>All prices on the site are takeaway prices in Indian Rupees (₹). Delivery orders may include a delivery fee, which is shown in your cart before you check out. We try to keep prices accurate, but they may change, and if an obvious pricing error occurs we will confirm the correct price with you before proceeding.</p>
+        <h3>4. Payment</h3>
+        <p>Payment is made by UPI using your own UPI app, or as otherwise agreed with us. The &ldquo;Pay via UPI&rdquo; option simply opens your UPI app with the amount filled in — it is not automated payment verification, so please confirm your payment with us (for example by sending a screenshot on WhatsApp). We never receive your card, bank or UPI PIN details.</p>
 
-      <h3>4. Payment</h3>
-      <p>Payment is made by UPI using your own UPI app, or as otherwise agreed with us. The &ldquo;Pay via UPI&rdquo; option simply opens your UPI app with the amount filled in — it is not automated payment verification, so please confirm your payment with us (for example by sending a screenshot on WhatsApp). We never receive your card, bank or UPI PIN details.</p>
+        <h3>5. Pickup and delivery</h3>
+        <p>For pickup, we'll let you know when your order is ready to collect. For delivery, please give a complete, correct address; delivery is subject to your location being within an area we can reach. Estimated times are our best effort and may vary with kitchen load, weather and traffic.</p>
 
-      <h3>5. Pickup and delivery</h3>
-      <p>For pickup, we'll let you know when your order is ready to collect. For delivery, please give a complete, correct address; delivery is subject to your location being within an area we can reach. Estimated times are our best effort and may vary with kitchen load, weather and traffic.</p>
+        <h3>6. Cancellations and refunds</h3>
+        <p>Because food is freshly prepared to order, an order usually can't be cancelled once we've started preparing it. If something is wrong with your order, tell us promptly on WhatsApp and we'll do our best to put it right. Refunds, where due, are made to the source of payment.</p>
 
-      <h3>6. Cancellations and refunds</h3>
-      <p>Because food is freshly prepared to order, an order usually can't be cancelled once we've started preparing it. If something is wrong with your order, tell us promptly on WhatsApp and we'll do our best to put it right. Refunds, where due, are made to the source of payment.</p>
+        <h3>7. Food, ingredients and allergens</h3>
+        <p>Our food is prepared in a kitchen that handles common allergens such as dairy, gluten, soy and nuts, so we cannot guarantee any item is free from traces of them. If you have an allergy or dietary requirement, please tell us before ordering and we'll advise what we can.</p>
 
-      <h3>7. Food, ingredients and allergens</h3>
-      <p>Our food is prepared in a kitchen that handles common allergens such as dairy, gluten, soy and nuts, so we cannot guarantee any item is free from traces of them. If you have an allergy or dietary requirement, please tell us before ordering and we'll advise what we can.</p>
+        <h3>8. Website content</h3>
+        <p>The Ghaint Food name, logo, menu descriptions and site content belong to us and may not be copied or reused without our permission. Menu photographs shown may be for illustration. Please use the site only for placing genuine orders and browsing the menu, and don't attempt to disrupt, misuse or gain unauthorised access to it.</p>
 
-      <h3>8. Website content</h3>
-      <p>The Ghaint Food name, logo, menu descriptions and site content belong to us and may not be copied or reused without our permission. Menu photographs shown may be for illustration. Please use the site only for placing genuine orders and browsing the menu, and don't attempt to disrupt, misuse or gain unauthorised access to it.</p>
+        <h3>9. Liability</h3>
+        <p>We take care to describe and prepare our food accurately, but to the extent permitted by law we are not liable for indirect or unforeseeable losses. Nothing in these terms limits any liability that cannot be limited under applicable law.</p>
 
-      <h3>9. Liability</h3>
-      <p>We take care to describe and prepare our food accurately, but to the extent permitted by law we are not liable for indirect or unforeseeable losses. Nothing in these terms limits any liability that cannot be limited under applicable law.</p>
+        <h3>10. Governing law</h3>
+        <p>These terms are governed by the laws of India, and any dispute will be subject to the courts at Ludhiana, Punjab.</p>
 
-      <h3>10. Governing law</h3>
-      <p>These terms are governed by the laws of India, and any dispute will be subject to the courts at Ludhiana, Punjab.</p>
+        <h3>11. Contact</h3>
+        <!-- TODO: add a real contact email. -->
+        <p>Questions about these terms? Reach us on WhatsApp at <strong>+91 77197 27000</strong> or by email at <strong>[EMAIL]</strong>.</p>
+      </div>
+      <div class="legal-lang" data-lang="hi" lang="hi">
+        <h2>नियम और शर्तें</h2>
+        <p>ये नियम और शर्तें इस वेबसाइट के आपके उपयोग और <strong>Ghaint Food</strong> के साथ आपके द्वारा दिए गए किसी भी ऑर्डर को नियंत्रित करती हैं। साइट का उपयोग करके या हमसे ऑर्डर करके, आप इनसे सहमत होते हैं।</p>
 
-      <h3>11. Contact</h3>
-      <!-- TODO: add a real contact email. -->
-      <p>Questions about these terms? Reach us on WhatsApp at <strong>+91 77197 27000</strong> or by email at <strong>[EMAIL]</strong>.</p>
+        <h3>1. हमारी सेवा के बारे में</h3>
+        <p>हम लुधियाना, पंजाब में एक टेकअवे फ़ूड व्यवसाय हैं। यह वेबसाइट आपको हमारा मेन्यू देखने और एक ऑर्डर बनाने देती है, जिसे आप फिर WhatsApp पर हमें भेजते हैं। कार्ट में वस्तुएँ डालना स्वयं में ऑर्डर नहीं है।</p>
+
+        <h3>2. ऑर्डर और स्वीकृति</h3>
+        <p>जब तक हम पुष्टि नहीं करते, ऑर्डर एक अनुरोध है। हम WhatsApp पर ऑर्डर की पुष्टि करते हैं, और हम किसी ऑर्डर को अस्वीकार या रद्द कर सकते हैं — उदाहरण के लिए यदि कोई वस्तु उपलब्ध नहीं है, विवरण अस्पष्ट हैं, या हम उसे पूरा नहीं कर सकते — ऐसी स्थिति में हम आपको सूचित करेंगे और उसके लिए किया गया कोई भी भुगतान वापस कर देंगे।</p>
+
+        <h3>3. कीमतें</h3>
+        <p>साइट पर सभी कीमतें भारतीय रुपये (₹) में टेकअवे कीमतें हैं। डिलीवरी ऑर्डर में डिलीवरी शुल्क शामिल हो सकता है, जो चेकआउट से पहले आपके कार्ट में दिखाया जाता है। हम कीमतें सटीक रखने की कोशिश करते हैं, पर वे बदल सकती हैं, और यदि कोई स्पष्ट मूल्य-त्रुटि होती है तो आगे बढ़ने से पहले हम आपके साथ सही कीमत की पुष्टि करेंगे।</p>
+
+        <h3>4. भुगतान</h3>
+        <p>भुगतान आपके अपने UPI ऐप का उपयोग करके UPI द्वारा किया जाता है, या हमारे साथ अन्यथा सहमति के अनुसार। &ldquo;Pay via UPI&rdquo; विकल्प बस आपके UPI ऐप को राशि भरकर खोलता है — यह स्वचालित भुगतान सत्यापन नहीं है, इसलिए कृपया अपने भुगतान की पुष्टि हमारे साथ करें (उदाहरण के लिए WhatsApp पर स्क्रीनशॉट भेजकर)। हम आपके कार्ड, बैंक या UPI PIN विवरण कभी प्राप्त नहीं करते।</p>
+
+        <h3>5. पिकअप और डिलीवरी</h3>
+        <p>पिकअप के लिए, हम आपको बताएँगे कि आपका ऑर्डर कब लेने के लिए तैयार है। डिलीवरी के लिए, कृपया पूरा, सही पता दें; डिलीवरी इस पर निर्भर है कि आपका स्थान उस क्षेत्र में हो जहाँ हम पहुँच सकें। अनुमानित समय हमारा सर्वोत्तम प्रयास है और रसोई के भार, मौसम और ट्रैफ़िक के अनुसार बदल सकता है।</p>
+
+        <h3>6. रद्दीकरण और रिफंड</h3>
+        <p>चूँकि भोजन ऑर्डर के अनुसार ताज़ा तैयार किया जाता है, आमतौर पर एक बार तैयारी शुरू हो जाने के बाद ऑर्डर रद्द नहीं किया जा सकता। यदि आपके ऑर्डर में कुछ गड़बड़ है, तो तुरंत WhatsApp पर हमें बताएँ और हम उसे ठीक करने की पूरी कोशिश करेंगे। रिफंड, जहाँ देय हो, भुगतान के स्रोत पर किया जाता है।</p>
+
+        <h3>7. भोजन, सामग्री और एलर्जन</h3>
+        <p>हमारा भोजन एक ऐसी रसोई में तैयार किया जाता है जो डेयरी, ग्लूटेन, सोया और नट्स जैसे सामान्य एलर्जन को संभालती है, इसलिए हम गारंटी नहीं दे सकते कि कोई वस्तु उनके अंश से मुक्त है। यदि आपको कोई एलर्जी या आहार संबंधी आवश्यकता है, तो कृपया ऑर्डर करने से पहले हमें बताएँ और हम जो बता सकते हैं वह सलाह देंगे।</p>
+
+        <h3>8. वेबसाइट सामग्री</h3>
+        <p>Ghaint Food नाम, लोगो, मेन्यू विवरण और साइट सामग्री हमारी हैं और हमारी अनुमति के बिना इनकी नकल या पुनः उपयोग नहीं किया जा सकता। दिखाई गई मेन्यू तस्वीरें केवल उदाहरण के लिए हो सकती हैं। कृपया साइट का उपयोग केवल वास्तविक ऑर्डर देने और मेन्यू देखने के लिए करें, और इसे बाधित करने, दुरुपयोग करने या अनधिकृत पहुँच प्राप्त करने का प्रयास न करें।</p>
+
+        <h3>9. ज़िम्मेदारी</h3>
+        <p>हम अपने भोजन का सटीक वर्णन और तैयारी करने का ध्यान रखते हैं, लेकिन कानून द्वारा अनुमत सीमा तक हम अप्रत्यक्ष या अप्रत्याशित नुकसानों के लिए ज़िम्मेदार नहीं हैं। इन शर्तों में कुछ भी ऐसी किसी ज़िम्मेदारी को सीमित नहीं करता जिसे लागू कानून के तहत सीमित नहीं किया जा सकता।</p>
+
+        <h3>10. लागू कानून</h3>
+        <p>ये शर्तें भारत के कानूनों द्वारा शासित हैं, और कोई भी विवाद लुधियाना, पंजाब के न्यायालयों के अधीन होगा।</p>
+
+        <h3>11. संपर्क</h3>
+        <p>इन शर्तों के बारे में सवाल? हमसे WhatsApp पर <strong>+91 77197 27000</strong> पर या ईमेल द्वारा <strong>[EMAIL]</strong> पर संपर्क करें।</p>
+      </div>
+      <div class="legal-lang" data-lang="pa" lang="pa">
+        <h2>ਨਿਯਮ ਤੇ ਸ਼ਰਤਾਂ</h2>
+        <p>ਇਹ ਨਿਯਮ ਤੇ ਸ਼ਰਤਾਂ ਇਸ ਵੈੱਬਸਾਈਟ ਦੀ ਤੁਹਾਡੀ ਵਰਤੋਂ ਤੇ <strong>Ghaint Food</strong> ਨਾਲ ਤੁਹਾਡੇ ਵੱਲੋਂ ਦਿੱਤੇ ਕਿਸੇ ਵੀ ਆਰਡਰ ਨੂੰ ਨਿਯੰਤਰਿਤ ਕਰਦੀਆਂ ਹਨ। ਸਾਈਟ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਜਾਂ ਸਾਡੇ ਤੋਂ ਆਰਡਰ ਕਰਕੇ, ਤੁਸੀਂ ਇਹਨਾਂ ਨਾਲ ਸਹਿਮਤ ਹੁੰਦੇ ਹੋ।</p>
+
+        <h3>1. ਸਾਡੀ ਸੇਵਾ ਬਾਰੇ</h3>
+        <p>ਅਸੀਂ ਲੁਧਿਆਣਾ, ਪੰਜਾਬ ਵਿੱਚ ਇੱਕ ਟੇਕਅਵੇ ਫ਼ੂਡ ਕਾਰੋਬਾਰ ਹਾਂ। ਇਹ ਵੈੱਬਸਾਈਟ ਤੁਹਾਨੂੰ ਸਾਡਾ ਮੀਨੂ ਵੇਖਣ ਤੇ ਇੱਕ ਆਰਡਰ ਬਣਾਉਣ ਦਿੰਦੀ ਹੈ, ਜਿਸ ਨੂੰ ਤੁਸੀਂ ਫਿਰ WhatsApp 'ਤੇ ਸਾਨੂੰ ਭੇਜਦੇ ਹੋ। ਕਾਰਟ ਵਿੱਚ ਚੀਜ਼ਾਂ ਪਾਉਣਾ ਆਪਣੇ ਆਪ ਵਿੱਚ ਆਰਡਰ ਨਹੀਂ ਹੈ।</p>
+
+        <h3>2. ਆਰਡਰ ਤੇ ਸਵੀਕ੍ਰਿਤੀ</h3>
+        <p>ਜਦੋਂ ਤੱਕ ਅਸੀਂ ਪੁਸ਼ਟੀ ਨਹੀਂ ਕਰਦੇ, ਆਰਡਰ ਇੱਕ ਬੇਨਤੀ ਹੈ। ਅਸੀਂ WhatsApp 'ਤੇ ਆਰਡਰ ਦੀ ਪੁਸ਼ਟੀ ਕਰਦੇ ਹਾਂ, ਤੇ ਅਸੀਂ ਕਿਸੇ ਆਰਡਰ ਨੂੰ ਨਾਮਨਜ਼ੂਰ ਜਾਂ ਰੱਦ ਕਰ ਸਕਦੇ ਹਾਂ — ਮਿਸਾਲ ਵਜੋਂ ਜੇ ਕੋਈ ਚੀਜ਼ ਉਪਲਬਧ ਨਹੀਂ ਹੈ, ਵੇਰਵੇ ਅਸਪਸ਼ਟ ਹਨ, ਜਾਂ ਅਸੀਂ ਉਸ ਨੂੰ ਪੂਰਾ ਨਹੀਂ ਕਰ ਸਕਦੇ — ਇਸ ਹਾਲਤ ਵਿੱਚ ਅਸੀਂ ਤੁਹਾਨੂੰ ਸੂਚਿਤ ਕਰਾਂਗੇ ਤੇ ਉਸ ਲਈ ਕੀਤਾ ਕੋਈ ਵੀ ਭੁਗਤਾਨ ਵਾਪਸ ਕਰ ਦੇਵਾਂਗੇ।</p>
+
+        <h3>3. ਕੀਮਤਾਂ</h3>
+        <p>ਸਾਈਟ 'ਤੇ ਸਾਰੀਆਂ ਕੀਮਤਾਂ ਭਾਰਤੀ ਰੁਪਏ (₹) ਵਿੱਚ ਟੇਕਅਵੇ ਕੀਮਤਾਂ ਹਨ। ਡਿਲੀਵਰੀ ਆਰਡਰਾਂ ਵਿੱਚ ਡਿਲੀਵਰੀ ਫ਼ੀਸ ਸ਼ਾਮਲ ਹੋ ਸਕਦੀ ਹੈ, ਜੋ ਚੈੱਕਆਊਟ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਡੇ ਕਾਰਟ ਵਿੱਚ ਦਿਖਾਈ ਜਾਂਦੀ ਹੈ। ਅਸੀਂ ਕੀਮਤਾਂ ਸਹੀ ਰੱਖਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰਦੇ ਹਾਂ, ਪਰ ਇਹ ਬਦਲ ਸਕਦੀਆਂ ਹਨ, ਤੇ ਜੇ ਕੋਈ ਸਪਸ਼ਟ ਕੀਮਤ-ਗ਼ਲਤੀ ਹੁੰਦੀ ਹੈ ਤਾਂ ਅੱਗੇ ਵਧਣ ਤੋਂ ਪਹਿਲਾਂ ਅਸੀਂ ਤੁਹਾਡੇ ਨਾਲ ਸਹੀ ਕੀਮਤ ਦੀ ਪੁਸ਼ਟੀ ਕਰਾਂਗੇ।</p>
+
+        <h3>4. ਭੁਗਤਾਨ</h3>
+        <p>ਭੁਗਤਾਨ ਤੁਹਾਡੇ ਆਪਣੇ UPI ਐਪ ਦੀ ਵਰਤੋਂ ਕਰਕੇ UPI ਰਾਹੀਂ ਕੀਤਾ ਜਾਂਦਾ ਹੈ, ਜਾਂ ਸਾਡੇ ਨਾਲ ਹੋਰ ਤਰ੍ਹਾਂ ਸਹਿਮਤੀ ਅਨੁਸਾਰ। &ldquo;Pay via UPI&rdquo; ਵਿਕਲਪ ਬਸ ਤੁਹਾਡੇ UPI ਐਪ ਨੂੰ ਰਕਮ ਭਰ ਕੇ ਖੋਲ੍ਹਦਾ ਹੈ — ਇਹ ਆਟੋਮੈਟਿਕ ਭੁਗਤਾਨ ਤਸਦੀਕ ਨਹੀਂ ਹੈ, ਇਸ ਲਈ ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੇ ਭੁਗਤਾਨ ਦੀ ਪੁਸ਼ਟੀ ਸਾਡੇ ਨਾਲ ਕਰੋ (ਮਿਸਾਲ ਵਜੋਂ WhatsApp 'ਤੇ ਸਕ੍ਰੀਨਸ਼ਾਟ ਭੇਜ ਕੇ)। ਅਸੀਂ ਤੁਹਾਡੇ ਕਾਰਡ, ਬੈਂਕ ਜਾਂ UPI PIN ਵੇਰਵੇ ਕਦੇ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕਰਦੇ।</p>
+
+        <h3>5. ਪਿਕਅਪ ਤੇ ਡਿਲੀਵਰੀ</h3>
+        <p>ਪਿਕਅਪ ਲਈ, ਅਸੀਂ ਤੁਹਾਨੂੰ ਦੱਸਾਂਗੇ ਕਿ ਤੁਹਾਡਾ ਆਰਡਰ ਕਦੋਂ ਲੈਣ ਲਈ ਤਿਆਰ ਹੈ। ਡਿਲੀਵਰੀ ਲਈ, ਕਿਰਪਾ ਕਰਕੇ ਪੂਰਾ, ਸਹੀ ਪਤਾ ਦਿਓ; ਡਿਲੀਵਰੀ ਇਸ 'ਤੇ ਨਿਰਭਰ ਹੈ ਕਿ ਤੁਹਾਡੀ ਥਾਂ ਉਸ ਇਲਾਕੇ ਵਿੱਚ ਹੋਵੇ ਜਿੱਥੇ ਅਸੀਂ ਪਹੁੰਚ ਸਕੀਏ। ਅੰਦਾਜ਼ਨ ਸਮਾਂ ਸਾਡਾ ਵਧੀਆ ਯਤਨ ਹੈ ਤੇ ਰਸੋਈ ਦੇ ਭਾਰ, ਮੌਸਮ ਤੇ ਟ੍ਰੈਫ਼ਿਕ ਨਾਲ ਬਦਲ ਸਕਦਾ ਹੈ।</p>
+
+        <h3>6. ਰੱਦ ਕਰਨਾ ਤੇ ਰਿਫੰਡ</h3>
+        <p>ਕਿਉਂਕਿ ਖਾਣਾ ਆਰਡਰ ਅਨੁਸਾਰ ਤਾਜ਼ਾ ਤਿਆਰ ਕੀਤਾ ਜਾਂਦਾ ਹੈ, ਆਮ ਤੌਰ 'ਤੇ ਇੱਕ ਵਾਰ ਤਿਆਰੀ ਸ਼ੁਰੂ ਹੋ ਜਾਣ ਤੋਂ ਬਾਅਦ ਆਰਡਰ ਰੱਦ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਜੇ ਤੁਹਾਡੇ ਆਰਡਰ ਵਿੱਚ ਕੁਝ ਗ਼ਲਤ ਹੈ, ਤਾਂ ਤੁਰੰਤ WhatsApp 'ਤੇ ਸਾਨੂੰ ਦੱਸੋ ਤੇ ਅਸੀਂ ਉਸ ਨੂੰ ਠੀਕ ਕਰਨ ਦੀ ਪੂਰੀ ਕੋਸ਼ਿਸ਼ ਕਰਾਂਗੇ। ਰਿਫੰਡ, ਜਿੱਥੇ ਬਣਦਾ ਹੋਵੇ, ਭੁਗਤਾਨ ਦੇ ਸਰੋਤ 'ਤੇ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।</p>
+
+        <h3>7. ਖਾਣਾ, ਸਮੱਗਰੀ ਤੇ ਐਲਰਜਨ</h3>
+        <p>ਸਾਡਾ ਖਾਣਾ ਇੱਕ ਅਜਿਹੀ ਰਸੋਈ ਵਿੱਚ ਤਿਆਰ ਕੀਤਾ ਜਾਂਦਾ ਹੈ ਜੋ ਡੇਅਰੀ, ਗਲੂਟਨ, ਸੋਇਆ ਤੇ ਨਟਸ ਵਰਗੇ ਆਮ ਐਲਰਜਨ ਸੰਭਾਲਦੀ ਹੈ, ਇਸ ਲਈ ਅਸੀਂ ਗਾਰੰਟੀ ਨਹੀਂ ਦੇ ਸਕਦੇ ਕਿ ਕੋਈ ਚੀਜ਼ ਉਹਨਾਂ ਦੇ ਅੰਸ਼ ਤੋਂ ਮੁਕਤ ਹੈ। ਜੇ ਤੁਹਾਨੂੰ ਕੋਈ ਐਲਰਜੀ ਜਾਂ ਖ਼ੁਰਾਕੀ ਲੋੜ ਹੈ, ਤਾਂ ਕਿਰਪਾ ਕਰਕੇ ਆਰਡਰ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਸਾਨੂੰ ਦੱਸੋ ਤੇ ਅਸੀਂ ਜੋ ਦੱਸ ਸਕਦੇ ਹਾਂ ਸਲਾਹ ਦੇਵਾਂਗੇ।</p>
+
+        <h3>8. ਵੈੱਬਸਾਈਟ ਸਮੱਗਰੀ</h3>
+        <p>Ghaint Food ਨਾਮ, ਲੋਗੋ, ਮੀਨੂ ਵੇਰਵੇ ਤੇ ਸਾਈਟ ਸਮੱਗਰੀ ਸਾਡੀ ਹੈ ਤੇ ਸਾਡੀ ਇਜਾਜ਼ਤ ਤੋਂ ਬਿਨਾਂ ਇਹਨਾਂ ਦੀ ਨਕਲ ਜਾਂ ਮੁੜ-ਵਰਤੋਂ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕਦੀ। ਦਿਖਾਈਆਂ ਮੀਨੂ ਤਸਵੀਰਾਂ ਸਿਰਫ਼ ਉਦਾਹਰਨ ਲਈ ਹੋ ਸਕਦੀਆਂ ਹਨ। ਕਿਰਪਾ ਕਰਕੇ ਸਾਈਟ ਦੀ ਵਰਤੋਂ ਸਿਰਫ਼ ਅਸਲੀ ਆਰਡਰ ਦੇਣ ਤੇ ਮੀਨੂ ਵੇਖਣ ਲਈ ਕਰੋ, ਤੇ ਇਸ ਨੂੰ ਵਿਗਾੜਨ, ਦੁਰਵਰਤੋਂ ਕਰਨ ਜਾਂ ਅਣਅਧਿਕਾਰਤ ਪਹੁੰਚ ਹਾਸਲ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਨਾ ਕਰੋ।</p>
+
+        <h3>9. ਜ਼ਿੰਮੇਵਾਰੀ</h3>
+        <p>ਅਸੀਂ ਆਪਣੇ ਖਾਣੇ ਦਾ ਸਹੀ ਵਰਣਨ ਤੇ ਤਿਆਰੀ ਕਰਨ ਦਾ ਧਿਆਨ ਰੱਖਦੇ ਹਾਂ, ਪਰ ਕਾਨੂੰਨ ਵੱਲੋਂ ਇਜਾਜ਼ਤ ਹੱਦ ਤੱਕ ਅਸੀਂ ਅਸਿੱਧੇ ਜਾਂ ਅਣਕਿਆਸੇ ਨੁਕਸਾਨਾਂ ਲਈ ਜ਼ਿੰਮੇਵਾਰ ਨਹੀਂ ਹਾਂ। ਇਹਨਾਂ ਸ਼ਰਤਾਂ ਵਿੱਚ ਕੁਝ ਵੀ ਅਜਿਹੀ ਕਿਸੇ ਜ਼ਿੰਮੇਵਾਰੀ ਨੂੰ ਸੀਮਿਤ ਨਹੀਂ ਕਰਦਾ ਜਿਸ ਨੂੰ ਲਾਗੂ ਕਾਨੂੰਨ ਅਧੀਨ ਸੀਮਿਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ।</p>
+
+        <h3>10. ਲਾਗੂ ਕਾਨੂੰਨ</h3>
+        <p>ਇਹ ਸ਼ਰਤਾਂ ਭਾਰਤ ਦੇ ਕਾਨੂੰਨਾਂ ਦੁਆਰਾ ਸ਼ਾਸਿਤ ਹਨ, ਤੇ ਕੋਈ ਵੀ ਵਿਵਾਦ ਲੁਧਿਆਣਾ, ਪੰਜਾਬ ਦੀਆਂ ਅਦਾਲਤਾਂ ਦੇ ਅਧੀਨ ਹੋਵੇਗਾ।</p>
+
+        <h3>11. ਸੰਪਰਕ</h3>
+        <p>ਇਹਨਾਂ ਸ਼ਰਤਾਂ ਬਾਰੇ ਸਵਾਲ? ਸਾਡੇ ਨਾਲ WhatsApp 'ਤੇ <strong>+91 77197 27000</strong> 'ਤੇ ਜਾਂ ਈਮੇਲ ਰਾਹੀਂ <strong>[EMAIL]</strong> 'ਤੇ ਸੰਪਰਕ ਕਰੋ।</p>
+      </div>
     </section>
 
-    <p class="legal-crumb legal-crumb-bottom"><a href="index.html">&larr; Back to Ghaint Food</a></p>
+    <!-- ===== bottom crumb ===== -->
+    <div class="legal-lang" data-lang="en" lang="en">
+      <p class="legal-crumb legal-crumb-bottom"><a href="index.html">&larr; Back to Ghaint Food</a></p>
+    </div>
+    <div class="legal-lang" data-lang="hi" lang="hi">
+      <p class="legal-crumb legal-crumb-bottom"><a href="index.html">&larr; Ghaint Food पर वापस</a></p>
+    </div>
+    <div class="legal-lang" data-lang="pa" lang="pa">
+      <p class="legal-crumb legal-crumb-bottom"><a href="index.html">&larr; Ghaint Food 'ਤੇ ਵਾਪਸ</a></p>
+    </div>
+
   </div>
 </main>
 
